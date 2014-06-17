@@ -5,6 +5,13 @@
 #import "../ObjCBridge/ObjCBridge.h"
 #import "../Util/UIDictionaryTableViewCell.h"
 
+@interface UIView (PlistViewHelper)
+
+- (id)findFirstResponder;
+- (int)findHeightFromSuperview:(UIView*)superview;
+
+@end
+
 @class PlistViewController;
 @class PlistStringViewController;
 @class PlistDictionaryViewController;

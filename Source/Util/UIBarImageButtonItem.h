@@ -11,6 +11,7 @@
 }
 
 - (id)initWithImage:(UIImage*)image target:(id)target action:(SEL)action;
+- (id)initWithType:(UIButtonType)type target:(id)target action:(SEL)action;
 
 - (void)setSize:(NSUInteger)size;
 

@@ -59,11 +59,7 @@ DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 	}
 	
 	delegate = nil;
-	if(![self reloadForObject:object label:label])
-	{
-		[self release];
-		return nil;
-	}
+	[self reloadForObject:object label:label];
 	
 	return self;
 }
@@ -88,7 +84,7 @@ DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 	{
 		default:
 		case PROPERTYTYPE_UNKNOWN:
-			return NO;
+		break;
 			
 		case PROPERTYTYPE_NUMBER:
 		{
@@ -121,35 +117,35 @@ DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 				[self addSubview:inputField];
 			}
 		}
-			break;
+		break;
 			
 		case PROPERTYTYPE_STRING:
 		{
 			[self.detailTextLabel setTextColor:[UIColor blackColor]];
 			[self.detailTextLabel setText:object];
 		}
-			break;
+		break;
 			
 		case PROPERTYTYPE_DATE:
 		{
 			[self.detailTextLabel setTextColor:[UIColor blackColor]];
 			[self.detailTextLabel setText:[object descriptionWithLocale:[NSLocale currentLocale]]];
 		}
-			break;
+		break;
 			
 		case PROPERTYTYPE_DICTIONARY:
 		{
 			[self.detailTextLabel setTextColor:[UIColor blackColor]];
 			[self.detailTextLabel setText:@"Dictionary"];
 		}
-			break;
+		break;
 			
 		case PROPERTYTYPE_ARRAY:
 		{
 			[self.detailTextLabel setTextColor:[UIColor blackColor]];
 			[self.detailTextLabel setText:@"Array"];
 		}
-			break;
+		break;
 	}
 	
 	[self.textLabel setText:label];

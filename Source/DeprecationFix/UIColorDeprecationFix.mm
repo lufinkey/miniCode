@@ -22,7 +22,7 @@
 		CGContextFillRect(c, CGRectMake(4, 0, 1, 1));
 		[[UIColor colorWithRed:192/255.f green:200/255.f blue:207/255.f alpha:1.f] setFill];
 		CGContextFillRect(c, CGRectMake(5, 0, 2, 1));
-		tableViewBackgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+		tableViewBackgroundImage = [UIGraphicsGetImageFromCurrentImageContext() retain];
 		UIGraphicsEndImageContext();
     });
     return [self colorWithPatternImage:tableViewBackgroundImage];

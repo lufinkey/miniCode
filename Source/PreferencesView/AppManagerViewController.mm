@@ -188,7 +188,7 @@
 		[indexes release];
 		
 		NSMutableString* message = [[NSMutableString alloc] initWithString:pendingApp];
-		[message appendString:@" was successfully uninstalled!"];
+		[message appendString:@" was successfully uninstalled! You may have to wait a moment for the homescreen to refresh."];
 		showSimpleMessageBox("Success", [message UTF8String]);
 		[message release];
 		

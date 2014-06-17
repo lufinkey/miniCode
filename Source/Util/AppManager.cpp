@@ -116,3 +116,24 @@ bool AppManager_clean()
 	
 	return true;
 }
+
+bool AppManager_createDefaultFolders()
+{
+	String execPath = FileTools_getExecutableDirectory();
+	int slashIndex = execPath.lastIndexOf('/');
+	String appFolder;
+	if(slashIndex==-1)
+	{
+		appFolder = execPath.substring(0, slashIndex);
+	}
+	else
+	{
+		appFolder = execPath;
+	}
+	
+	String miniCodeInstallerPath = appFolder + "/installer";
+	
+	system(miniCodeInstallerPath + " -f");
+	
+	return true;
+}

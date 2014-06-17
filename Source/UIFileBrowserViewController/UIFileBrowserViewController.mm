@@ -706,7 +706,7 @@ NSMutableArray* UIFileBrowser_allocateArrayFromDirectory(const char*path)
 			DirectoryItem* item1 = [[entries objectAtIndex:(j-1)] retain];
 			DirectoryItem* item2 = [[entries objectAtIndex:j] retain];
 			
-			if([item1.name compare:item2.name]==NSOrderedDescending) //right is less than left
+			if([item1.name compare:item2.name options:NSForcedOrderingSearch]==NSOrderedDescending) //right is less than left
 			{
 				[entries replaceObjectAtIndex:(j-1) withObject:item2];
 				[entries replaceObjectAtIndex:(j) withObject:item1];

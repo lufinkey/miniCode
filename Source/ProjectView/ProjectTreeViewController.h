@@ -9,6 +9,7 @@
 #import "../LGViewHUD/LGViewHUD.h"
 #import "../UIFileBrowserViewController/UIFileBrowserViewController.h"
 #import "PathListTableViewController.h"
+#import "ProjectSettingsViewController.h"
 
 static NSArray* EXTENSIONS_CODEEDITOR  = [[NSArray alloc]
 										  initWithObjects:@"c", @"cc", @"cpp", @"h", @"m", @"mm",
@@ -43,6 +44,7 @@ static NSArray* EXTENSIONS_PLISTEDITOR = [[NSArray alloc]
 @private
 	CellHoldAction* currentHoldAction;
 	
+	UIActionSheet* projectMenu;
 	UIActionSheet* srcFolderMenu;
 	UIActionSheet* resFolderMenu;
 	UIActionSheet* extFolderMenu;

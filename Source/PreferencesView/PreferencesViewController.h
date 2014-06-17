@@ -14,6 +14,6 @@
 - (void)cancelFileExplorer;
 
 @property (nonatomic, retain) UITableView* preferences;
-@property (nonatomic, retain) UIFileBrowserViewController* fileExplorer;
+@property (nonatomic, assign) UIFileBrowserViewController* fileExplorer;
 
 @end

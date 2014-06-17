@@ -3,10 +3,15 @@
 #import "../IconManager/IconManager.h"
 #import "../ObjCBridge/ObjCBridge.h"
 #import "../Navigation/UINavigator.h"
+#import "../Util/UIBarImageButtonItem.h"
 #import "GlobalPreferences.h"
 #import "FontSelectorViewController.h"
 #import "FontSizePreviewViewController.h"
 #import "AppManagerViewController.h"
+
+@interface PreferencesViewController()
+- (void)onSDKInfoButtonSelected;
+@end
 
 @implementation PreferencesViewController
 
@@ -19,6 +24,8 @@
 	{
 		return nil;
 	}
+	
+	fileExplorer = nil;
 	
 	UIBarButtonItem*doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
 	[self.navigationItem setTitle:@"Preferences"];
@@ -43,11 +50,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-	if(fileExplorer!=nil)
-	{
-		[fileExplorer release];
-		fileExplorer = nil;
-	}
 }
 
 - (void)doneButtonSelected
@@ -173,11 +175,19 @@
 			{
 				NSString* sdkPath = [[NSString alloc] initWithUTF8String:Global_getSDKFolderPath()];
 				fileExplorer = [[UIFileBrowserViewController alloc] initWithString:@"" root:sdkPath delegate:self];
-				UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelFileExplorer)];
-				[fileExplorer.navigationBar setBarStyle:UIBarStyleBlack];
-				[fileExplorer.navigationBar.topItem setLeftBarButtonItem:cancelButton];
-				[cancelButton release];
-				[self presentModalViewController:fileExplorer animated:YES];
+				if(fileExplorer!=nil)
+				{
+					[fileExplorer setDelegate:self];
+					[fileExplorer.navigationBar setBarStyle:UIBarStyleBlack];
+					UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelFileExplorer)];
+					[fileExplorer.navigationBar.topItem setLeftBarButtonItem:cancelButton];
+					[cancelButton release];
+					UIBarButtonItem* infoButton = [[UIBarImageButtonItem alloc] initWithType:UIButtonTypeInfoLight target:self action:@selector(onSDKInfoButtonSelected)];
+					[fileExplorer.navigationBar.topItem setRightBarButtonItem:infoButton];
+					[infoButton release];
+					[self presentModalViewController:fileExplorer animated:YES];
+					[fileExplorer release];
+				}
 				[sdkPath release];
 			}
 			break;
@@ -257,13 +267,16 @@
 	[fileExplorer dismissModalViewControllerAnimated:YES];
 }
 
+- (void)onSDKInfoButtonSelected
+{
+	const char* message = "SDKs can be added by copying a .sdk package from xcode to /var/stash/Developer/SDKs on your device.\n\n"
+							"If you have issues, you may need to zip the package before you copy it, and then unzip it on the device. "
+							"Sometimes symbolic links can get messed up.";
+	showSimpleMessageBox(NULL, message);
+}
+
 - (void)dealloc
 {
-	if(fileExplorer!=nil)
-	{
-		[fileExplorer release];
-		fileExplorer = nil;
-	}
 	[preferences release];
 	[super dealloc];
 }

@@ -33,6 +33,7 @@
 @interface ProjectTreeViewController()
 + (void)sortStringPathArray:(NSMutableArray*)paths;
 - (void)removeFrameworkAction;
+- (void)projectSettingsAction;
 @property (nonatomic, assign) ProjectTreeViewCell* selectedCell;
 @end
 
@@ -116,6 +117,12 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	[buildButton setSize:32];
 	[self.navigationItem setRightBarButtonItem:buildButton];
 	[buildButton release];
+	
+	projectMenu = [[UIActionSheet alloc] initWithTitle:@"Project Options"
+											  delegate:self
+									 cancelButtonTitle:@"Cancel"
+								destructiveButtonTitle:nil
+									 otherButtonTitles:@"Project Settings", nil];
 	
 	srcFolderMenu = [[UIActionSheet alloc] initWithTitle:@"Source Files"
 												delegate:self
@@ -215,6 +222,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 		ProjectTreeViewCell* pcell = [[ProjectTreeViewCell alloc] initWithType:PROJECTTREECELL_FRAMEWORK identifier:framework];
 		[frameworksCell addMember:pcell];
 		[pcell release];
+		[framework release];
 	}
 }
 
@@ -654,6 +662,11 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 					[frameworksMenu showInView:pcell];
 					[pcell deselect];
 				}
+				else if(pcell.supercell==nil)
+				{
+					[projectMenu showInView:pcell];
+					[pcell deselect];
+				}
 			}
 			break;
 			
@@ -731,6 +744,16 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	[frameworkName release];
 }
 
+- (void)projectSettingsAction
+{
+	ProjectSettingsViewController* viewCtrl = [[ProjectSettingsViewController alloc] init];
+	[viewCtrl setTitle:@"Settings"];
+	UINavigator* navigator = [[UINavigator alloc] initWithRootViewController:viewCtrl];
+	[viewCtrl release];
+	[self presentModalViewController:navigator animated:YES];
+	[navigator release];
+}
+
 - (void)showObstructionInView:(UIView*)view
 {
 	if(obstructView==nil)
@@ -755,7 +778,20 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 
 - (void)actionSheet:(UIActionSheet*)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	if(actionSheet==srcFolderMenu)
+	if(actionSheet==projectMenu)
+	{
+		//Project Menu
+		switch(buttonIndex)
+		{
+			case 0:
+			//Project Settings - Project Menu
+			{
+				[self projectSettingsAction];
+			}
+			break;
+		}
+	}
+	else if(actionSheet==srcFolderMenu)
 	{
 		//Source Folder Menu
 		switch(buttonIndex)
@@ -1017,6 +1053,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	[libCell release];
 	[frameworksCell release];
 	
+	[projectMenu release];
 	[srcFolderMenu release];
 	[resFolderMenu release];
 	[extFolderMenu release];

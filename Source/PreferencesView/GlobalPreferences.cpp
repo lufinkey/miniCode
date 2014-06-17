@@ -247,7 +247,7 @@ bool Global_checkSDKFolderValid(const char*folder)
 			return false;
 		}
 		
-		return FileTools::folderExists(sdkFolder + '/' + defaultSDK);
+		return FileTools::folderExists(sdkFolder + '/' + folder);
 	}
 	return false;
 }

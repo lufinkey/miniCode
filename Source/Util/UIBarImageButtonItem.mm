@@ -14,12 +14,29 @@
 	[button addTarget:self action:@selector(buttonTouchDown) forControlEvents:UIControlEventTouchDown];
 	[button addTarget:self action:@selector(buttonTouchUp) forControlEvents:UIControlEventTouchUpInside];
 	[button addTarget:self action:@selector(buttonTouchCancel) forControlEvents:UIControlEventTouchCancel];
-	[button addTarget:self action:@selector(buttonTouchCancel) forControlEvents:UIControlEventTouchUpOutside];
 	
 	target = targ;
 	action = act;
 	
-	if([self initWithCustomView:button]==nil)
+	if([super initWithCustomView:button]==nil)
+	{
+		return nil;
+	}
+	
+	return self;
+}
+
+- (id)initWithType:(UIButtonType)type target:(id)targ action:(SEL)act
+{
+	button = [[UIButton buttonWithType:type] retain];
+	[button addTarget:self action:@selector(buttonTouchDown) forControlEvents:UIControlEventTouchDown];
+	[button addTarget:self action:@selector(buttonTouchUp) forControlEvents:UIControlEventTouchUpInside];
+	[button addTarget:self action:@selector(buttonTouchCancel) forControlEvents:UIControlEventTouchCancel];
+	
+	target = targ;
+	action = act;
+	
+	if([super initWithCustomView:button]==nil)
 	{
 		return nil;
 	}
@@ -34,7 +51,7 @@
 
 - (void)buttonTouchDown
 {
-	
+	//Nothing here
 }
 
 - (void)buttonTouchUp
@@ -47,7 +64,7 @@
 
 - (void)buttonTouchCancel
 {
-	//
+	//Nothing here
 }
 
 - (void)dealloc

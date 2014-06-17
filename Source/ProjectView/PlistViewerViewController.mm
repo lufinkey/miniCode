@@ -14,12 +14,6 @@ static const int BRANCHTYPE_DATE = 4;
 static const int BRANCHTYPE_DICTIONARY = 5;
 static const int BRANCHTYPE_ARRAY = 6;
 
-@interface UIView (PlistViewHelper)
-
-- (id)findFirstResponder;
-- (int)findHeightFromSuperview:(UIView*)superview;
-
-@end
 
 @implementation UIView (PlistViewerHelper)
 - (id)findFirstResponder

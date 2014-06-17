@@ -108,7 +108,7 @@ void LinkIncludeFolderAction_AlertViewDismissHandler(void*data, int buttonIndex)
 		if(realpath([extFolderString UTF8String], pathPtr)!=NULL)
 		{
 			[extFolderString release];
-			extFolderString = [[NSString alloc] initWithUTF8String:pathPtr];
+			extFolderString = [[NSMutableString alloc] initWithUTF8String:pathPtr];
 		}
 		NSFilePath* extPath = [[NSFilePath alloc] initWithString:extFolderString];
 		[extFolderString release];

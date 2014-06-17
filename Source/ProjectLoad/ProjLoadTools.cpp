@@ -6,6 +6,7 @@
 #include "../Util/FileTools.h"
 #include "../Util/Console.h"
 #include "../PreferencesView/GlobalPreferences.h"
+#include "../Util/AppManager.h"
 #include <stdlib.h>
 
 #include "TargetConditionals.h"
@@ -27,8 +28,7 @@ void ProjLoad_createDefaultFolders()
 	FileTools::createDirectory(homeFolder + "/Library/miniCode");
 	FileTools::createDirectory(homeFolder + "/Library/miniCode/projects");
 #if !(TARGET_IPHONE_SIMULATOR)
-	FileTools::createDirectory("/var/stash/Developer");
-	FileTools::createDirectory("/var/stash/Developer/SDKs");
+	AppManager_createDefaultFolders();
 #endif
 }
 

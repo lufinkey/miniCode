@@ -54,6 +54,21 @@ void concatStrings(char*dest, const char*strs[], unsigned int sizeDest, unsigned
 	}
 }
 
+int compareStrings(const char* str, const char*cmp)
+{
+	if(str==NULL)
+	{
+		return -1;
+	}
+	if(cmp==NULL)
+	{
+		return 1;
+	}
+	
+	String str1 = str;
+	return str1.compare(cmp);
+}
+
 class ThreadCallbackCaller : public Thread
 {
 private:

@@ -15,6 +15,7 @@ void showSimpleMessageBox(const char*title, const char*message, const char*butto
 
 void concatPath(char*dest, const char*path1, const char*path2, unsigned int size);
 void concatStrings(char*dest, const char*strs[], unsigned int sizeDest, unsigned int sizeStrs);
+int compareStrings(const char* str, const char*cmp);
 
 
 typedef void (*ThreadCallback)(void*);

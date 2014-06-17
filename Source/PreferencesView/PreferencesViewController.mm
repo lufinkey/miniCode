@@ -4,6 +4,7 @@
 #import "../ObjCBridge/ObjCBridge.h"
 #import "../Navigation/UINavigator.h"
 #import "../Util/UIBarImageButtonItem.h"
+#import "../UIWebViewController/UIWebViewController.h"
 #import "GlobalPreferences.h"
 #import "FontSelectorViewController.h"
 #import "FontSizePreviewViewController.h"
@@ -69,7 +70,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
 {
-	return 2;
+	return 3;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
@@ -82,7 +83,20 @@
 	{
 		return 1;
 	}
+	else if(section==2)
+	{
+		return 1;
+	}
 	return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if(section==2)
+	{
+		return @"Donate to help keep this app free";
+	}
+	return nil;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
@@ -93,6 +107,9 @@
 		
 		switch(indexPath.row)
 		{
+			default:
+			return nil;
+			
 			case 0:
 			cellID = @"Default SDK";
 			break;
@@ -148,14 +165,41 @@
 		
 		switch(indexPath.row)
 		{
+			default:
+			return nil;
+			
 			case 0:
 			cellID = @"Installed Apps";
+			break;
 		}
 		
 		UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
 		if(cell==nil)
 		{
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID] autorelease];
+		}
+		
+		[cell.textLabel setText:cellID];
+		return cell;
+	}
+	else if(indexPath.section==2)
+	{
+		NSString* cellID = nil;
+		
+		switch(indexPath.row)
+		{
+			default:
+			return nil;
+			
+			case 0:
+			cellID = @"Donate";
+			break;
+		}
+		
+		UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+		if(cell==nil)
+		{
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
 		}
 		
 		[cell.textLabel setText:cellID];
@@ -224,6 +268,22 @@
 				[appMgr release];
 				[self.navigationController presentModalViewController:navigator animated:YES];
 				[navigator release];
+			}
+			break;
+		}
+	}
+	else if(indexPath.section==2)
+	{
+		switch(indexPath.row)
+		{
+			case 0:
+			//donate
+			{
+				NSString* donateURL = @"https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=M43B9W76GWWBS&lc=US&item_name=Broken%20Physics&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted";
+				UIWebViewController* webViewController = [[UIWebViewController alloc] init];
+				[webViewController loadExternalPage:donateURL];
+				[self.navigationController pushViewController:webViewController animated:YES];
+				[webViewController release];
 			}
 			break;
 		}

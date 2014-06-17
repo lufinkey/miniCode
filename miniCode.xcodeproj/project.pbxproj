@@ -45,6 +45,8 @@
 		A03FBC6218F0B3120048F2B5 /* ProjectData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A03FBC6118F0B3120048F2B5 /* ProjectData.cpp */; };
 		A03FBC8418F0C20D0048F2B5 /* StringTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A03FBC8318F0C20D0048F2B5 /* StringTree.cpp */; };
 		A03FBC9F18F0D6790048F2B5 /* SortedStringList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A03FBC9E18F0D6790048F2B5 /* SortedStringList.cpp */; };
+		A042799A1950D26100063F6D /* UIWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A04279991950D26100063F6D /* UIWebViewController.mm */; };
+		A042799D1950D28A00063F6D /* FlipsideViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A042799C1950D28A00063F6D /* FlipsideViewController.mm */; };
 		A047462318EF1B02009DF0C4 /* libSDL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A047462218EF1B02009DF0C4 /* libSDL.a */; };
 		A047463B18EF1D41009DF0C4 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = A047463A18EF1D41009DF0C4 /* main.mm */; };
 		A047464218EF1D4A009DF0C4 /* ObjCBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A047463F18EF1D4A009DF0C4 /* ObjCBridge.cpp */; };
@@ -178,6 +180,10 @@
 		A03FBC9D18F0D6790048F2B5 /* SortedStringList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortedStringList.h; sourceTree = "<group>"; };
 		A03FBC9E18F0D6790048F2B5 /* SortedStringList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SortedStringList.cpp; sourceTree = "<group>"; };
 		A03FBCA018F0DC7A0048F2B5 /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2.h; sourceTree = "<group>"; };
+		A04279981950D26100063F6D /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebViewController.h; sourceTree = "<group>"; };
+		A04279991950D26100063F6D /* UIWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIWebViewController.mm; sourceTree = "<group>"; };
+		A042799B1950D28A00063F6D /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
+		A042799C1950D28A00063F6D /* FlipsideViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FlipsideViewController.mm; sourceTree = "<group>"; };
 		A04745D518EF1B02009DF0C4 /* begin_code.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = begin_code.h; sourceTree = "<group>"; };
 		A04745D618EF1B02009DF0C4 /* close_code.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = close_code.h; sourceTree = "<group>"; };
 		A04745D718EF1B02009DF0C4 /* SDL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL.h; sourceTree = "<group>"; };
@@ -426,6 +432,7 @@
 				A0C63A9E191EEBA600A65638 /* UIFileBrowserViewController */,
 				A0C72B2C18FDA0BA000F167D /* UIGridView */,
 				A03493C918FFF6880059FD94 /* UITreeView */,
+				A04279971950D23D00063F6D /* UIWebViewController */,
 				A047464718EF1D65009DF0C4 /* Util */,
 				A047463A18EF1D41009DF0C4 /* main.mm */,
 				A047464F18EF1D6E009DF0C4 /* iCodeAppDelegate.h */,
@@ -565,6 +572,18 @@
 			);
 			name = ProjectData;
 			path = Source/ProjectData;
+			sourceTree = "<group>";
+		};
+		A04279971950D23D00063F6D /* UIWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A042799B1950D28A00063F6D /* FlipsideViewController.h */,
+				A042799C1950D28A00063F6D /* FlipsideViewController.mm */,
+				A04279981950D26100063F6D /* UIWebViewController.h */,
+				A04279991950D26100063F6D /* UIWebViewController.mm */,
+			);
+			name = UIWebViewController;
+			path = Source/UIWebViewController;
 			sourceTree = "<group>";
 		};
 		A04745C518EF1A42009DF0C4 /* SDL */ = {
@@ -1023,6 +1042,8 @@
 				A0CFB2451942014B008A539D /* AppManagerViewController.mm in Sources */,
 				A0CFB2B919424A96008A539D /* AppManager.cpp in Sources */,
 				A086181B19462455000E75ED /* ProjectSettingsViewController.mm in Sources */,
+				A042799A1950D26100063F6D /* UIWebViewController.mm in Sources */,
+				A042799D1950D28A00063F6D /* FlipsideViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

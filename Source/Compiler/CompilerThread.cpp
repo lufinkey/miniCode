@@ -144,6 +144,12 @@ void CompilerThread_ChangeStatus(CompilerThread* thread, const String& status)
 	runCallbackInMainThread(&CompilerThread_MainThreadReciever, packet, false);
 }
 
+void CodesignThread_ResultReciever(void*data, int result)
+{
+	CompilerThread* thread = (CompilerThread*)data;
+	thread->lastResult = result;
+}
+
 typedef struct
 {
 	String outputFile;
@@ -197,7 +203,7 @@ void CompilerThread::run()
 	
 	FileTools::createDirectoriesFromStringTree(buildFolder, sourceFiles);
 	
-	CompilerThread_ChangeStatus(this, "Checking File Dependencies...");
+	CompilerThread_ChangeStatus(this, "Checking Dependencies...");
 	ArrayList<String> needsCompiling;
 	ArrayList<String> fakeCompiling;
 	
@@ -304,7 +310,7 @@ void CompilerThread::run()
 	{
 		String relPath = needsCompiling.get(i);
 		currentFile = relPath;
-		CompilerThread_ChangeStatus(this, (String)"(" + i + "/" + needsCompiling.size() + ") " + relPath);
+		CompilerThread_ChangeStatus(this, (String)"(" + (i+1) + "/" + needsCompiling.size() + ") " + relPath);
 		FileTools::writeStringToFile(buildFolder + '/' + relPath + ".output", "");
 		
 		String fullPath = srcFolder + '/' + relPath;
@@ -395,16 +401,30 @@ void CompilerThread::run()
 	if(lastResult!=0)
 	{
 		result = -1;
+		CompilerThread_ChangeStatus(this, "Failed");
+		CompilerThread_FinishReciever(this, result);
+		return;
+	}
+	
+	CompilerThread_ChangeStatus(this, (String)"Codesigning " + projData.getExecutableName() + "...");
+	String codesignCommand = (String)"ldid -S \"" + outputFile + "\"";
+	currentFile = "";
+	subprocess_execute(codesignCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CodesignThread_ResultReciever, true);
+	
+	if(lastResult!=0)
+	{
+		result = -1;
 	}
 	
 	if(result==0)
 	{
-		CompilerThread_ChangeStatus(this, "Compiled");
+		CompilerThread_ChangeStatus(this, "Succeeded");
 	}
 	else
 	{
 		CompilerThread_ChangeStatus(this, "Failed");
 	}
+
 	
 	CompilerThread_FinishReciever(this, result);
 }

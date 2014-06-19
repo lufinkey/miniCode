@@ -22,6 +22,8 @@ typedef void (*ThreadCallback)(void*);
 void runCallbackInMainThread(ThreadCallback callback, void*data, bool wait);
 void runCallbackInThread(ThreadCallback callback, void*data, bool wait);
 
+void openURL(const char* url);
+
 
 
 //String conversions

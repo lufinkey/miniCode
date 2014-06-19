@@ -7,6 +7,10 @@
 @interface UIWebViewController : UIViewController <UIWebViewDelegate, FlipsideViewControllerDelegate> {
     NSString *_currentPageName, *_currentPageDirectory; 
     UIWebView *webView;
+	
+	@private
+	UIActivityIndicatorView* activityView;
+	UIBarButtonItem* activityIndicator;
 }
 
 - (void)loadPageNamed:(NSString*)name inSubdirectory:(NSString*)subdirectory;

@@ -20,6 +20,7 @@ const char* GlobalPreferences_installedApps_get(unsigned int index);
 bool GlobalPreferences_installedApps_contains(const char* appName);
 void GlobalPreferences_installedApps_remove(const char* appName);
 
+double Global_getVersion();
 const char* Global_getSDKFolderPath();
 bool Global_checkSDKFolderValid(const char*folder);
 

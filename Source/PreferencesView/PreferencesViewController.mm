@@ -85,7 +85,7 @@
 	}
 	else if(section==2)
 	{
-		return 1;
+		return 4;
 	}
 	return 0;
 }
@@ -179,6 +179,11 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID] autorelease];
 		}
 		
+		if(indexPath.row==0)
+		{
+			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		}
+		
 		[cell.textLabel setText:cellID];
 		return cell;
 	}
@@ -194,6 +199,18 @@
 			case 0:
 			cellID = @"Donate";
 			break;
+			
+			case 1:
+			cellID = @"Like us on Facebook";
+			break;
+			
+			case 2:
+			cellID = @"Follow on Twitter";
+			break;
+			
+			case 3:
+			cellID = @"Email Developer";
+			break;
 		}
 		
 		UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -202,6 +219,7 @@
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
 		}
 		
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 		[cell.textLabel setText:cellID];
 		return cell;
 	}
@@ -286,6 +304,42 @@
 				[webViewController release];
 			}
 			break;
+			
+			case 1:
+			//like on facebook
+			openURL("https://www.facebook.com/BrokenPhysicsStudios");
+			break;
+			
+			case 2:
+			//follow on twitter
+			openURL("https://www.twitter.com/lufinkey");
+			break;
+			
+			case 3:
+			//email developer
+			{
+				if([MFMailComposeViewController canSendMail])
+				{
+					MFMailComposeViewController* mailer = [[MFMailComposeViewController alloc] init];
+					mailer.mailComposeDelegate = self;
+					NSMutableString* subjectString = [[NSMutableString alloc] initWithUTF8String:"miniCode v"];
+					NSNumber* versionNumber = [[NSNumber alloc] initWithDouble:Global_getVersion()];
+					[subjectString appendString:[versionNumber stringValue]];
+					[versionNumber release];
+					[mailer setSubject:subjectString];
+					[subjectString release];
+					NSArray *toRecipients = [NSArray arrayWithObjects:@"luisfinke@gmail.com", nil];
+					[mailer setToRecipients:toRecipients];
+					[mailer setMessageBody:@"" isHTML:NO];
+					[self presentModalViewController:mailer animated:YES];
+					[mailer release];
+				}
+				else
+				{
+					showSimpleMessageBox("Error", "Cannot open email compose sheet on this device");
+				}
+			}
+			break;
 		}
 	}
 	
@@ -333,6 +387,11 @@
 							"If you have issues, you may need to zip the package before you copy it, and then unzip it on the device. "
 							"Sometimes symbolic links can get messed up.";
 	showSimpleMessageBox(NULL, message);
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	[controller dismissModalViewControllerAnimated:YES];
 }
 
 - (void)dealloc

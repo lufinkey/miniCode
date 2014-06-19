@@ -496,7 +496,7 @@ static const int COMPILERSETTINGS_SDK = 0;
 	
 	if(indexPath.section==SETTINGSSECTION_PROJECTPROPERTIES)
 	{
-		if(indexPath.row==indexPath.row==PROJPROPERTIES_BUNDLEID)
+		if(indexPath.row==PROJPROPERTIES_BUNDLEID)
 		{
 			const char* bundleID = [stringVal UTF8String];
 			int total = strlen(bundleID);

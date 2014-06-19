@@ -159,6 +159,11 @@ void runCallbackInMainThread(ThreadCallback callback, void*data, bool wait)
 	[caller performSelectorOnMainThread:@selector(threadSelector) withObject:nil waitUntilDone:wait];
 }
 
+void openURL(const char*url)
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String:url]]];
+}
+
 
 
 // String conversions

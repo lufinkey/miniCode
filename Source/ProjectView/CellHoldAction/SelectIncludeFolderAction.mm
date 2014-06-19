@@ -38,6 +38,7 @@ void SelectIncludeFolderAction_AlertViewDismissHandler(void*data, int buttonInde
 	UIBarButtonItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 	[toolbarItems addObject:flexibleSpace];
 	UIBarButtonItem* titleButton = [[UIBarButtonItem alloc] initWithTitle:@"Select Include Folder" style:UIBarButtonItemStylePlain target:nil action:nil];
+	//[titleButton setEnabled:NO];
 	[toolbarItems addObject:titleButton];
 	[titleButton release];
 	[toolbarItems addObject:flexibleSpace];

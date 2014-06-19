@@ -19,13 +19,9 @@ static String defaultSDK = "";
 static String codeEditorFont = "Helvetica";
 static unsigned int codeEditorFontSize = 12;
 
-static double currentVersion = 0.3;
-static String versionMessage = (String)"Welcome to miniCode beta 0.3! Due to permission changes, all projects made with earlier versions of"
-							+ " miniCode must have their folder owner and group changed to \"mobile\". You can do this by going into"
-							+ " iFile and navigating to /var/mobile/Library/miniCode/projects and selecting the blue arrow on each"
-							+ " of the project folders (make sure \"Apply Heirarchically\" is turned on) and changing the ownership"
-							+ " properties. (It might be a good idea to screenshot all this if you\'re not sure what you\'re doing)."
-							+ " Thank you for using miniCode!";
+static double currentVersion = 1.0;
+static String versionMessage = "Welcome to miniCode! A lot of work has been put into this app, so I hope you enjoy it. "
+								"If you find any bugs, please email me at luisfinke@gmail.com so I can fix them.";
 
 static ArrayList<String> installedApps;
 
@@ -87,13 +83,13 @@ bool GlobalPreferences_load()
 			if(version!=currentVersion)
 			{
 				resave = true;
-				showSimpleMessageBox("Important! Please read fully before using!", versionMessage);
+				showSimpleMessageBox("miniCode", versionMessage);
 			}
 		}
 		else
 		{
 			resave = true;
-			showSimpleMessageBox("Important! Please read fully before using!", versionMessage);
+			showSimpleMessageBox("miniCode", versionMessage);
 		}
 		
 		id_release(dict);
@@ -221,6 +217,11 @@ void GlobalPreferences_installedApps_remove(const char* appName)
 			return;
 		}
 	}
+}
+
+double Global_getVersion()
+{
+	return currentVersion;
 }
 
 const char* Global_getSDKFolderPath()

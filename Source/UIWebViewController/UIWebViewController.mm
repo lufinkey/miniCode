@@ -18,8 +18,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+	{
+		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+		[activityView setFrame:CGRectMake(0,0,20,20)];
+		activityIndicator = [[UIBarButtonItem alloc] initWithCustomView:activityView];
     }
     return self;
 }
@@ -37,6 +40,8 @@
 {
 	[currentPageName release];
 	[currentPageDirectory release];
+	[activityIndicator release];
+	[activityView release];
 	[super dealloc];
 }
 
@@ -49,6 +54,7 @@
     CGRect bounds = [[UIScreen mainScreen] bounds];
     
 	UIWebView* webview = [[UIWebView alloc] init];
+	webview.delegate = self;
     self.view = webview;
 	[webview release];
     self.view.autoresizesSubviews = YES;
@@ -121,6 +127,11 @@
 #ifdef DEBUG
 	NSLog(@"[UIWebViewController] Load failed: %@", error);
 #endif
+	if([activityView isAnimating])
+	{
+		[activityView stopAnimating];
+	}
+	[self.navigationItem setRightBarButtonItem:nil];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -157,10 +168,22 @@
     
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)view{
+- (void)webViewDidFinishLoad:(UIWebView *)view
+{
+	if([activityView isAnimating])
+	{
+		[activityView stopAnimating];
+	}
+	[self.navigationItem setRightBarButtonItem:nil];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView{
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+	if(![activityView isAnimating])
+	{
+		[activityView startAnimating];
+	}
+	[self.navigationItem setRightBarButtonItem:activityIndicator];
 }
 
 #pragma -

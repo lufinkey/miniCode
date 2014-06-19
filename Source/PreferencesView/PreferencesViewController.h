@@ -3,8 +3,9 @@
 #import <Foundation/Foundation.h>
 #import "../UIFileBrowserViewController/UIFileBrowserViewController.h"
 #import "../Navigation/NavigatedViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface PreferencesViewController : NavigatedViewController <UITableViewDelegate, UITableViewDataSource, UIFileBrowserDelegate>
+@interface PreferencesViewController : NavigatedViewController <UITableViewDelegate, UITableViewDataSource, UIFileBrowserDelegate, MFMailComposeViewControllerDelegate>
 {
 	UITableView*preferences;
 	UIFileBrowserViewController* fileExplorer;

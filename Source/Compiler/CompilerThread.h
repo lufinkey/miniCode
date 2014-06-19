@@ -7,6 +7,7 @@
 class CompilerThread : public Thread
 {
 	friend void CompilerThread_ResultReciever(void*,int);
+	friend void CodesignThread_ResultReciever(void*,int);
 private:
 	CompilerOrganizer* organizer;
 	

@@ -31,6 +31,7 @@ void SelectLibFolderAction_AlertViewDismissHandler(void*data, int buttonIndex);
 	UIBarButtonItem* flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 	[toolbarItems addObject:flexibleSpace];
 	UIBarButtonItem* titleButton = [[UIBarButtonItem alloc] initWithTitle:@"Select Lib Folder" style:UIBarButtonItemStylePlain target:nil action:nil];
+	//[titleButton setEnabled:NO];
 	[toolbarItems addObject:titleButton];
 	[titleButton release];
 	[toolbarItems addObject:flexibleSpace];

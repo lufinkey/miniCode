@@ -234,7 +234,16 @@ StringTree* StringTree::getBranch(const String&branch)
 	}
 	if(slashIndex!=-1)
 	{
-		String subBranch = branch.substring(0,slashIndex);
+		String subBranch;
+		if(branch.charAt(0)=='/')
+		{
+			subBranch = branch.substring(1,slashIndex);
+		}
+		else
+		{
+			subBranch = branch.substring(0,slashIndex);
+		}
+		
 		int result = branchNames.get(subBranch);
 		if(result==-1)
 		{

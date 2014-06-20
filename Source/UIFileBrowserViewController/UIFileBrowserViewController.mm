@@ -137,6 +137,12 @@ NSMutableArray* UIFileBrowser_allocateArrayFromDirectory(const char*path)
 @synthesize globalToolbarHidden;
 @synthesize editing;
 
+- (id)initWithRootViewController:(UIViewController*)rootViewController
+{
+	[self release];
+	return nil;
+}
+
 - (id)initWithString:(NSString*)startPath
 {
 	NSFilePath* startFilePath = [[NSFilePath alloc] initWithString:startPath];

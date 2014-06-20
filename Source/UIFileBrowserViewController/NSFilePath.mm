@@ -77,6 +77,12 @@
 	return filePath;
 }
 
+- (id)init
+{
+	[self release];
+	return nil;
+}
+
 - (id)initWithString:(NSString*)fullPath
 {
 	if([super init]==nil)

@@ -106,6 +106,8 @@
 		A08D380419511DD0009F1BB2 /* Project Templates in Resources */ = {isa = PBXBuildFile; fileRef = A08D37BB19511DD0009F1BB2 /* Project Templates */; };
 		A08D38BF195124D6009F1BB2 /* FlipsideViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */; };
 		A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */; };
+		A0CB3889195489900037BE42 /* CopyAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0CB3888195489900037BE42 /* CopyAction.mm */; };
+		A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DD33171954CEE60000D832 /* MoveAction.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -375,6 +377,10 @@
 		A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FlipsideViewController.mm; sourceTree = "<group>"; };
 		A08D38BD195124D6009F1BB2 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebViewController.h; sourceTree = "<group>"; };
 		A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIWebViewController.mm; sourceTree = "<group>"; };
+		A0CB3887195489900037BE42 /* CopyAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CopyAction.h; sourceTree = "<group>"; };
+		A0CB3888195489900037BE42 /* CopyAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyAction.mm; sourceTree = "<group>"; };
+		A0DD33161954CEE60000D832 /* MoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAction.h; sourceTree = "<group>"; };
+		A0DD33171954CEE60000D832 /* MoveAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MoveAction.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -646,6 +652,8 @@
 				A066D4D91951165100F49F6D /* AddFrameworkAction.mm */,
 				A066D4DA1951165100F49F6D /* CellHoldAction.h */,
 				A066D4DB1951165100F49F6D /* CellHoldAction.mm */,
+				A0CB3887195489900037BE42 /* CopyAction.h */,
+				A0CB3888195489900037BE42 /* CopyAction.mm */,
 				A066D4DC1951165100F49F6D /* CreateFileAction.h */,
 				A066D4DD1951165100F49F6D /* CreateFileAction.mm */,
 				A066D4DE1951165100F49F6D /* CreateFolderAction.h */,
@@ -670,6 +678,8 @@
 				A066D4F11951165100F49F6D /* LinkIncludeFolderAction.mm */,
 				A066D4F21951165100F49F6D /* LinkLibFolderAction.h */,
 				A066D4F31951165100F49F6D /* LinkLibFolderAction.mm */,
+				A0DD33161954CEE60000D832 /* MoveAction.h */,
+				A0DD33171954CEE60000D832 /* MoveAction.mm */,
 				A066D4F41951165100F49F6D /* PathListAction.h */,
 				A066D4F51951165100F49F6D /* PathListAction.mm */,
 				A066D4F61951165100F49F6D /* ProjectTreeViewController+CellHoldAction.h */,
@@ -1027,6 +1037,8 @@
 				A066D59E1951165100F49F6D /* UIImageManager.mm in Sources */,
 				A08D38BF195124D6009F1BB2 /* FlipsideViewController.mm in Sources */,
 				A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */,
+				A0CB3889195489900037BE42 /* CopyAction.mm in Sources */,
+				A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

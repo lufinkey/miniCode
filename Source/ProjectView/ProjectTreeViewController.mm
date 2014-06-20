@@ -12,6 +12,7 @@
 
 #import "CellHoldAction/AddFrameworkAction.h"
 #import "CellHoldAction/CellHoldAction.h"
+#import "CellHoldAction/CopyAction.h"
 #import "CellHoldAction/CreateFileAction.h"
 #import "CellHoldAction/CreateFolderAction.h"
 #import "CellHoldAction/DeleteAction.h"
@@ -23,6 +24,7 @@
 #import "CellHoldAction/ImportFolderAction.h"
 #import "CellHoldAction/LinkIncludeFolderAction.h"
 #import "CellHoldAction/LinkLibFolderAction.h"
+#import "CellHoldAction/MoveAction.h"
 #import "CellHoldAction/RenameAction.h"
 #import "CellHoldAction/SelectIncludeFolderAction.h"
 #import "CellHoldAction/SelectLibFolderAction.h"
@@ -954,14 +956,14 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			case 2:
 			//Move File - File Menu
 			{
-				//TODO add move file action
+				currentHoldAction = [[MoveAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 			
 			case 3:
 			//Copy File - File Menu
 			{
-				//TODO add copy file action
+				currentHoldAction = [[CopyAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 		}
@@ -988,14 +990,14 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			case 2:
 			//Move Folder - Folder Menu
 			{
-				//TODO add move folder action
+				currentHoldAction = [[MoveAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 			
 			case 3:
 			//Copy Folder - Folder Menu
 			{
-				//TODO add copy folder action
+				currentHoldAction = [[CopyAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 			

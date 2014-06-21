@@ -110,6 +110,7 @@
 		A0CB3889195489900037BE42 /* CopyAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0CB3888195489900037BE42 /* CopyAction.mm */; };
 		A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DD33171954CEE60000D832 /* MoveAction.mm */; };
 		A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */ = {isa = PBXBuildFile; fileRef = A0FC89CD1955F89400839646 /* CompilerWarnings.txt */; };
+		A0FC89D71955F8F200839646 /* CompilerWarnings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0FC89D61955F8F200839646 /* CompilerWarnings.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -387,6 +388,8 @@
 		A0DD33161954CEE60000D832 /* MoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAction.h; sourceTree = "<group>"; };
 		A0DD33171954CEE60000D832 /* MoveAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MoveAction.mm; sourceTree = "<group>"; };
 		A0FC89CD1955F89400839646 /* CompilerWarnings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CompilerWarnings.txt; sourceTree = "<group>"; };
+		A0FC89D51955F8F200839646 /* CompilerWarnings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompilerWarnings.h; sourceTree = "<group>"; };
+		A0FC89D61955F8F200839646 /* CompilerWarnings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompilerWarnings.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -492,6 +495,8 @@
 				A066D48C1951165100F49F6D /* CompilerThread.cpp */,
 				A066D48F1951165100F49F6D /* CompilerTools.h */,
 				A066D48E1951165100F49F6D /* CompilerTools.cpp */,
+				A0FC89D51955F8F200839646 /* CompilerWarnings.h */,
+				A0FC89D61955F8F200839646 /* CompilerWarnings.cpp */,
 				A066D4911951165100F49F6D /* CopyResourcesThread.h */,
 				A066D4901951165100F49F6D /* CopyResourcesThread.cpp */,
 				A066D4931951165100F49F6D /* InstallThread.h */,
@@ -1051,6 +1056,7 @@
 				A0CB3889195489900037BE42 /* CopyAction.mm in Sources */,
 				A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */,
 				A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */,
+				A0FC89D71955F8F200839646 /* CompilerWarnings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1952,24 +1952,24 @@ String String::substring(int beginIndex, int endIndex) const
 String String::trim() const
 {
 	int i=0;
-
+	
 	int startIndex = 0;
-
+	
 	bool hitLetter = false;
-
+	
 	while(!hitLetter && i<total)
 	{
 		char c = charAt(i);
-
+		
 		if(c>' ')
 		{
 			startIndex = i;
 			hitLetter = true;
 		}
-
+		
 		i++;
 	}
-
+	
 	if(!hitLetter)
 	{
 		return String("");

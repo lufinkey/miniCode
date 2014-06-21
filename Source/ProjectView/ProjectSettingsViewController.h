@@ -52,7 +52,7 @@
 @property (nonatomic, assign) ProjectSettingsViewController* settingsController;
 @end
 
-@interface ProjectSettingsToggleListViewController : NavigatedViewController <UIDictionaryTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ProjectSettingsToggleListViewController : NavigatedViewController <UITableViewDelegate, UITableViewDataSource>
 {
 	UITableView* listTable;
 	

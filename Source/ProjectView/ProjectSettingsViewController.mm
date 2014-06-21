@@ -753,38 +753,6 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 	[cell setAccessoryType:UITableViewCellAccessoryNone];
 }
 
-- (void)dictionaryTableViewCell:(UIDictionaryTableViewCell*)cell didFinishEditingLabel:(NSString*)label
-{
-	//Do nothing
-}
-
-- (void)dictionaryTableViewCell:(UIDictionaryTableViewCell*)cell didToggleSwitch:(BOOL)toggle
-{
-	if(toggle)
-	{
-		for(unsigned int i=0; i<[disabled count]; i++)
-		{
-			if([cell.reuseIdentifier isEqual:[disabled objectAtIndex:i]])
-			{
-				[disabled removeObjectAtIndex:i];
-				i = [disabled count];
-			}
-		}
-	}
-	else
-	{
-		for(unsigned int i=0; i<[disabled count]; i++)
-		{
-			if([cell.reuseIdentifier isEqual:[disabled objectAtIndex:i]])
-			{
-				return;
-			}
-			[disabled addObject:cell.reuseIdentifier];
-		}
-	}
-
-}
-
 - (void)dealloc
 {
 	[listTable release];

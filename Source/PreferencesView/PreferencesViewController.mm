@@ -85,7 +85,7 @@
 	}
 	else if(section==2)
 	{
-		return 4;
+		return 5;
 	}
 	return 0;
 }
@@ -201,14 +201,18 @@
 			break;
 			
 			case 1:
-			cellID = @"Like us on Facebook";
+			cellID = @"Donate with Bitcoin";
 			break;
 			
 			case 2:
-			cellID = @"Follow on Twitter";
+			cellID = @"Like us on Facebook";
 			break;
 			
 			case 3:
+			cellID = @"Follow on Twitter";
+			break;
+			
+			case 4:
 			cellID = @"Email Developer";
 			break;
 		}
@@ -306,16 +310,27 @@
 			break;
 			
 			case 1:
+			//donate with bitcoin
+			{
+				NSString* donateURL = @"https://coinbase.com/checkouts/a1672e1864707bc7467e9a3572987ab9";
+				UIWebViewController* webViewController = [[UIWebViewController alloc] init];
+				[webViewController loadExternalPage:donateURL];
+				[self.navigationController pushViewController:webViewController animated:YES];
+				[webViewController release];
+			}
+				break;
+			
+			case 2:
 			//like on facebook
 			openURL("https://www.facebook.com/BrokenPhysicsStudios");
 			break;
 			
-			case 2:
+			case 3:
 			//follow on twitter
 			openURL("https://www.twitter.com/lufinkey");
 			break;
 			
-			case 3:
+			case 4:
 			//email developer
 			{
 				if([MFMailComposeViewController canSendMail])

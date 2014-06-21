@@ -99,6 +99,11 @@ bool GlobalPreferences_load()
 		}
 		return true;
 	}
+	else
+	{
+		showSimpleMessageBox("miniCode", versionMessage);
+		return GlobalPreferences_save();
+	}
 	return false;
 }
 

@@ -688,6 +688,15 @@ void*ProjectSettings_convertToNSMutableDictionary(ProjectSettings_struct*projSet
 	[dict setObject:compilerFlagsArray forKey:@"CompilerFlags"];
 	[compilerFlagsArray release];
 	
+	NSMutableArray* disabledWarningsArray = [[NSMutableArray alloc] init];
+	StringList_struct disabledWarnings = ProjectSettings_getCompilerFlags(projSettings);
+	for(int i=0; i<StringList_size(&disabledWarnings); i++)
+	{
+		[disabledWarningsArray addObject:[NSString stringWithUTF8String:StringList_get(&disabledWarnings, i)]];
+	}
+	[dict setObject:disabledWarningsArray forKey:@"DisabledWarnings"];
+	[disabledWarningsArray release];
+	
 	return (void*)[dict autorelease];
 }
 

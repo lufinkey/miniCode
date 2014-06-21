@@ -151,7 +151,7 @@ void StringList_add(StringList_struct*list, int index, const char*str);
 void StringList_set(StringList_struct*list, int index, const char*str);
 const char* StringList_get(StringList_struct*list, int index);
 void StringList_remove(StringList_struct*list, int index);
-void StringList_clear(StringList_struct*list, const char*str);
+void StringList_clear(StringList_struct*list);
 
 
 

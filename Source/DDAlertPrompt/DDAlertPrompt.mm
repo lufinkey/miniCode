@@ -27,6 +27,8 @@
 
 #import "DDAlertPrompt.h"
 #import <QuartzCore/QuartzCore.h>
+#import "../Util/VersionCheck.h"
+#import "../DeprecationFix/NSObjectDeprecationFix.h"
 
 @interface DDAlertPrompt () 
 @property(nonatomic, retain) UITableView *tableView;
@@ -71,8 +73,22 @@
         promptType_ = promptType;
         
 		// FIXME: This is a workaround. By uncomment below, UITextFields in tableview will show characters when typing (possible keyboard reponder issue).
-		[self addSubview:self.plainTextField];
-
+		if(SYSTEM_VERSION_GREATER_THAN(@"6.2"))
+		{
+			//[self setValue:self.plainTextField forKey:@"accessoryView"];
+			int value = 2;
+			[self performSelector:@selector(setAlertViewStyle:) withValue:&value];
+			[plainTextField_ release];
+			value = 0;
+			UITextField** returnVal = (UITextField**)[self performSelector:@selector(textFieldAtIndex:) withValue:&value];
+			plainTextField_ = [(*returnVal) retain];
+			free(returnVal);
+		}
+		else
+		{
+			[self addSubview:self.plainTextField];
+		}
+		
 		tableView_ = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
 		tableView_.delegate = self;
 		tableView_.dataSource = self;		

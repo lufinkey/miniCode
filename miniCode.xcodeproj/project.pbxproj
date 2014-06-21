@@ -11,6 +11,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		A01A52D619536C1C001A7AD9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A01A52D519536C1C001A7AD9 /* MessageUI.framework */; };
+		A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */; };
 		A066D3EA195115F300F49F6D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A066D3E9195115F300F49F6D /* QuartzCore.framework */; };
 		A066D54A1951165100F49F6D /* CompilerOrganizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D48A1951165100F49F6D /* CompilerOrganizer.cpp */; };
 		A066D54B1951165100F49F6D /* CompilerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D48C1951165100F49F6D /* CompilerThread.cpp */; };
@@ -20,7 +21,7 @@
 		A066D54F1951165100F49F6D /* BuildOptionsActionSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4961951165100F49F6D /* BuildOptionsActionSheet.mm */; };
 		A066D5501951165100F49F6D /* CompileErrorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4981951165100F49F6D /* CompileErrorViewController.mm */; };
 		A066D5511951165100F49F6D /* CompilerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D49A1951165100F49F6D /* CompilerViewController.mm */; };
-		A066D5521951165100F49F6D /* DDAlertPrompt.m in Sources */ = {isa = PBXBuildFile; fileRef = A066D49D1951165100F49F6D /* DDAlertPrompt.m */; };
+		A066D5521951165100F49F6D /* DDAlertPrompt.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D49D1951165100F49F6D /* DDAlertPrompt.mm */; };
 		A066D5531951165100F49F6D /* UIColorDeprecationFix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D49F1951165100F49F6D /* UIColorDeprecationFix.mm */; };
 		A066D5541951165100F49F6D /* UIViewControllerDeprecationFix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4A01951165100F49F6D /* UIViewControllerDeprecationFix.mm */; };
 		A066D5551951165100F49F6D /* HomescreenViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4A31951165100F49F6D /* HomescreenViewController.mm */; };
@@ -117,6 +118,9 @@
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* iCode-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iCode-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A01A52D519536C1C001A7AD9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		A03F569C1954F6D800067BE7 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
+		A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSObjectDeprecationFix.mm; sourceTree = "<group>"; };
+		A03F56BA1955098F00067BE7 /* NSObjectDeprecationFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObjectDeprecationFix.h; sourceTree = "<group>"; };
 		A066D3E9195115F300F49F6D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A066D48A1951165100F49F6D /* CompilerOrganizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompilerOrganizer.cpp; sourceTree = "<group>"; };
 		A066D48B1951165100F49F6D /* CompilerOrganizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompilerOrganizer.h; sourceTree = "<group>"; };
@@ -135,7 +139,7 @@
 		A066D4991951165100F49F6D /* CompilerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompilerViewController.h; sourceTree = "<group>"; };
 		A066D49A1951165100F49F6D /* CompilerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CompilerViewController.mm; sourceTree = "<group>"; };
 		A066D49C1951165100F49F6D /* DDAlertPrompt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAlertPrompt.h; sourceTree = "<group>"; };
-		A066D49D1951165100F49F6D /* DDAlertPrompt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAlertPrompt.m; sourceTree = "<group>"; };
+		A066D49D1951165100F49F6D /* DDAlertPrompt.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DDAlertPrompt.mm; sourceTree = "<group>"; };
 		A066D49F1951165100F49F6D /* UIColorDeprecationFix.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIColorDeprecationFix.mm; sourceTree = "<group>"; };
 		A066D4A01951165100F49F6D /* UIViewControllerDeprecationFix.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIViewControllerDeprecationFix.mm; sourceTree = "<group>"; };
 		A066D4A21951165100F49F6D /* HomescreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomescreenViewController.h; sourceTree = "<group>"; };
@@ -510,7 +514,7 @@
 			isa = PBXGroup;
 			children = (
 				A066D49C1951165100F49F6D /* DDAlertPrompt.h */,
-				A066D49D1951165100F49F6D /* DDAlertPrompt.m */,
+				A066D49D1951165100F49F6D /* DDAlertPrompt.mm */,
 			);
 			path = DDAlertPrompt;
 			sourceTree = "<group>";
@@ -520,6 +524,8 @@
 			children = (
 				A066D49F1951165100F49F6D /* UIColorDeprecationFix.mm */,
 				A066D4A01951165100F49F6D /* UIViewControllerDeprecationFix.mm */,
+				A03F56BA1955098F00067BE7 /* NSObjectDeprecationFix.h */,
+				A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */,
 			);
 			path = DeprecationFix;
 			sourceTree = "<group>";
@@ -770,6 +776,7 @@
 				A066D5471951165100F49F6D /* UIImageManager.h */,
 				A066D5481951165100F49F6D /* UIImageManager.mm */,
 				A066D5491951165100F49F6D /* Vector2.h */,
+				A03F569C1954F6D800067BE7 /* VersionCheck.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -960,7 +967,7 @@
 				A066D54F1951165100F49F6D /* BuildOptionsActionSheet.mm in Sources */,
 				A066D5501951165100F49F6D /* CompileErrorViewController.mm in Sources */,
 				A066D5511951165100F49F6D /* CompilerViewController.mm in Sources */,
-				A066D5521951165100F49F6D /* DDAlertPrompt.m in Sources */,
+				A066D5521951165100F49F6D /* DDAlertPrompt.mm in Sources */,
 				A066D5531951165100F49F6D /* UIColorDeprecationFix.mm in Sources */,
 				A066D5541951165100F49F6D /* UIViewControllerDeprecationFix.mm in Sources */,
 				A066D5551951165100F49F6D /* HomescreenViewController.mm in Sources */,
@@ -1039,6 +1046,7 @@
 				A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */,
 				A0CB3889195489900037BE42 /* CopyAction.mm in Sources */,
 				A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */,
+				A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

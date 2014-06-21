@@ -109,7 +109,12 @@ bool GlobalPreferences_load()
 
 bool GlobalPreferences_save()
 {
-	void* dict = NSMutableDictionary_alloc_init();
+	String settingsPath = (String)getenv("HOME") + "/Library/Preferences/" + bundleID + ".plist";
+	void*dict = ProjLoad_loadAllocatedPlist(settingsPath);
+	if(dict==NULL)
+	{
+		dict = NSMutableDictionary_alloc_init();
+	}
 	if(dict!=NULL)
 	{
 		void*sdk = NSString_stringWithUTF8String(defaultSDK);

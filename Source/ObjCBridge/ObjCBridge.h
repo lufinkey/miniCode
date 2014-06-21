@@ -219,9 +219,11 @@ void* ProjectSettings_getData(ProjectSettings_struct* projSettings);
 
 void ProjectSettings_setSDK(ProjectSettings_struct* projSettings, const char*sdk);
 void ProjectSettings_addCompilerFlag(ProjectSettings_struct* projSettings, const char*flag);
+void ProjectSettings_addDisabledWarning(ProjectSettings_struct* projSettings, const char*warning);
 
 const char* ProjectSettings_getSDK(ProjectSettings_struct* projSettings);
 StringList_struct ProjectSettings_getCompilerFlags(ProjectSettings_struct* projSettings);
+StringList_struct ProjectSettings_getDisabledWarnings(ProjectSettings_struct* projSettings);
 
 void* ProjectSettings_convertToNSMutableDictionary(ProjectSettings_struct*projSettings);
 bool ProjectSettings_saveSettingsPlist(ProjectSettings_struct*projSettings, ProjectData_struct*projData);

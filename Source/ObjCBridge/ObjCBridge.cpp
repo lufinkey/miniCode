@@ -583,6 +583,14 @@ void ProjectSettings_addCompilerFlag(ProjectSettings_struct* projSettings, const
 	}
 }
 
+void ProjectSettings_addDisabledWarning(ProjectSettings_struct* projSettings, const char*warning)
+{
+	if(projSettings!=NULL && projSettings->data!=NULL && warning!=NULL)
+	{
+		((ProjectSettings*)projSettings->data)->addDisabledWarning(warning);
+	}
+}
+
 const char* ProjectSettings_getSDK(ProjectSettings_struct* projSettings)
 {
 	if(projSettings!=NULL && projSettings->data!=NULL)
@@ -597,6 +605,17 @@ StringList_struct ProjectSettings_getCompilerFlags(ProjectSettings_struct* projS
 	if(projSettings!=NULL && projSettings->data!=NULL)
 	{
 		return StringList_createWithData(&((ProjectSettings*)projSettings->data)->getCompilerFlags());
+	}
+	StringList_struct sl;
+	sl.data = NULL;
+	return sl;
+}
+
+StringList_struct ProjectSettings_getDisabledWarnings(ProjectSettings_struct* projSettings)
+{
+	if(projSettings!=NULL && projSettings->data!=NULL)
+	{
+		return StringList_createWithData(&((ProjectSettings*)projSettings->data)->getDisabledWarnings());
 	}
 	StringList_struct sl;
 	sl.data = NULL;

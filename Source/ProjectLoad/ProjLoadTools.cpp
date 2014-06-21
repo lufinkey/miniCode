@@ -319,6 +319,19 @@ ProjectSettings_struct*ProjLoad_loadProjectSettingsFromNSDictionary(void*dict)
 		}
 	}
 	
+	void* disabledWarnings = NSDictionary_objectForKey(dict, "DisabledWarnings");
+	if(disabledWarnings!=NULL)
+	{
+		for(unsigned int i=0; i<NSArray_count(disabledWarnings); i++)
+		{
+			void*warning = NSArray_objectAtIndex(disabledWarnings, i);
+			if(warning!=NULL)
+			{
+				projSettings.addDisabledWarning(NSString_UTF8String(warning));
+			}
+		}
+	}
+	
 	return projSettingsStruct;
 }
 

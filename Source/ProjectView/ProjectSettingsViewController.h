@@ -2,6 +2,7 @@
 #import "../Navigation/NavigatedViewController.h"
 #import "../Util/UIDictionaryTableViewCell.h"
 #import "../UIFileBrowserViewController/UIFileBrowserViewController.h"
+#import "../ObjCBridge/ObjCBridge.h"
 
 @interface ProjectSettingsViewController : NavigatedViewController <UITableViewDelegate, UITableViewDataSource, UIDictionaryTableViewCellDelegate, UIFileBrowserDelegate>
 {
@@ -13,6 +14,7 @@
 	NSString* execName;
 	NSString* prodName;
 	NSString* sdk;
+	NSMutableArray* warnings;
 	
 	@private
 	UIFileBrowserViewController* fileExplorer;
@@ -33,6 +35,7 @@
 @property (nonatomic, retain) NSString* execName;
 @property (nonatomic, retain) NSString* prodName;
 @property (nonatomic, retain) NSString* sdk;
+@property (nonatomic, retain) NSMutableArray* warnings;
 @end
 
 @interface ProjectSettingsStringViewController : NavigatedViewController <UITextFieldDelegate>
@@ -48,3 +51,19 @@
 @property (nonatomic, readonly) NSIndexPath* indexPath;
 @property (nonatomic, assign) ProjectSettingsViewController* settingsController;
 @end
+
+@interface ProjectSettingsToggleListViewController : NavigatedViewController <UIDictionaryTableViewCellDelegate, UITableViewDelegate, UITableViewDataSource>
+{
+	UITableView* listTable;
+	
+	@private
+	StringList_struct* list;
+	NSMutableArray* disabled;
+}
+
+- (id)initWithList:(StringList_struct*)list disabled:(NSMutableArray*)disabled;
+
+@property (nonatomic, readonly) UITableView* listTable;
+@end
+
+

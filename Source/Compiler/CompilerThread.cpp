@@ -489,6 +489,18 @@ String CompilerThread_createAssembleString(ProjectData& projData, const String& 
 	//turn off fixit info
 	command += "-fno-diagnostics-fixit-info -fno-caret-diagnostics ";
 	
+	//set disabled warning flags
+	ArrayList<String>& disabledWarnings = projData.getProjectSettings().getDisabledWarnings();
+	for(int i=0; i<disabledWarnings.size(); i++)
+	{
+		String warning = disabledWarnings.get(i);
+		if(warning.length()>2 && warning.charAt(0)=='-' && warning.charAt(1)=='W')
+		{
+			String noWarning = (String)"-Wno-" + warning.substring(2) + ' ';
+			command += noWarning;
+		}
+	}
+	
 	//source file
 	command += (String)"\"" + file + "\" ";
 	
@@ -549,6 +561,18 @@ String CompilerThread_createCompileString(ProjectData& projData, const ArrayList
 	
 	//turn off fixit info
 	command += "-fno-diagnostics-fixit-info -fno-caret-diagnostics ";
+	
+	//set disabled warning flags
+	ArrayList<String>& disabledWarnings = projData.getProjectSettings().getDisabledWarnings();
+	for(int i=0; i<disabledWarnings.size(); i++)
+	{
+		String warning = disabledWarnings.get(i);
+		if(warning.length()>2 && warning.charAt(0)=='-' && warning.charAt(1)=='W')
+		{
+			String noWarning = (String)"-Wno-" + warning.substring(2) + ' ';
+			command += noWarning;
+		}
+	}
 	
 	//user-specified compiler flags
 	ArrayList<String>& flags = projData.getProjectSettings().getCompilerFlags();

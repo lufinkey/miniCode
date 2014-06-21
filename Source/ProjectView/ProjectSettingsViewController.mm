@@ -7,6 +7,7 @@
 #import "../PreferencesView/GlobalPreferences.h"
 #import "../Util/UIBarImageButtonItem.h"
 #import "../IconManager/IconManager.h"
+#import "../Compiler/CompilerTools.h"
 
 static const int SETTINGSSECTION_PROJECTPROPERTIES = 0;
 static const int SETTINGSSECTION_COMPILERSETTINGS = 1;
@@ -18,6 +19,7 @@ static const int PROJPROPERTIES_EXECUTABLE = 3;
 static const int PROJPROPERTIES_PRODUCTNAME = 4;
 
 static const int COMPILERSETTINGS_SDK = 0;
+static const int COMPILERSETTINGS_WARNINGS = 1;
 
 @implementation ProjectSettingsViewController
 
@@ -29,6 +31,7 @@ static const int COMPILERSETTINGS_SDK = 0;
 @synthesize execName;
 @synthesize prodName;
 @synthesize sdk;
+@synthesize warnings;
 
 - (id)init
 {
@@ -47,6 +50,14 @@ static const int COMPILERSETTINGS_SDK = 0;
 	execName = [[NSString alloc] initWithUTF8String:ProjectData_getExecutableName(projData)];
 	prodName = [[NSString alloc] initWithUTF8String:ProjectData_getProductName(projData)];
 	sdk = [[NSString alloc] initWithUTF8String:ProjectSettings_getSDK(&projSettings)];
+	warnings = [[NSMutableArray alloc] init];
+	StringList_struct disabledWarnings = ProjectSettings_getDisabledWarnings(&projSettings);
+	for(int i=0; i<StringList_size(&disabledWarnings); i++)
+	{
+		NSString* warning = [[NSString alloc] initWithUTF8String:StringList_get(&disabledWarnings, i)];
+		[warnings addObject:warning];
+		[warning release];
+	}
 	
 	settingsTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width,self.view.frame.size.height) style:UITableViewStyleGrouped];
 	[settingsTable setDelegate:self];
@@ -95,6 +106,12 @@ static const int COMPILERSETTINGS_SDK = 0;
 	ProjectData_setExecutableName(projData, [execName UTF8String]);
 	ProjectData_setProductName(projData, [prodName UTF8String]);
 	ProjectSettings_setSDK(&projSettings, [sdk UTF8String]);
+	StringList_struct disabledWarnings = ProjectSettings_getDisabledWarnings(&projSettings);
+	StringList_clear(&disabledWarnings);
+	for(unsigned int i=0; i<[warnings count]; i++)
+	{
+		StringList_add(&disabledWarnings, [[warnings objectAtIndex:i] UTF8String]);
+	}
 	
 	bool success1 = ProjectData_saveProjectPlist(projData);
 	bool success2 = ProjectSettings_saveSettingsPlist(&projSettings, projData);
@@ -160,7 +177,7 @@ static const int COMPILERSETTINGS_SDK = 0;
 		
 		case SETTINGSSECTION_COMPILERSETTINGS:
 		//Compiler settings
-		return 1;
+		return 2;
 	}
 	
 	return 0;
@@ -169,7 +186,7 @@ static const int COMPILERSETTINGS_SDK = 0;
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
 	NSString* cellID = nil;
-	NSString* objVal = nil;
+	id objVal = nil;
 	if(indexPath.section==SETTINGSSECTION_PROJECTPROPERTIES)
 	{
 		switch(indexPath.row)
@@ -220,6 +237,12 @@ static const int COMPILERSETTINGS_SDK = 0;
 			cellID = [[NSString alloc] initWithUTF8String:"SDK:"];
 			objVal = sdk;
 			break;
+			
+			case COMPILERSETTINGS_WARNINGS:
+			//Warnings
+			cellID = [[NSString alloc] initWithUTF8String:"Warnings"];
+			objVal = warnings;
+			break;
 		}
 	}
 	else
@@ -236,8 +259,14 @@ static const int COMPILERSETTINGS_SDK = 0;
 	{
 		[cell reloadForObject:objVal label:cellID];
 	}
-	
+	[cell setDelegate:self];
 	[cellID release];
+	
+	if(indexPath.section==SETTINGSSECTION_COMPILERSETTINGS && indexPath.row==COMPILERSETTINGS_WARNINGS)
+	{
+		[cell.detailTextLabel setText:@""];
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+	}
 	
 	return cell;
 }
@@ -304,25 +333,40 @@ static const int COMPILERSETTINGS_SDK = 0;
 	}
 	else if(indexPath.section==SETTINGSSECTION_COMPILERSETTINGS)
 	{
-		if(indexPath.row==COMPILERSETTINGS_SDK)
-		//SDK
+		switch(indexPath.row)
 		{
-			NSString* sdkFolder = [[NSString alloc] initWithUTF8String:Global_getSDKFolderPath()];
-			FileTools_createDirectory([sdkFolder UTF8String]);
-			fileExplorer = [[UIFileBrowserViewController alloc] initWithString:sdkFolder];
-			[sdkFolder release];
-			if(fileExplorer!=nil)
+			case COMPILERSETTINGS_SDK:
+			//SDK
 			{
-				[fileExplorer setDelegate:self];
-				[fileExplorer.navigationBar setBarStyle:UIBarStyleBlack];
-				UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelFileExplorer)];
-				[fileExplorer.navigationBar.topItem setLeftBarButtonItem:cancelButton];
-				[cancelButton release];
-				UIBarButtonItem* infoButton = [[UIBarImageButtonItem alloc] initWithType:UIButtonTypeInfoLight target:self action:@selector(onSDKInfoButtonSelected)];
-				[fileExplorer.navigationBar.topItem setRightBarButtonItem:infoButton];
-				[infoButton release];
-				[self.navigationController presentModalViewController:fileExplorer animated:YES];
-				[fileExplorer release];
+				NSString* sdkFolder = [[NSString alloc] initWithUTF8String:Global_getSDKFolderPath()];
+				FileTools_createDirectory([sdkFolder UTF8String]);
+				fileExplorer = [[UIFileBrowserViewController alloc] initWithString:sdkFolder delegate:self];
+				[sdkFolder release];
+				if(fileExplorer!=nil)
+				{
+					[fileExplorer.navigationBar setBarStyle:UIBarStyleBlack];
+					UIBarButtonItem* cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelFileExplorer)];
+					[fileExplorer.navigationBar.topItem setLeftBarButtonItem:cancelButton];
+					[cancelButton release];
+					UIBarButtonItem* infoButton = [[UIBarImageButtonItem alloc] initWithType:UIButtonTypeInfoLight target:self action:@selector(onSDKInfoButtonSelected)];
+					[fileExplorer.navigationBar.topItem setRightBarButtonItem:infoButton];
+					[infoButton release];
+					[self.navigationController presentModalViewController:fileExplorer animated:YES];
+					[fileExplorer release];
+				}
+			}
+			break;
+			
+			case COMPILERSETTINGS_WARNINGS:
+			//Warnings
+			{
+				StringList_struct* list = CompilerTools_loadWarningList();
+				ProjectSettingsToggleListViewController* toggleList = [[ProjectSettingsToggleListViewController alloc] initWithList:list disabled:warnings];
+				if(toggleList!=nil)
+				{
+					[self.navigationController pushViewController:toggleList animated:YES];
+					[toggleList release];
+				} 
 			}
 		}
 	}
@@ -397,6 +441,7 @@ static const int COMPILERSETTINGS_SDK = 0;
 	[execName release];
 	[prodName release];
 	[sdk release];
+	[warnings release];
 	[super dealloc];
 }
 
@@ -608,6 +653,148 @@ static const int COMPILERSETTINGS_SDK = 0;
 }
 
 @end
+
+
+
+@implementation ProjectSettingsToggleListViewController
+
+@synthesize listTable;
+
+- (id)initWithList:(StringList_struct*)elementList disabled:(NSMutableArray*)elementsDisabled
+{
+	list = elementList;
+	disabled = elementsDisabled;
+	
+	if([super init]==nil)
+	{
+		return nil;
+	}
+	
+	listTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+	[listTable setDelegate:self];
+	[listTable setDataSource:self];
+	[self.view addSubview:listTable];
+	
+	return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	[listTable setFrame:self.view.frame];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return StringList_size(list);
+}
+
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	NSString* cellID = [[NSString alloc] initWithUTF8String:StringList_get(list, indexPath.row)];
+	BOOL toggle = YES;
+	for(unsigned int i=0; i<[disabled count]; i++)
+	{
+		if([cellID isEqual:[disabled objectAtIndex:i]])
+		{
+			toggle = NO;
+			i = [disabled count];
+		}
+	}
+	
+	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+	if(cell==nil)
+	{
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
+	}
+	[cell.textLabel setText:cellID];
+	if(toggle)
+	{
+		[cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+	}
+	else
+	{
+		[cell setAccessoryType:UITableViewCellAccessoryNone];
+	}
+	[cellID release];
+	
+	return cell;
+}
+
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	NSString* cellID = [[NSString alloc] initWithUTF8String:StringList_get(list, indexPath.row)];
+	
+	for(unsigned int i=0; i<[disabled count]; i++)
+	{
+		if([cellID isEqual:[disabled objectAtIndex:i]])
+		{
+			[disabled removeObjectAtIndex:i];
+			[cellID release];
+			
+			UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+			[cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+			return;
+			
+		}
+	}
+	[disabled addObject:cellID];
+	[cellID release];
+	
+	UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+	[cell setAccessoryType:UITableViewCellAccessoryNone];
+}
+
+- (void)dictionaryTableViewCell:(UIDictionaryTableViewCell*)cell didFinishEditingLabel:(NSString*)label
+{
+	//Do nothing
+}
+
+- (void)dictionaryTableViewCell:(UIDictionaryTableViewCell*)cell didToggleSwitch:(BOOL)toggle
+{
+	if(toggle)
+	{
+		for(unsigned int i=0; i<[disabled count]; i++)
+		{
+			if([cell.reuseIdentifier isEqual:[disabled objectAtIndex:i]])
+			{
+				[disabled removeObjectAtIndex:i];
+				i = [disabled count];
+			}
+		}
+	}
+	else
+	{
+		for(unsigned int i=0; i<[disabled count]; i++)
+		{
+			if([cell.reuseIdentifier isEqual:[disabled objectAtIndex:i]])
+			{
+				return;
+			}
+			[disabled addObject:cell.reuseIdentifier];
+		}
+	}
+
+}
+
+- (void)dealloc
+{
+	[listTable release];
+	StringList_destroyInstance(list);
+	[super dealloc];
+}
+
+@end
+
+
 
 
 

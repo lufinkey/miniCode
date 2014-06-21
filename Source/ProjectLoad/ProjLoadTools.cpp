@@ -306,6 +306,19 @@ ProjectSettings_struct*ProjLoad_loadProjectSettingsFromNSDictionary(void*dict)
 		projSettings.setSDK(NSString_UTF8String(sdk));
 	}
 	
+	void* assemblerFlags = NSDictionary_objectForKey(dict, "AssemblerFlags");
+	if(assemblerFlags!=NULL)
+	{
+		for(unsigned int i=0; i<NSArray_count(assemblerFlags); i++)
+		{
+			void*flag = NSArray_objectAtIndex(assemblerFlags, i);
+			if(flag!=NULL)
+			{
+				projSettings.addAssemblerFlag(NSString_UTF8String(flag));
+			}
+		}
+	}
+	
 	void* compilerFlags = NSDictionary_objectForKey(dict, "CompilerFlags");
 	if(compilerFlags!=NULL)
 	{

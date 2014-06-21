@@ -679,6 +679,15 @@ void*ProjectSettings_convertToNSMutableDictionary(ProjectSettings_struct*projSet
 	
 	[dict setObject:[NSString stringWithUTF8String:ProjectSettings_getSDK(projSettings)] forKey:@"SDK"];
 	
+	NSMutableArray* assemblerFlagsArray = [[NSMutableArray alloc] init];
+	StringList_struct assemblerFlags = ProjectSettings_getAssemblerFlags(projSettings);
+	for(int i=0; i<StringList_size(&assemblerFlags); i++)
+	{
+		[assemblerFlagsArray addObject:[NSString stringWithUTF8String:StringList_get(&assemblerFlags, i)]];
+	}
+	[dict setObject:assemblerFlagsArray forKey:@"AssemblerFlags"];
+	[assemblerFlagsArray release];
+	
 	NSMutableArray* compilerFlagsArray = [[NSMutableArray alloc] init];
 	StringList_struct compilerFlags = ProjectSettings_getCompilerFlags(projSettings);
 	for(int i=0; i<StringList_size(&compilerFlags); i++)

@@ -575,6 +575,14 @@ void ProjectSettings_setSDK(ProjectSettings_struct* projSettings, const char*sdk
 	}
 }
 
+void ProjectSettings_addAssemblerFlag(ProjectSettings_struct* projSettings, const char*flag)
+{
+	if(projSettings!=NULL && projSettings->data!=NULL && flag!=NULL)
+	{
+		((ProjectSettings*)projSettings->data)->addAssemblerFlag(flag);
+	}
+}
+
 void ProjectSettings_addCompilerFlag(ProjectSettings_struct* projSettings, const char*flag)
 {
 	if(projSettings!=NULL && projSettings->data!=NULL && flag!=NULL)
@@ -598,6 +606,17 @@ const char* ProjectSettings_getSDK(ProjectSettings_struct* projSettings)
 		return ((ProjectSettings*)projSettings->data)->getSDK();
 	}
 	return NULL;
+}
+
+StringList_struct ProjectSettings_getAssemblerFlags(ProjectSettings_struct* projSettings)
+{
+	if(projSettings!=NULL && projSettings->data!=NULL)
+	{
+		return StringList_createWithData(&((ProjectSettings*)projSettings->data)->getAssemblerFlags());
+	}
+	StringList_struct sl;
+	sl.data = NULL;
+	return sl;
 }
 
 StringList_struct ProjectSettings_getCompilerFlags(ProjectSettings_struct* projSettings)

@@ -109,6 +109,7 @@
 		A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */; };
 		A0CB3889195489900037BE42 /* CopyAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0CB3888195489900037BE42 /* CopyAction.mm */; };
 		A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DD33171954CEE60000D832 /* MoveAction.mm */; };
+		A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */ = {isa = PBXBuildFile; fileRef = A0FC89CD1955F89400839646 /* CompilerWarnings.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -385,6 +386,7 @@
 		A0CB3888195489900037BE42 /* CopyAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyAction.mm; sourceTree = "<group>"; };
 		A0DD33161954CEE60000D832 /* MoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAction.h; sourceTree = "<group>"; };
 		A0DD33171954CEE60000D832 /* MoveAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MoveAction.mm; sourceTree = "<group>"; };
+		A0FC89CD1955F89400839646 /* CompilerWarnings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CompilerWarnings.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,6 +431,7 @@
 			children = (
 				A08D377319511DD0009F1BB2 /* Images */,
 				A08D37BB19511DD0009F1BB2 /* Project Templates */,
+				A0FC89CD1955F89400839646 /* CompilerWarnings.txt */,
 				A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */,
 				A08D377019511DD0009F1BB2 /* Default-Portrait.png */,
 				A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */,
@@ -949,6 +952,7 @@
 				A08D380219511DD0009F1BB2 /* installer in Resources */,
 				A08D380319511DD0009F1BB2 /* miniCodeInstall in Resources */,
 				A08D380419511DD0009F1BB2 /* Project Templates in Resources */,
+				A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

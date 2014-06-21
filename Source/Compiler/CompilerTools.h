@@ -74,5 +74,6 @@ void CompilerTools_fillInfoPlist(ProjectData_struct*project);
 void CompilerTools_copyResources(ProjectData_struct*project, CopyResourcesThreadFinishCallback callback, void*data);
 void CompilerTools_installApplication(ProjectData_struct*project, InstallThreadFinishCallback callback, void*data);
 void CompilerTools_runApplication(const char* bundleID);
+StringList_struct* CompilerTools_loadWarningList();
 
 

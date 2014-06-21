@@ -4,6 +4,8 @@
 #include "CopyResourcesThread.h"
 #include "InstallThread.h"
 #include "../Util/FileTools.h"
+#include "../Util/String.h"
+#include "../Util/ArrayList.h"
 #include "../ProjectLoad/ProjLoadTools.h"
 
 CompilerOutputLine_struct CompilerOutputLine_createWithData(void*data)
@@ -303,6 +305,43 @@ void CompilerTools_runApplication(const char* bundleID)
 {
 	String command = (String)"open " + bundleID;
 	system(command);
+}
+
+StringList_struct* CompilerTools_loadWarningList()
+{
+	String fileContents;
+	String filePath = (String)FileTools_getExecutableDirectory() + "/CompilerWarnings.txt";
+	
+	if(!FileTools::loadFileIntoString(filePath, fileContents))
+	{
+		return NULL;
+	}
+	
+	String currentLine;
+	ArrayList<String>* lines = new ArrayList<String>();
+	
+	for(int i=0; i<fileContents.length(); i++)
+	{
+		char c = fileContents.charAt(i);
+		if(c<' ')
+		{
+			if(currentLine.length()>0)
+			{
+				lines->add(currentLine);
+				currentLine.clear();
+			}
+		}
+		else
+		{
+			currentLine += c;
+		}
+	}
+	
+	fileContents.clear();
+	
+	StringList_struct* list = new StringList_struct();
+	list->data = (void*)lines;
+	return list;
 }
 
 

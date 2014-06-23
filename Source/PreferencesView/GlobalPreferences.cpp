@@ -19,9 +19,9 @@ static String defaultSDK = "";
 static String codeEditorFont = "Helvetica";
 static unsigned int codeEditorFontSize = 12;
 
-static double currentVersion = 1.010;
-static String versionMessage = "Welcome to miniCode! A lot of work has been put into this app, so I hope you enjoy it. "
-								"If you find any bugs, please email me at luisfinke@gmail.com so I can fix them.";
+static double currentVersion = 1.020;
+static String versionMessage = "Welcome to miniCode! If you enjoy using this app, feel free to donate by "
+								"going to \"Preferences\", selecting \"Donate\" and inputting an amount. Thank you!";
 
 static ArrayList<String> installedApps;
 

@@ -15,6 +15,8 @@
 	NSString* prodName;
 	NSString* sdk;
 	NSMutableArray* warnings;
+	NSMutableArray* assemblerFlags;
+	NSMutableArray* compilerFlags;
 	
 	@private
 	UIFileBrowserViewController* fileExplorer;
@@ -65,5 +67,21 @@
 
 @property (nonatomic, readonly) UITableView* listTable;
 @end
+
+@interface ProjectSettingsStringArrayViewController : NavigatedViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
+{
+	UITableView* listTable;
+	
+	@private
+	NSMutableArray* array;
+	NSInteger selectedIndex;
+}
+
+- (id)initWithArray:(NSMutableArray*)array;
+
+@property (nonatomic, readonly) UITableView* listTable;
+@end
+
+
 
 

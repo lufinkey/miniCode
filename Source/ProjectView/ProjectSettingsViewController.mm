@@ -8,6 +8,7 @@
 #import "../Util/UIBarImageButtonItem.h"
 #import "../IconManager/IconManager.h"
 #import "../Compiler/CompilerTools.h"
+#import "../DDAlertPrompt/DDAlertPrompt.h"
 
 static const int SETTINGSSECTION_PROJECTPROPERTIES = 0;
 static const int SETTINGSSECTION_COMPILERSETTINGS = 1;
@@ -20,6 +21,8 @@ static const int PROJPROPERTIES_PRODUCTNAME = 4;
 
 static const int COMPILERSETTINGS_SDK = 0;
 static const int COMPILERSETTINGS_WARNINGS = 1;
+static const int COMPILERSETTINGS_ASSEMBLERFLAGS = 2;
+static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 @implementation ProjectSettingsViewController
 
@@ -57,6 +60,22 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 		NSString* warning = [[NSString alloc] initWithUTF8String:StringList_get(&disabledWarnings, i)];
 		[warnings addObject:warning];
 		[warning release];
+	}
+	assemblerFlags = [[NSMutableArray alloc] init];
+	StringList_struct flags = ProjectSettings_getAssemblerFlags(&projSettings);
+	for(int i=0; i<StringList_size(&flags); i++)
+	{
+		NSString* flag = [[NSString alloc] initWithUTF8String:StringList_get(&flags, i)];
+		[assemblerFlags addObject:flag];
+		[flag release];
+	}
+	compilerFlags = [[NSMutableArray alloc] init];
+	flags = ProjectSettings_getCompilerFlags(&projSettings);
+	for(int i=0; i<StringList_size(&flags); i++)
+	{
+		NSString* flag = [[NSString alloc] initWithUTF8String:StringList_get(&flags, i)];
+		[compilerFlags addObject:flag];
+		[flag release];
 	}
 	
 	settingsTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width,self.view.frame.size.height) style:UITableViewStyleGrouped];
@@ -111,6 +130,18 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 	for(unsigned int i=0; i<[warnings count]; i++)
 	{
 		StringList_add(&disabledWarnings, [[warnings objectAtIndex:i] UTF8String]);
+	}
+	StringList_struct flags = ProjectSettings_getAssemblerFlags(&projSettings);
+	StringList_clear(&flags);
+	for(unsigned int i=0; i<[assemblerFlags count]; i++)
+	{
+		StringList_add(&flags, [[assemblerFlags objectAtIndex:i] UTF8String]);
+	}
+	flags = ProjectSettings_getCompilerFlags(&projSettings);
+	StringList_clear(&flags);
+	for(unsigned int i=0; i<[compilerFlags count]; i++)
+	{
+		StringList_add(&flags, [[compilerFlags objectAtIndex:i] UTF8String]);
 	}
 	
 	bool success1 = ProjectData_saveProjectPlist(projData);
@@ -177,7 +208,7 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 		
 		case SETTINGSSECTION_COMPILERSETTINGS:
 		//Compiler settings
-		return 2;
+		return 4;
 	}
 	
 	return 0;
@@ -243,6 +274,18 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 			cellID = [[NSString alloc] initWithUTF8String:"Warnings"];
 			objVal = warnings;
 			break;
+			
+			case COMPILERSETTINGS_ASSEMBLERFLAGS:
+			//Assembler flags
+			cellID = [[NSString alloc] initWithUTF8String:"Assembler Flags"];
+			objVal = assemblerFlags;
+			break;
+			
+			case COMPILERSETTINGS_COMPILERFLAGS:
+			//Compiler flags
+			cellID = [[NSString alloc] initWithUTF8String:"Compiler Flags"];
+			objVal = compilerFlags;
+			break;
 		}
 	}
 	else
@@ -262,10 +305,14 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 	[cell setDelegate:self];
 	[cellID release];
 	
-	if(indexPath.section==SETTINGSSECTION_COMPILERSETTINGS && indexPath.row==COMPILERSETTINGS_WARNINGS)
+	if(indexPath.section==SETTINGSSECTION_COMPILERSETTINGS)
 	{
-		[cell.detailTextLabel setText:@""];
-		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		if(indexPath.row==COMPILERSETTINGS_WARNINGS || indexPath.row==COMPILERSETTINGS_ASSEMBLERFLAGS
+		   || indexPath.row==COMPILERSETTINGS_COMPILERFLAGS)
+		{
+			[cell.detailTextLabel setText:@""];
+			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		}
 	}
 	
 	return cell;
@@ -368,6 +415,25 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 					[toggleList release];
 				} 
 			}
+			break;
+			
+			case COMPILERSETTINGS_ASSEMBLERFLAGS:
+			//Assembler flags
+			{
+				ProjectSettingsStringArrayViewController* stringArray = [[ProjectSettingsStringArrayViewController alloc] initWithArray:assemblerFlags];
+				[self.navigationController pushViewController:stringArray animated:YES];
+				[stringArray release];
+			}
+			break;
+			
+			case COMPILERSETTINGS_COMPILERFLAGS:
+			//Compiler flags
+			{
+				ProjectSettingsStringArrayViewController* stringArray = [[ProjectSettingsStringArrayViewController alloc] initWithArray:compilerFlags];
+				[self.navigationController pushViewController:stringArray animated:YES];
+				[stringArray release];
+			}
+			break;
 		}
 	}
 	
@@ -442,6 +508,8 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 	[prodName release];
 	[sdk release];
 	[warnings release];
+	[assemblerFlags release];
+	[compilerFlags release];
 	[super dealloc];
 }
 
@@ -763,6 +831,147 @@ static const int COMPILERSETTINGS_WARNINGS = 1;
 @end
 
 
+
+@interface ProjectSettingsStringArrayViewController()
+- (void)onAddButtonSelected;
+@end
+
+@implementation ProjectSettingsStringArrayViewController
+
+@synthesize listTable;
+
+- (id)initWithArray:(NSMutableArray*)list
+{
+	array = list;
+	selectedIndex = -1;
+	
+	if([super init]==nil)
+	{
+		return nil;
+	}
+	
+	listTable = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+	[listTable setDelegate:self];
+	[listTable setDataSource:self];
+	[self.view addSubview:listTable];
+	
+	UIBarButtonItem* addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(onAddButtonSelected)];
+	[self.navigationItem setRightBarButtonItem:addButton];
+	[addButton release];
+	
+	return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[listTable setFrame:self.view.frame];
+}
+
+- (void)onAddButtonSelected
+{
+	selectedIndex = -1;
+	
+	DDAlertPrompt* alert = [[DDAlertPrompt alloc] initWithTitle:@"Add Flag" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitle:@"Confirm"];
+	[alert show];
+	[alert.plainTextField setPlaceholder:@""];
+	[alert release];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [array count];
+}
+
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	NSNumber* num = [[NSNumber alloc] initWithInt:indexPath.row];
+	NSString* cellID = [num stringValue];
+	
+	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+	if(cell == nil)
+	{
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
+	}
+	[num release];
+	
+	[cell.textLabel setText:[array objectAtIndex:indexPath.row]];
+	
+	return cell;
+}
+
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	selectedIndex = indexPath.row;
+	
+	DDAlertPrompt* alert = [[DDAlertPrompt alloc] initWithTitle:@"Edit Flag" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitle:@"Confirm"];
+	[alert show];
+	[alert.plainTextField setText:[array objectAtIndex:indexPath.row]];
+	[alert.plainTextField setPlaceholder:@""];
+	[alert release];
+	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[array removeObjectAtIndex:indexPath.row];
+	NSArray* indexPaths = [[NSArray alloc] initWithObjects:indexPath, nil];
+	[tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+	[indexPaths release];
+}
+
+- (void)didPresentAlertView:(UIAlertView*)alertView
+{
+	if([alertView isKindOfClass:[DDAlertPrompt class]])
+	{
+		DDAlertPrompt* textFieldAlert = (DDAlertPrompt*)alertView;
+		[textFieldAlert.plainTextField becomeFirstResponder];
+	}
+}
+
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	if([alertView isKindOfClass:[DDAlertPrompt class]])
+	{
+		DDAlertPrompt* textFieldAlert = (DDAlertPrompt*)alertView;
+		UITextField*textField = textFieldAlert.plainTextField;
+		if(buttonIndex==1)
+		//OK
+		{
+			if(selectedIndex==-1)
+			{
+				[array addObject:textField.text];
+				[listTable reloadData];
+			}
+			else
+			{
+				[array replaceObjectAtIndex:buttonIndex withObject:textField.text];
+				NSIndexPath* indexPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+				UITableViewCell* cell = [listTable cellForRowAtIndexPath:indexPath];
+				[cell.textLabel setText:textField.text];
+			}
+		}
+	}
+}
+
+- (void)dealloc
+{
+	[listTable release];
+	[super dealloc];
+}
+
+@end
 
 
 

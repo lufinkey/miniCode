@@ -12,6 +12,7 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		A01A52D619536C1C001A7AD9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A01A52D519536C1C001A7AD9 /* MessageUI.framework */; };
 		A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */; };
+		A060E9E31957C6AB005D9BEF /* Images in Resources */ = {isa = PBXBuildFile; fileRef = A060E9A11957C6AA005D9BEF /* Images */; };
 		A066D3EA195115F300F49F6D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A066D3E9195115F300F49F6D /* QuartzCore.framework */; };
 		A066D54A1951165100F49F6D /* CompilerOrganizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D48A1951165100F49F6D /* CompilerOrganizer.cpp */; };
 		A066D54B1951165100F49F6D /* CompilerThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D48C1951165100F49F6D /* CompilerThread.cpp */; };
@@ -101,13 +102,14 @@
 		A08D37FE19511DD0009F1BB2 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D377019511DD0009F1BB2 /* Default-Portrait.png */; };
 		A08D37FF19511DD0009F1BB2 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */; };
 		A08D380019511DD0009F1BB2 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D377219511DD0009F1BB2 /* Default~iphone.png */; };
-		A08D380119511DD0009F1BB2 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = A08D377319511DD0009F1BB2 /* Images */; };
 		A08D380219511DD0009F1BB2 /* installer in Resources */ = {isa = PBXBuildFile; fileRef = A08D37B919511DD0009F1BB2 /* installer */; };
 		A08D380319511DD0009F1BB2 /* miniCodeInstall in Resources */ = {isa = PBXBuildFile; fileRef = A08D37BA19511DD0009F1BB2 /* miniCodeInstall */; };
 		A08D380419511DD0009F1BB2 /* Project Templates in Resources */ = {isa = PBXBuildFile; fileRef = A08D37BB19511DD0009F1BB2 /* Project Templates */; };
 		A08D38BF195124D6009F1BB2 /* FlipsideViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */; };
 		A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */; };
 		A0CB3889195489900037BE42 /* CopyAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0CB3888195489900037BE42 /* CopyAction.mm */; };
+		A0D6C8851957B6B1007A3328 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8831957B6B1007A3328 /* Icon.png */; };
+		A0D6C8861957B6B1007A3328 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8841957B6B1007A3328 /* Icon@2x.png */; };
 		A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DD33171954CEE60000D832 /* MoveAction.mm */; };
 		A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */ = {isa = PBXBuildFile; fileRef = A0FC89CD1955F89400839646 /* CompilerWarnings.txt */; };
 /* End PBXBuildFile section */
@@ -122,6 +124,7 @@
 		A03F569C1954F6D800067BE7 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
 		A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSObjectDeprecationFix.mm; sourceTree = "<group>"; };
 		A03F56BA1955098F00067BE7 /* NSObjectDeprecationFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObjectDeprecationFix.h; sourceTree = "<group>"; };
+		A060E9A11957C6AA005D9BEF /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		A066D3E9195115F300F49F6D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A066D48A1951165100F49F6D /* CompilerOrganizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompilerOrganizer.cpp; sourceTree = "<group>"; };
 		A066D48B1951165100F49F6D /* CompilerOrganizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompilerOrganizer.h; sourceTree = "<group>"; };
@@ -374,7 +377,6 @@
 		A08D377019511DD0009F1BB2 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
 		A08D377219511DD0009F1BB2 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
-		A08D377319511DD0009F1BB2 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		A08D37B919511DD0009F1BB2 /* installer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = installer; sourceTree = "<group>"; };
 		A08D37BA19511DD0009F1BB2 /* miniCodeInstall */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = miniCodeInstall; sourceTree = "<group>"; };
 		A08D37BB19511DD0009F1BB2 /* Project Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Project Templates"; sourceTree = "<group>"; };
@@ -384,6 +386,8 @@
 		A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIWebViewController.mm; sourceTree = "<group>"; };
 		A0CB3887195489900037BE42 /* CopyAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CopyAction.h; sourceTree = "<group>"; };
 		A0CB3888195489900037BE42 /* CopyAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyAction.mm; sourceTree = "<group>"; };
+		A0D6C8831957B6B1007A3328 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A0D6C8841957B6B1007A3328 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		A0DD33161954CEE60000D832 /* MoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAction.h; sourceTree = "<group>"; };
 		A0DD33171954CEE60000D832 /* MoveAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MoveAction.mm; sourceTree = "<group>"; };
 		A0FC89CD1955F89400839646 /* CompilerWarnings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CompilerWarnings.txt; sourceTree = "<group>"; };
@@ -429,7 +433,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A08D377319511DD0009F1BB2 /* Images */,
+				A060E9A11957C6AA005D9BEF /* Images */,
 				A08D37BB19511DD0009F1BB2 /* Project Templates */,
 				A0FC89CD1955F89400839646 /* CompilerWarnings.txt */,
 				A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */,
@@ -437,6 +441,8 @@
 				A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */,
 				A08D377219511DD0009F1BB2 /* Default~iphone.png */,
 				8D1107310486CEB800E47090 /* iCode-Info.plist */,
+				A0D6C8831957B6B1007A3328 /* Icon.png */,
+				A0D6C8841957B6B1007A3328 /* Icon@2x.png */,
 				A08D37B919511DD0009F1BB2 /* installer */,
 				A08D37BA19511DD0009F1BB2 /* miniCodeInstall */,
 			);
@@ -948,11 +954,13 @@
 				A08D37FE19511DD0009F1BB2 /* Default-Portrait.png in Resources */,
 				A08D37FF19511DD0009F1BB2 /* Default@2x~iphone.png in Resources */,
 				A08D380019511DD0009F1BB2 /* Default~iphone.png in Resources */,
-				A08D380119511DD0009F1BB2 /* Images in Resources */,
 				A08D380219511DD0009F1BB2 /* installer in Resources */,
 				A08D380319511DD0009F1BB2 /* miniCodeInstall in Resources */,
 				A08D380419511DD0009F1BB2 /* Project Templates in Resources */,
 				A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */,
+				A0D6C8851957B6B1007A3328 /* Icon.png in Resources */,
+				A0D6C8861957B6B1007A3328 /* Icon@2x.png in Resources */,
+				A060E9E31957C6AB005D9BEF /* Images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

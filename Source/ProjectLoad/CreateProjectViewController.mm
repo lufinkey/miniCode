@@ -19,8 +19,6 @@
 	
 	[self setTitle:@"Create Project"];
 	
-	[self.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
-	
 	int centerX = self.view.frame.size.width/2;
 	
 	//create textinput boxes;

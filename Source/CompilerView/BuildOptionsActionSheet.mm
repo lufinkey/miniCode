@@ -18,19 +18,15 @@
 	
 	[self setDelegate:self];
 	
-	//[self addButtonWithTitle:@"Build"];
 	[UIImageManager loadImage:@"Images/build.png"];
 	[[[self valueForKey:@"_buttons"] objectAtIndex:0] setImage:[UIImageManager getImage:@"Images/build.png"] forState:UIControlStateNormal];
 	
-	//[self addButtonWithTitle:@"Build and Run"];
 	[UIImageManager loadImage:@"Images/buildandrun.png"];
 	[[[self valueForKey:@"_buttons"] objectAtIndex:1] setImage:[UIImageManager getImage:@"Images/buildandrun.png"] forState:UIControlStateNormal];
 	
-	//[self addButtonWithTitle:@"Clean"];
 	[UIImageManager loadImage:@"Images/clean.png"];
 	[[[self valueForKey:@"_buttons"] objectAtIndex:2] setImage:[UIImageManager getImage:@"Images/clean.png"] forState:UIControlStateNormal];
 	
-	//[self addButtonWithTitle:@"Results"];
 	[UIImageManager loadImage:@"Images/results.png"];
 	[[[self valueForKey:@"_buttons"] objectAtIndex:3] setImage:[UIImageManager getImage:@"Images/results.png"] forState:UIControlStateNormal];
 	

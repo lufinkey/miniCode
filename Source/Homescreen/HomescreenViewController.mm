@@ -25,7 +25,6 @@
 	projectOptions.dataSource = self;
 	projectOptions.scrollEnabled = NO;
 	[projectOptions setBackgroundView:nil];
-	//[projectOptions setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
 	
 	[self.view addSubview:projectOptions];
 	
@@ -38,7 +37,6 @@
 	
 	xcodeLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY, logoScale, logoScale)];
 	[xcodeLogoView setImage:xcodeLogo];
-	//[xcodeLogoView setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
 	
 	[self.view addSubview:xcodeLogoView];
 	

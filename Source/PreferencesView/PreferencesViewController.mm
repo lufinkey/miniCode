@@ -286,7 +286,7 @@
 			{
 				AppManagerViewController* appMgr = [[AppManagerViewController alloc] init];
 				UINavigator* navigator = [[UINavigator alloc] initWithRootViewController:appMgr];
-				[navigator.navigationBar setBarStyle:UIBarStyleBlack];
+				[navigator.navigationBar setBarStyle:UIBarStyleDefault];
 				[appMgr release];
 				[self.navigationController presentModalViewController:navigator animated:YES];
 				[navigator release];

@@ -24,7 +24,7 @@
 	
 	//project options table
 	int tableOffsetY = 250;
-	projectOptions = [[UITableView alloc] initWithFrame:CGRectMake(0, tableOffsetY, self.view.frame.size.width, self.view.frame.size.height-tableOffsetY) style:UITableViewStyleGrouped];
+	projectOptions = [[UITableView alloc] initWithFrame:CGRectMake(0, tableOffsetY, self.view.bounds.size.width, self.view.bounds.size.height-tableOffsetY) style:UITableViewStyleGrouped];
 	projectOptions.delegate = self;
 	projectOptions.dataSource = self;
 	projectOptions.scrollEnabled = NO;
@@ -33,7 +33,7 @@
 	[self.view addSubview:projectOptions];
 	
 	//xcode logo image
-	int centerX = self.view.frame.size.width/2;
+	int centerX = self.view.bounds.size.width/2;
 	int logoOffsetY = 8;
 	int logoScale = 200;
 	[UIImageManager loadImage:@"Images/xcode_logo.png"];
@@ -46,7 +46,7 @@
 	
 	//"Welcome to Minicode" text
 	int welcomeLabelHeight = 50;
-	welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoScale+logoOffsetY, self.view.frame.size.width, welcomeLabelHeight)];
+	welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoScale+logoOffsetY, self.view.bounds.size.width, welcomeLabelHeight)];
 	[welcomeLabel setText:@"Welcome to miniCode"];
 	[welcomeLabel setTextColor:[UIColor darkGrayColor]];
 	[welcomeLabel setTextAlignment:UITextAlignmentCenter];
@@ -74,13 +74,13 @@
 		[recentProjects removeFromSuperview];
 		
 		int tableOffsetY = 250;
-		[projectOptions setFrame:CGRectMake(0, tableOffsetY, self.view.frame.size.width, self.view.frame.size.height-tableOffsetY)];
-		int centerX = self.view.frame.size.width/2;
+		[projectOptions setFrame:CGRectMake(0, tableOffsetY, self.view.bounds.size.width, self.view.bounds.size.height-tableOffsetY)];
+		int centerX = self.view.bounds.size.width/2;
 		int logoOffsetY = 8;
 		int logoScale = 200;
 		[xcodeLogoView setFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY, logoScale, logoScale)];
 		int welcomeLabelHeight = 50;
-		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, self.view.frame.size.width, welcomeLabelHeight)];
+		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, self.view.bounds.size.width, welcomeLabelHeight)];
 	}
 	else if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
 	{
@@ -93,21 +93,22 @@
 			NSIndexPath* indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
 			NSArray* indexPaths = [[NSArray alloc] initWithObjects:indexPath, nil];
 			[projectOptions deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+			[indexPaths release];
 		}
 		
 		int allOffset = 40;
 		
-		int w = self.view.frame.size.width;
+		int w = self.view.bounds.size.width;
 		int centerX = w/2;
 		int tableOffsetY = 250+allOffset;
-		[projectOptions setFrame:CGRectMake(10, tableOffsetY, centerX - 20, self.view.frame.size.height - tableOffsetY)];
+		[projectOptions setFrame:CGRectMake(10, tableOffsetY, centerX - 20, self.view.bounds.size.height - tableOffsetY)];
 		int logoOffsetY = 8+allOffset;
 		int logoScale = 200;
 		[xcodeLogoView setFrame:CGRectMake((centerX/2)-(logoScale/2), logoOffsetY, logoScale, logoScale)];
 		int welcomeLabelHeight = 50;
 		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, (w/2), welcomeLabelHeight)];
 		
-		[recentProjects setFrame:CGRectMake(centerX + 10, 20, (w/2)-20, self.view.frame.size.height - 40)];
+		[recentProjects setFrame:CGRectMake(centerX + 10, 20, (w/2)-20, self.view.bounds.size.height - 40)];
 		
 		iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
 		[appDelegate.loadProjectController loadSavedProjectList];
@@ -124,14 +125,14 @@
 		recentProjects.dataSource = nil;
 		[recentProjects removeFromSuperview];
 		
-		int centerX = self.view.frame.size.width/2;
-		[projectOptions setFrame:CGRectMake(centerX, 0, self.view.frame.size.width/2, self.view.frame.size.height)];
+		int centerX = self.view.bounds.size.width/2;
+		[projectOptions setFrame:CGRectMake(centerX, 0, self.view.bounds.size.width/2, self.view.bounds.size.height)];
 		centerX = centerX/2;
 		int logoOffsetY = 8;
 		int logoScale = 200;
 		[xcodeLogoView setFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY, logoScale, logoScale)];
 		int welcomeLabelHeight = 50;
-		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, self.view.frame.size.width/2, welcomeLabelHeight)];
+		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, self.view.bounds.size.width/2, welcomeLabelHeight)];
 	}
 }
 

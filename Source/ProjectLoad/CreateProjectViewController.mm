@@ -96,7 +96,7 @@
 		int textInputWidth = 256;
 		int textInputHeight = 36;
 		
-		int centerX = (self.view.frame.size.width/2);
+		int centerX = (self.view.bounds.size.width/2);
 		[projectNameField setFrame:CGRectMake(centerX-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
 		[projectAuthorField setFrame:CGRectMake(centerX-(textInputWidth/2), 90, textInputWidth, textInputHeight)];
 	}
@@ -107,7 +107,7 @@
 		
 		int centerX = (self.view.frame.size.width/3) - 25;
 		[projectNameField setFrame:CGRectMake(centerX-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
-		centerX = ((self.view.frame.size.width/3)*2) + 25;
+		centerX = ((self.view.bounds.size.width/3)*2) + 25;
 		[projectAuthorField setFrame:CGRectMake(centerX-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
 	}
 }

@@ -15,12 +15,14 @@
 	
 	navigatingBack = NO;
 	self.backQueueViewController = nil;
+	//self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	
 	return self;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+	//[self.view setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 	[self resetLayout];
 }
 

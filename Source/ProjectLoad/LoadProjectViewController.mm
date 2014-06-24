@@ -86,6 +86,12 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 	[self loadSavedProjectList];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self resetLayout];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
 	return YES;
@@ -93,8 +99,9 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 
 - (void)resetLayout
 {
-	[navBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, navBar.frame.size.height)];
-	[recentProjects setFrame:CGRectMake(0, navBar.frame.size.height, self.view.frame.size.width, self.view.frame.size.height-navBar.frame.size.height)];
+	[navBar setFrame:CGRectMake(0, 0, self.view.bounds.size.width, navBar.bounds.size.height)];
+	[recentProjects setFrame:CGRectMake(0, navBar.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height-navBar.bounds.size.height)];
+	//[recentProjects reloadData];
 }
 
 - (void)cancelButtonSelected
@@ -281,7 +288,7 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 	else
 	{
 		[appDelegate.projectTreeController loadWithProjectData:appDelegate.projData];
-		if(self.parentViewController!=nil)
+		if(self.parentViewController!=nil || ([self respondsToSelector:@selector(presentingViewController)] && [self performSelector:@selector(presentingViewController)]!=nil))
 		{
 			[self dismissModalViewControllerAnimated:YES];
 		}

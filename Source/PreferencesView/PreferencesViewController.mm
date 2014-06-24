@@ -44,8 +44,17 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[preferences setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	[preferences reloadData];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[preferences setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 
 - (void)viewDidAppear:(BOOL)animated

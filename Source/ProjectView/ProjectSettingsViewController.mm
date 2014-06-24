@@ -99,11 +99,19 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	return self;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[settingsTable setFrame:CGRectMake(0,0, self.view.frame.size.width,self.view.frame.size.height)];
+	[settingsTable reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
-	
-	[settingsTable setFrame:CGRectMake(0,0, self.view.frame.size.width,self.view.frame.size.height)];
 	[settingsTable reloadData];
 }
 
@@ -585,10 +593,13 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
-	
+	return YES;
+}
+
+- (void)resetLayout
+{
 	[stringBox setFrame:CGRectMake(20, 40, self.view.frame.size.width-40, 36)];
 }
 
@@ -746,11 +757,14 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
-	
-	[listTable setFrame:self.view.frame];
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[listTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -862,10 +876,14 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
-	[listTable setFrame:self.view.frame];
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[listTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 
 - (void)onAddButtonSelected

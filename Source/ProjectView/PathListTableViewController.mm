@@ -2,6 +2,7 @@
 #import "PathListTableViewController.h"
 
 @interface PathListTableViewController()
+- (void)resetLayout;
 - (void)onCloseButtonSelected;
 - (void)onEditButtonSelected;
 - (void)onDoneButtonSelected;
@@ -51,12 +52,27 @@
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
+	return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[self resetLayout];
+}
+
+- (void)resetLayout
+{
 	[navigationBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
 	CGRect pathTableFrame = CGRectMake(0,navigationBar.frame.size.height,self.view.frame.size.width,self.view.frame.size.height-navigationBar.frame.size.height);
 	[pathTable setFrame:pathTableFrame];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[self resetLayout];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

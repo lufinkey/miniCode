@@ -19,6 +19,22 @@
 	return self;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[self resetLayout];
+}
+
+- (void)resetLayout
+{
+	//Open for implementation
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[self resetLayout];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
 	if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound)

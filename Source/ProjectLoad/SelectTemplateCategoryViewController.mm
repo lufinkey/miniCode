@@ -38,9 +38,13 @@
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
+	return YES;
+}
+
+- (void)resetLayout
+{
 	[categoryList setFrame:CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 

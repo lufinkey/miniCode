@@ -21,6 +21,11 @@
 	return self;
 }
 
+- (BOOL)disablesAutomaticKeyboardDismissal
+{
+	return NO;
+}
+
 - (BOOL)navigationBar:(UINavigationBar*)bar shouldPopItem:(UINavigationItem*)item
 {
 	if(shouldPopItemCalled)

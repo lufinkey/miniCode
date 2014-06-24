@@ -1,7 +1,8 @@
 
-#import <UIKit/UIKit.h>
+/*#import <UIKit/UIKit.h>
+#import "NSObjectDeprecationFix.h"
 
-/*#pragma clang diagnostic push
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wselector"
 
 #pragma clang diagnostic push
@@ -18,12 +19,14 @@
 
 - (void)presentModalViewController:(UIViewController*)modalViewController animated:(BOOL)animated
 {
-	[self presentViewController:modalViewController animated:animated completion:NULL];
+	[self performSelector:@selector(presentViewController:animated:completion:) withValue:modalViewController withValue:&animated withValue:NULL];
+	//[self presentViewController:modalViewController animated:animated completion:NULL];
 }
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated
 {
-	[self dismissViewControllerAnimated:animated completion:NULL];
+	[self performSelector:@selector(dismissViewControllerAnimated:completion:) withValue:&animated withValue:NULL];
+	//[self dismissViewControllerAnimated:animated completion:NULL];
 }
 
 @end

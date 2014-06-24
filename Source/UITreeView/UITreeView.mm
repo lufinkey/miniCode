@@ -34,6 +34,12 @@
 	return self;
 }
 
+- (void)setFrame:(CGRect)frame
+{
+	[super setFrame:frame];
+	[rootCell fixFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
+}
+
 - (void)setRootCell:(UITreeViewCell*)cell
 {
 	if(rootCell!=cell)

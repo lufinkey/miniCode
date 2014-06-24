@@ -15,6 +15,8 @@
 - (void)willNavigateForwardTo:(UIViewController*)viewController;
 - (void)willReturnFrom:(UIViewController*)viewController;
 
+- (void)resetLayout;
+
 @property (nonatomic, assign) UIViewController* backQueueViewController;
 
 @end

@@ -127,7 +127,7 @@
 	
 	[self setZoomScale:1];
 	
-	if(image.size.width>=self.frame.size.width)
+	/*if(image.size.width>=self.frame.size.width)
 	{
 		if(image.size.height>=self.frame.size.height)
 		{
@@ -181,11 +181,53 @@
 		//[bgView setFrame:CGRectMake((self.frame.size.width/2)-(image.size.width/2),(self.frame.size.height/2)-(image.size.height/2), image.size.width, image.size.height)];
 		[bgView setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
 		offset = CGPointMake((self.frame.size.width/2)-(image.size.width/2), (self.frame.size.height/2)-(image.size.height/2));
+	}*/
+	
+	if(image.size.width<self.frame.size.width && image.size.height<self.frame.size.height)
+	{
+		[bgView setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+		offset = CGPointMake((self.frame.size.width/2)-(image.size.width/2), (self.frame.size.height/2)-(image.size.height/2));
+	}
+	else if(self.frame.size.width<=self.frame.size.height)
+	{
+		float frameRat = (float)self.frame.size.width/(float)self.frame.size.height;
+		float imageRat = (float)image.size.width/(float)image.size.height;
+		if(imageRat>=frameRat)
+		{
+			int w = self.frame.size.width;
+			int h = ((float)self.frame.size.width/(float)image.size.width)*image.size.height;
+			[bgView setFrame:CGRectMake(0, 0, w, h)];
+			offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
+		}
+		else
+		{
+			int h = self.frame.size.height;
+			int w = ((float)self.frame.size.height/(float)image.size.height)*image.size.width;
+			[bgView setFrame:CGRectMake(0, 0, w, h)];
+			offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
+		}
+	}
+	else
+	{
+		float frameRat = (float)self.frame.size.height/(float)self.frame.size.width;
+		float imageRat = (float)image.size.height/(float)image.size.width;
+		if(imageRat>=frameRat)
+		{
+			int h = self.frame.size.height;
+			int w = ((float)self.frame.size.height/(float)image.size.height)*image.size.width;
+			[bgView setFrame:CGRectMake(0, 0, w, h)];
+			offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
+		}
+		else
+		{
+			int w = self.frame.size.width;
+			int h = ((float)self.frame.size.width/(float)image.size.width)*image.size.height;
+			[bgView setFrame:CGRectMake(0, 0, w, h)];
+			offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
+		}
 	}
 	
 	[imageView setFrame:CGRectMake(0, 0, bgView.frame.size.width, bgView.frame.size.height)];
-	
-	//offset = CGPointMake(bgView.frame.origin.x, bgView.frame.origin.y);
 	
 	[self setContentInset:UIEdgeInsetsMake(offset.y, offset.x, offset.y, offset.x)];
 	[self setContentSize:CGSizeMake(bgView.frame.size.width, bgView.frame.size.height)];
@@ -235,9 +277,13 @@
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
+	return YES;
+}
+
+- (void)resetLayout
+{
 	[pictureViewer setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 

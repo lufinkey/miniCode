@@ -9,6 +9,7 @@
 	
 	@private
 	UITableView* projectOptions;
+	UITableView* recentProjects;
 	UIImageView* xcodeLogoView;
 	UILabel* welcomeLabel;
 }

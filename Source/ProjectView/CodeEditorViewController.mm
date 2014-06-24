@@ -108,7 +108,6 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 		[codeArea setEditable:YES];
 		[self loadNormalToolbarItems];
 	}
-	
 	isOnScreen = YES;
 	
 	NSString*fontName = [[NSString alloc] initWithUTF8String:GlobalPreferences_getCodeEditorFont()];
@@ -122,9 +121,6 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 		[codeArea setFont:[UIFont fontWithName:@"Helvetica" size:GlobalPreferences_getCodeEditorFontSize()]];
 	}
 	[fontName release];
-	
-	[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-toolbar.frame.size.height, self.view.frame.size.width, toolbar.frame.size.height)];
-	[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-toolbar.frame.size.height)];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -137,6 +133,17 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 {
 	isOnScreen = NO;
 	[super viewDidDisappear:animated];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-toolbar.frame.size.height, self.view.frame.size.width, toolbar.frame.size.height)];
+	[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-toolbar.frame.size.height)];
 }
 
 - (void)loadNormalToolbarItems
@@ -746,8 +753,16 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	{
 		CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 		
-		[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height-toolbar.frame.size.height)];
-		[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-keyboardSize.height-32, self.view.frame.size.width, 32)];
+		if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+		{
+			[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height-toolbar.frame.size.height)];
+			[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-keyboardSize.height-32, self.view.frame.size.width, 32)];
+		}
+		else
+		{
+			[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.width-toolbar.frame.size.height)];
+			[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-keyboardSize.width-32, self.view.frame.size.width, 32)];
+		}
 	}
 }
 

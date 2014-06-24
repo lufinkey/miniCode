@@ -28,7 +28,7 @@
 		return nil;
 	}
 	
-	appTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	appTable = [[UITableView alloc] initWithFrame:self.view.frame];
 	[appTable setDelegate:self];
 	[appTable setDataSource:self];
 	[self.view addSubview:appTable];
@@ -44,6 +44,16 @@
 	[self.navigationItem setTitle:@"Installed Apps"];
 	
 	return self;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[appTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 
 - (void)onEditButtonSelected

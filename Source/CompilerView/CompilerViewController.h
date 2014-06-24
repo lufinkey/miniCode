@@ -13,7 +13,7 @@
 	BOOL closing;
 	BOOL runWhenFinished;
 	BOOL running;
-	int scrollOffset;
+	//int scrollOffset;
 	NSIndexPath* selectedPath;
 	UITableView* errorTable;
 	UIImageView* successView;
@@ -29,6 +29,8 @@
 
 - (void)build;
 - (void)buildAndRun;
+
+- (BOOL)isRunning;
 
 - (void)doneButtonSelected;
 

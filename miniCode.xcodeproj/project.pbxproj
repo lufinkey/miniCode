@@ -12,6 +12,10 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		A01A52D619536C1C001A7AD9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A01A52D519536C1C001A7AD9 /* MessageUI.framework */; };
 		A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */; };
+		A0504F491959151C00611FFB /* Default-LandscapeLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = A0504F461959151C00611FFB /* Default-LandscapeLeft.png */; };
+		A0504F4A1959151D00611FFB /* Default-LandscapeRight.png in Resources */ = {isa = PBXBuildFile; fileRef = A0504F471959151C00611FFB /* Default-LandscapeRight.png */; };
+		A0504F4B1959151D00611FFB /* Default-PortraitUpsideDown.png in Resources */ = {isa = PBXBuildFile; fileRef = A0504F481959151C00611FFB /* Default-PortraitUpsideDown.png */; };
+		A0504F571959157700611FFB /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = A0504F561959157700611FFB /* Default-Landscape.png */; };
 		A060E9E31957C6AB005D9BEF /* Images in Resources */ = {isa = PBXBuildFile; fileRef = A060E9A11957C6AA005D9BEF /* Images */; };
 		A066D3EA195115F300F49F6D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A066D3E9195115F300F49F6D /* QuartzCore.framework */; };
 		A066D54A1951165100F49F6D /* CompilerOrganizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D48A1951165100F49F6D /* CompilerOrganizer.cpp */; };
@@ -124,6 +128,10 @@
 		A03F569C1954F6D800067BE7 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
 		A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSObjectDeprecationFix.mm; sourceTree = "<group>"; };
 		A03F56BA1955098F00067BE7 /* NSObjectDeprecationFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObjectDeprecationFix.h; sourceTree = "<group>"; };
+		A0504F461959151C00611FFB /* Default-LandscapeLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-LandscapeLeft.png"; sourceTree = "<group>"; };
+		A0504F471959151C00611FFB /* Default-LandscapeRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-LandscapeRight.png"; sourceTree = "<group>"; };
+		A0504F481959151C00611FFB /* Default-PortraitUpsideDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-PortraitUpsideDown.png"; sourceTree = "<group>"; };
+		A0504F561959157700611FFB /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		A060E9A11957C6AA005D9BEF /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		A066D3E9195115F300F49F6D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A066D48A1951165100F49F6D /* CompilerOrganizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompilerOrganizer.cpp; sourceTree = "<group>"; };
@@ -436,9 +444,13 @@
 				A060E9A11957C6AA005D9BEF /* Images */,
 				A08D37BB19511DD0009F1BB2 /* Project Templates */,
 				A0FC89CD1955F89400839646 /* CompilerWarnings.txt */,
-				A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */,
-				A08D377019511DD0009F1BB2 /* Default-Portrait.png */,
 				A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */,
+				A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */,
+				A0504F561959157700611FFB /* Default-Landscape.png */,
+				A0504F461959151C00611FFB /* Default-LandscapeLeft.png */,
+				A0504F471959151C00611FFB /* Default-LandscapeRight.png */,
+				A08D377019511DD0009F1BB2 /* Default-Portrait.png */,
+				A0504F481959151C00611FFB /* Default-PortraitUpsideDown.png */,
 				A08D377219511DD0009F1BB2 /* Default~iphone.png */,
 				8D1107310486CEB800E47090 /* iCode-Info.plist */,
 				A0D6C8831957B6B1007A3328 /* Icon.png */,
@@ -961,6 +973,10 @@
 				A0D6C8851957B6B1007A3328 /* Icon.png in Resources */,
 				A0D6C8861957B6B1007A3328 /* Icon@2x.png in Resources */,
 				A060E9E31957C6AB005D9BEF /* Images in Resources */,
+				A0504F491959151C00611FFB /* Default-LandscapeLeft.png in Resources */,
+				A0504F4A1959151D00611FFB /* Default-LandscapeRight.png in Resources */,
+				A0504F4B1959151D00611FFB /* Default-PortraitUpsideDown.png in Resources */,
+				A0504F571959157700611FFB /* Default-Landscape.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1109,7 +1125,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CODE_SIGN_FLAGS = "";

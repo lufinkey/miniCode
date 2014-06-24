@@ -7,7 +7,6 @@
 @interface UITreeViewCell()
 - (NSInteger)getIconSize;
 - (void)addToTreeView;
-- (void)updateFrame:(CGRect)frame;
 - (NSUInteger)getCurrentOffset;
 - (void)pushCellsAfterCell:(UITreeViewCell*)cell by:(NSInteger)offset;
 - (void)onButtonSelect;
@@ -171,7 +170,8 @@ static unsigned int iconPadding = 4;
 		{
 			UITreeViewCell*cell = [cells objectAtIndex:i];
 			[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize)];
-			offsetY+=iconsize;
+			int offset = [cell getCurrentHeight];
+			offsetY+=offset;
 		}
 	}
 }

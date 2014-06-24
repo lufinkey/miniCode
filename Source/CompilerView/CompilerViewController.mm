@@ -70,7 +70,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	running = NO;
 	runWhenFinished = NO;
 	closing = NO;
-	scrollOffset = 0;
+	//scrollOffset = 0;
 	selectedPath = nil;
 	
 	[UIImageManager loadImage:@"Images/error.png"];
@@ -88,6 +88,11 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	[projectFolderString release];
 	projectRootPath = [[NSFilePath alloc] initWithString:projectRootString];
 	[projectRootString release];
+	
+	errorTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
+	errorTable.delegate = self;
+	errorTable.dataSource = self;
+	[self.view addSubview:errorTable];
 	
 	statusBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
 	[statusBar setBarStyle:UIBarStyleBlack];
@@ -140,23 +145,29 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
-	errorTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44) style:UITableViewStylePlain];
-	errorTable.delegate = self;
-	errorTable.dataSource = self;
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[errorTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44)];
 	[statusBar setFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
 	[statusLabel setFrame:CGRectMake(10, 0, self.view.frame.size.width-10, 44)];
 	[successView setFrame:CGRectMake(0, 0, self.view.frame.size.width, successView.frame.size.height)];
-	[self.view addSubview:errorTable];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	
-	if(CompilerOrganizer_totalFiles(organizer)==0)
+	/*if(CompilerOrganizer_totalFiles(organizer)==0)
 	{
 		scrollOffset = 0;
 	}
 	
-	[errorTable setContentOffset:CGPointMake(0,scrollOffset)];
+	[errorTable setContentOffset:CGPointMake(0,scrollOffset)];*/
 	
 	if(selectedPath!=nil && CompilerOrganizer_totalFiles(organizer)!=0)
 	{
@@ -171,18 +182,18 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	}
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+/*- (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
 	scrollOffset = errorTable.contentOffset.y;
-}
+}*/
 
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-	[errorTable removeFromSuperview];
-	[errorTable release];
-	errorTable = nil;
+	//[errorTable removeFromSuperview];
+	//[errorTable release];
+	//errorTable = nil;
 	if(closing)
 	{
 		closing = NO;
@@ -190,8 +201,23 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	}
 }
 
+- (BOOL)isRunning
+{
+	return CompilerOrganizer_isRunning(organizer);
+}
+
 - (void)build
 {
+	if(CompilerOrganizer_isRunning(organizer))
+	{
+		return;
+	}
+	else
+	{
+		CompilerOrganizer_clear(organizer);
+		[self refreshErrorTable];
+	}
+	
 	iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
 	ProjectSettings_struct projSettings = ProjectData_getProjectSettings(appDelegate.projData);
 	const char* sdk = ProjectSettings_getSDK(&projSettings);
@@ -216,6 +242,16 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 
 - (void)buildAndRun
 {
+	if(CompilerOrganizer_isRunning(organizer))
+	{
+		return;
+	}
+	else
+	{
+		CompilerOrganizer_clear(organizer);
+		[self refreshErrorTable];
+	}
+	
 	iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
 	ProjectSettings_struct projSettings = ProjectData_getProjectSettings(appDelegate.projData);
 	const char* sdk = ProjectSettings_getSDK(&projSettings);

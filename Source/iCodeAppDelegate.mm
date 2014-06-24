@@ -35,6 +35,7 @@
 	createProjectNavigator = [[UINavigator alloc] initWithRootViewController:self.createProjectController];
 	[createProjectNavigator.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
 	[createProjectNavigator.navigationBar setBarStyle:UIBarStyleBlack];
+	[createProjectNavigator setModalPresentationStyle:UIModalPresentationFormSheet];
 	
 	loadProjectController = [[LoadProjectViewController alloc] init];
 	selectTemplateCategoryController = [[SelectTemplateCategoryViewController alloc] init];

@@ -29,7 +29,7 @@
 	[projectNameField setFont:[UIFont fontWithName: @"Helvetica" size: 26.0f]];
 	//[projectNameField setBackgroundColor:[UIColor whiteColor]];
 	[projectNameField setBorderStyle:UITextBorderStyleRoundedRect];
-	[projectNameField becomeFirstResponder];
+	//[projectNameField becomeFirstResponder];
 	[projectNameField setDelegate:self];
 	[projectNameField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 	[self.view addSubview:projectNameField];
@@ -57,10 +57,59 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	int centerX = self.view.frame.size.width/2;
-	[projectNameField setFrame:CGRectMake(centerX-(projectNameField.frame.size.width/2), projectNameField.frame.origin.y, projectNameField.frame.size.width, projectNameField.frame.size.height)];
-	[projectAuthorField setFrame:CGRectMake(centerX-(projectAuthorField.frame.size.width/2), projectAuthorField.frame.origin.y, projectAuthorField.frame.size.width, projectAuthorField.frame.size.height)];
-	[projectNameField becomeFirstResponder];
+	if(![projectAuthorField isFirstResponder] && UI_USER_INTERFACE_IDIOM()!=UIUserInterfaceIdiomPad)
+	{
+		[projectNameField becomeFirstResponder];
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	if(![projectAuthorField isFirstResponder] && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+	{
+		[projectNameField becomeFirstResponder];
+	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+	{
+		[projectNameField resignFirstResponder];
+		[projectAuthorField resignFirstResponder];
+		[self.view endEditing:YES];
+	}
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
+- (void)resetLayout
+{
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
+	if(orientation==UIInterfaceOrientationPortrait	|| orientation==UIInterfaceOrientationPortraitUpsideDown)
+	{
+		int textInputWidth = 256;
+		int textInputHeight = 36;
+		
+		int centerX = (self.view.frame.size.width/2);
+		[projectNameField setFrame:CGRectMake(centerX-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+		[projectAuthorField setFrame:CGRectMake(centerX-(textInputWidth/2), 90, textInputWidth, textInputHeight)];
+	}
+	else
+	{
+		int textInputWidth = 200;
+		int textInputHeight = 36;
+		
+		int centerX = (self.view.frame.size.width/3) - 25;
+		[projectNameField setFrame:CGRectMake(centerX-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+		centerX = ((self.view.frame.size.width/3)*2) + 25;
+		[projectAuthorField setFrame:CGRectMake(centerX-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+	}
 }
 
 - (void)nextButtonSelected

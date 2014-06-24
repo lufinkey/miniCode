@@ -72,6 +72,11 @@ static const int BRANCHTYPE_ARRAY = 6;
 	return self;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
 + (id)allocateViewControllerWithObject:(id)object
 {
 	DictionaryPropertyType type = getDictionaryPropertyTypeForObject(object);
@@ -176,10 +181,15 @@ static const int BRANCHTYPE_ARRAY = 6;
 	return self;
 }
 
+- (void)resetLayout
+{
+	[super resetLayout];
+	[stringBox setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[stringBox setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	
 	if(plistRoot.fileLocked)
 	{
@@ -208,7 +218,14 @@ static const int BRANCHTYPE_ARRAY = 6;
 {
 	CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 	
-	[stringBox setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height)];
+	if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+	{
+		[stringBox setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height)];
+	}
+	else
+	{
+		[stringBox setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.width)];
+	}
 }
 
 - (void)keyboardDidHide:(NSNotification*)notification
@@ -275,13 +292,27 @@ static const int BRANCHTYPE_ARRAY = 6;
 	return self;
 }
 
+- (void)resetLayout
+{
+	[super resetLayout];
+	if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+	{
+		int height = ((self.view.frame.size.height)/2);
+		[datePicker setFrame:CGRectMake(0, 0, self.view.frame.size.width, height)];
+		int hOffset = datePicker.frame.size.height;
+		[timePicker setFrame:CGRectMake(0, hOffset, self.view.frame.size.width, self.view.frame.size.height - hOffset)];
+	}
+	else
+	{
+		int w = self.view.frame.size.width;
+		[datePicker setFrame:CGRectMake(0, 0, w/2, self.view.frame.size.height)];
+		[datePicker setFrame:CGRectMake(w/2, 0, w/2, self.view.frame.size.height)];
+	}
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	int height = ((self.view.frame.size.height)/2);
-	[datePicker setFrame:CGRectMake(0, 0, self.view.frame.size.width, height)];
-	int hOffset = datePicker.frame.size.height;
-	[timePicker setFrame:CGRectMake(0, hOffset, self.view.frame.size.width, self.view.frame.size.height - hOffset)];
 	
 	if(plistRoot.fileLocked)
 	{
@@ -579,10 +610,16 @@ static const int BRANCHTYPE_ARRAY = 6;
 	return self;
 }
 
+- (void)resetLayout
+{
+	[super resetLayout];
+	[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[objects reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	
 	if(plistRoot.fileLocked)
 	{
@@ -597,10 +634,17 @@ static const int BRANCHTYPE_ARRAY = 6;
 	}
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self resetLayout];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
 	[self.view endEditing:YES];
+	[[self.view findFirstResponder] resignFirstResponder];
 }
 
 - (void)reloadWithNSDictionary:(NSDictionary*)dictionary
@@ -712,12 +756,27 @@ static const int BRANCHTYPE_ARRAY = 6;
 	{
 		CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 		
-		[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height)];
+		int keyboardOffset;
+		if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+		{
+			keyboardOffset = keyboardSize.height;
+		}
+		else
+		{
+			keyboardOffset = keyboardSize.width;
+		}
+		
+		[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardOffset)];
 		
 		UIView* firstResponder = [objects findFirstResponder];
 		if(firstResponder!=nil)
 		{
-			int offset = [firstResponder findHeightFromSuperview:objects] + firstResponder.frame.size.height - keyboardSize.height;
+			int offset = [firstResponder findHeightFromSuperview:objects] + firstResponder.frame.size.height - keyboardOffset;
+			if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
+			   && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight))
+			{
+				offset += 50;
+			}
 			[objects setContentOffset:CGPointMake(0, offset) animated:YES];
 		}
 	}
@@ -965,10 +1024,16 @@ static const int BRANCHTYPE_ARRAY = 6;
 	return self;
 }
 
+- (void)resetLayout
+{
+	[super resetLayout];
+	[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[objects reloadData];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	
 	if(self.plistRoot.fileLocked)
 	{
@@ -983,10 +1048,17 @@ static const int BRANCHTYPE_ARRAY = 6;
 	}
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	[self resetLayout];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
 	[self.view endEditing:YES];
+	[[self.view findFirstResponder] resignFirstResponder];
 }
 
 - (void)editButtonSelected
@@ -1092,12 +1164,27 @@ static const int BRANCHTYPE_ARRAY = 6;
 	{
 		CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 		
-		[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height)];
+		int keyboardOffset;
+		if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+		{
+			keyboardOffset = keyboardSize.height;
+		}
+		else
+		{
+			keyboardOffset = keyboardSize.width;
+		}
+		
+		[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardOffset)];
 		
 		UIView* firstResponder = [objects findFirstResponder];
 		if(firstResponder!=nil)
 		{
-			int offset = [firstResponder findHeightFromSuperview:objects] + firstResponder.frame.size.height - keyboardSize.height;
+			int offset = [firstResponder findHeightFromSuperview:objects] + firstResponder.frame.size.height - keyboardOffset;
+			if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone
+			   && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight))
+			{
+				offset += 50;
+			}
 			[objects setContentOffset:CGPointMake(0, offset) animated:YES];
 		}
 	}
@@ -1331,21 +1418,39 @@ static const int BRANCHTYPE_ARRAY = 6;
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)resetLayout
 {
-	[super viewWillAppear:animated];
-	int textInputHeight = 0;
-	if(keyField!=nil)
+	if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad || self.interfaceOrientation==UIInterfaceOrientationPortrait
+	   || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
 	{
-		textInputHeight = keyField.frame.size.height;
-		[keyField setFrame:CGRectMake((self.view.frame.size.width/2)-(keyField.frame.size.width/2), 40, keyField.frame.size.width, textInputHeight)];
+		int textInputWidth = 256;
+		int textInputHeight = 0;
+		if(keyField!=nil)
+		{
+			textInputHeight = 36;
+			[keyField setFrame:CGRectMake((self.view.frame.size.width/2)-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+		}
+		else
+		{
+			textInputHeight = 0;
+		}
+		
+		[objectTypes setFrame:CGRectMake(0, textInputHeight+50, self.view.frame.size.width, 100)];
 	}
 	else
 	{
-		textInputHeight = 36;
+		if(keyField!=nil)
+		{
+			int textInputWidth = 200;
+			int textInputHeight = 36;
+			[keyField setFrame:CGRectMake((self.view.frame.size.width/4)-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+			[objectTypes setFrame:CGRectMake((self.view.frame.size.width/2) + 10, 28, (self.view.frame.size.width/2) - 20, 100)];
+		}
+		else
+		{
+			[objectTypes setFrame:CGRectMake(0, 40, self.view.frame.size.width, 100)];
+		}
 	}
-	
-	[objectTypes setFrame:CGRectMake(0, textInputHeight+50, self.view.frame.size.width, 100)];
 }
 
 - (void)cancelButtonSelected

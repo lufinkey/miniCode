@@ -35,9 +35,14 @@
 
 - (void)actionSheet:(UIActionSheet*)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+	iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+	if(appDelegate.compilerController!=nil && [appDelegate.compilerController isRunning])
+	{
+		return;
+	}
+	
 	if(buttonIndex==0 || buttonIndex==1 || buttonIndex==3)
 	{
-		iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
 		CompilerViewController*viewCtrl = nil;
 		BOOL needsRelease = NO;
 		if(appDelegate.compilerController!=nil)

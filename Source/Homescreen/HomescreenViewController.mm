@@ -2,6 +2,7 @@
 #import "HomescreenViewController.h"
 #import "../iCodeAppDelegate.h"
 #import "../Util/UIImageManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation HomescreenViewController
 
@@ -17,6 +18,9 @@
 	[self setTitle:@"miniCode"];
 	
 	[self.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	
+	recentProjects = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStylePlain];
+	recentProjects.layer.cornerRadius = 20;
 	
 	//project options table
 	int tableOffsetY = 250;
@@ -42,7 +46,7 @@
 	
 	//"Welcome to Minicode" text
 	int welcomeLabelHeight = 50;
-	welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoScale+8, self.view.frame.size.width, welcomeLabelHeight)];
+	welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoScale+logoOffsetY, self.view.frame.size.width, welcomeLabelHeight)];
 	[welcomeLabel setText:@"Welcome to miniCode"];
 	[welcomeLabel setTextColor:[UIColor darkGrayColor]];
 	[welcomeLabel setTextAlignment:UITextAlignmentCenter];
@@ -53,13 +57,82 @@
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	[super viewWillAppear:animated];
-	[projectOptions setFrame:CGRectMake(0, projectOptions.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-projectOptions.frame.origin.y)];
-	int centerX = self.view.frame.size.width/2;
-	[xcodeLogoView setFrame:CGRectMake(centerX-(xcodeLogoView.frame.size.width/2), xcodeLogoView.frame.origin.y, xcodeLogoView.frame.size.width, xcodeLogoView.frame.size.height)];
-	[welcomeLabel setFrame:CGRectMake(0, welcomeLabel.frame.origin.y, self.view.frame.size.width, welcomeLabel.frame.size.height)];
+	return YES;
+}
+
+- (void)resetLayout
+{
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
+	if(orientation==UIInterfaceOrientationPortrait || orientation==UIInterfaceOrientationPortraitUpsideDown)
+	{
+		[projectOptions reloadData];
+		
+		recentProjects.delegate = nil;
+		recentProjects.dataSource = nil;
+		[recentProjects removeFromSuperview];
+		
+		int tableOffsetY = 250;
+		[projectOptions setFrame:CGRectMake(0, tableOffsetY, self.view.frame.size.width, self.view.frame.size.height-tableOffsetY)];
+		int centerX = self.view.frame.size.width/2;
+		int logoOffsetY = 8;
+		int logoScale = 200;
+		[xcodeLogoView setFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY, logoScale, logoScale)];
+		int welcomeLabelHeight = 50;
+		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, self.view.frame.size.width, welcomeLabelHeight)];
+	}
+	else if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+	{
+		recentProjects.delegate = nil;
+		recentProjects.dataSource = nil;
+		[recentProjects removeFromSuperview];
+		
+		if([projectOptions numberOfRowsInSection:0]==3)
+		{
+			NSIndexPath* indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+			NSArray* indexPaths = [[NSArray alloc] initWithObjects:indexPath, nil];
+			[projectOptions deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+		}
+		
+		int allOffset = 40;
+		
+		int w = self.view.frame.size.width;
+		int centerX = w/2;
+		int tableOffsetY = 250+allOffset;
+		[projectOptions setFrame:CGRectMake(10, tableOffsetY, centerX - 20, self.view.frame.size.height - tableOffsetY)];
+		int logoOffsetY = 8+allOffset;
+		int logoScale = 200;
+		[xcodeLogoView setFrame:CGRectMake((centerX/2)-(logoScale/2), logoOffsetY, logoScale, logoScale)];
+		int welcomeLabelHeight = 50;
+		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, (w/2), welcomeLabelHeight)];
+		
+		[recentProjects setFrame:CGRectMake(centerX + 10, 20, (w/2)-20, self.view.frame.size.height - 40)];
+		
+		iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+		[appDelegate.loadProjectController loadSavedProjectList];
+		recentProjects.delegate = appDelegate.loadProjectController;
+		recentProjects.dataSource = appDelegate.loadProjectController;
+		[recentProjects reloadData];
+		[self.view addSubview:recentProjects];
+	}
+	else
+	{
+		[projectOptions reloadData];
+		
+		recentProjects.delegate = nil;
+		recentProjects.dataSource = nil;
+		[recentProjects removeFromSuperview];
+		
+		int centerX = self.view.frame.size.width/2;
+		[projectOptions setFrame:CGRectMake(centerX, 0, self.view.frame.size.width/2, self.view.frame.size.height)];
+		centerX = centerX/2;
+		int logoOffsetY = 8;
+		int logoScale = 200;
+		[xcodeLogoView setFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY, logoScale, logoScale)];
+		int welcomeLabelHeight = 50;
+		[welcomeLabel setFrame:CGRectMake(0, logoOffsetY+logoScale, self.view.frame.size.width/2, welcomeLabelHeight)];
+	}
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
@@ -74,6 +147,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
+	   && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight))
+	{
+		return 2;
+	}
 	return 3;
 }
 
@@ -89,9 +167,13 @@
 		break;
 			
 		case 1:
-		cellIdentifier = @"loadProject";
-		cellText = @"Load Project";
-		break;
+		if(!(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
+		   && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight)))
+		{
+			cellIdentifier = @"loadProject";
+			cellText = @"Load Project";
+			break;
+		}
 			
 		case 2:
 		cellIdentifier = @"preferences";
@@ -125,8 +207,12 @@
 		break;
 		
 		case 1:
-		[self.navigationController presentModalViewController:appDelegate.loadProjectController animated:YES];
-		break;
+		if(!(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
+			 && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight)))
+		{
+			[self.navigationController presentModalViewController:appDelegate.loadProjectController animated:YES];
+			break;
+		}
 		
 		case 2:
 		[self.navigationController presentModalViewController:appDelegate.preferencesNavigator animated:YES];
@@ -139,6 +225,7 @@
 - (void)dealloc
 {
 	[xcodeLogo release];
+	[recentProjects release];
 	[projectOptions release];
 	[xcodeLogoView release];
 	[welcomeLabel release];

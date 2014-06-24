@@ -184,9 +184,13 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
+	return YES;
+}
+
+- (void)resetLayout
+{
 	[treeView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 }
 

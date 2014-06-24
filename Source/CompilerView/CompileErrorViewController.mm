@@ -68,13 +68,29 @@
 	return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-	[super viewWillAppear:animated];
-	int size = (self.view.frame.size.width)/2;
-	[name setFrame:CGRectMake(size, 0, size, size)];
-	[icon setFrame:CGRectMake(0, 0, size, size)];
-	[info setFrame:CGRectMake(0, size, self.view.frame.size.width, self.view.frame.size.height-size)];
+	return YES;
+}
+
+- (void)resetLayout
+{
+	if(/*UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad || */self.interfaceOrientation==UIInterfaceOrientationPortrait
+	   || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+	{
+		int size = (self.view.frame.size.width)/2;
+		[name setFrame:CGRectMake(size, 0, size, size)];
+		[icon setFrame:CGRectMake(0, 0, size, size)];
+		[info setFrame:CGRectMake(0, size, self.view.frame.size.width, self.view.frame.size.height-size)];
+	}
+	else
+	{
+		int w = self.view.frame.size.width;
+		int h = self.view.frame.size.height;
+		[icon setFrame:CGRectMake(20, 10, (w/2)-40, (w/2)-40)];
+		[name setFrame:CGRectMake(0, icon.frame.size.height+10, w/2, 40)];
+		[info setFrame:CGRectMake(w/2, 0, w/2, h)];
+	}
 }
 
 - (void)dealloc

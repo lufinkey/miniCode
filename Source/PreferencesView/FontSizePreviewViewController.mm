@@ -46,13 +46,22 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[preview setFrame:CGRectMake(0, 0, self.view.frame.size.width, preview.frame.size.height)];
-	[sizer setFrame:CGRectMake(sizer.frame.origin.x, sizer.frame.origin.y, self.view.frame.size.width-sizer.frame.origin.x, sizer.frame.size.height)];
 	
 	[sizer setValue:GlobalPreferences_getCodeEditorFontSize()];
 	
 	NSString* fontName = [NSString stringWithUTF8String:GlobalPreferences_getCodeEditorFont()];
 	[preview setFont:[UIFont fontWithName:fontName size:GlobalPreferences_getCodeEditorFontSize()]];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
+}
+
+- (void)resetLayout
+{
+	[preview setFrame:CGRectMake(0, 0, self.view.frame.size.width, preview.frame.size.height)];
+	[sizer setFrame:CGRectMake(sizer.frame.origin.x, sizer.frame.origin.y, self.view.frame.size.width-sizer.frame.origin.x, sizer.frame.size.height)];
 }
 
 - (void)sizerDidChangeValue

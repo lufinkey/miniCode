@@ -53,6 +53,7 @@ ProjectData::ProjectData(const String&name, const String&author)
 	this->author = author;
 	
 	projType = PROJECTTYPE_APPLICATION;
+	device = DEVICE_IPHONE;
 	
 	String bundleName = createBundlenameFromName(name);
 	
@@ -69,6 +70,7 @@ ProjectData::ProjectData(const String&name, const String&author)
 ProjectData::ProjectData(const ProjectData&projData)
 {
 	projType = projData.projType;
+	device = projData.device;
 	
 	name = projData.name;
 	author = projData.author;
@@ -90,17 +92,13 @@ ProjectData::ProjectData(const ProjectData&projData)
 
 ProjectData::~ProjectData()
 {
-	frameworks.clear();
-	
-	srcFiles.clear();
-	resFiles.clear();
-	includeDirs.clear();
-	libDirs.clear();
+	//
 }
 
 ProjectData& ProjectData::operator=(const ProjectData&projData)
 {
 	projType = projData.projType;
+	device = projData.device;
 	
 	name = projData.name;
 	author = projData.author;
@@ -127,6 +125,14 @@ void ProjectData::setProjectType(const ProjectType&type)
 	if(type==PROJECTTYPE_APPLICATION || type==PROJECTTYPE_CONSOLE || type==PROJECTTYPE_DYNAMICLIBRARY || type==PROJECTTYPE_STATICLIBRARY)
 	{
 		this->projType = type;
+	}
+}
+
+void ProjectData::setProjectDevice(const ProjectDevice& device)
+{
+	if(device==DEVICE_IPHONE || device==DEVICE_IPAD || device==DEVICE_ALL)
+	{
+		this->device = device;
 	}
 }
 
@@ -175,6 +181,11 @@ void ProjectData::addFramework(const String&framework)
 ProjectType ProjectData::getProjectType() const
 {
 	return projType;
+}
+
+ProjectDevice ProjectData::getProjectDevice() const
+{
+	return device;
 }
 
 String ProjectData::getBundleName()

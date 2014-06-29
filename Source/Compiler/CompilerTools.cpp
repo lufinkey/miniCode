@@ -285,6 +285,39 @@ void CompilerTools_fillInfoPlist(ProjectData_struct*project)
 		CompilerTools_fillProjectVarsInString(fileContents, projData);
 		FileTools::writeStringToFile(path, fileContents);
 	}
+	
+	void* infoPlist = ProjLoad_loadAllocatedPlist(path);
+	if(infoPlist!=NULL)
+	{
+		//UIDeviceFamily
+		void* uidevicefamily = NSMutableArray_alloc_init();
+		ProjectDevice projDevice = projData.getProjectDevice();
+		if(projDevice==DEVICE_IPHONE)
+		{
+			void* num = NSNumber_numberWithInt(1);
+			NSMutableArray_addObject(uidevicefamily, num);
+		}
+		else if(projDevice==DEVICE_IPAD)
+		{
+			void* num = NSNumber_numberWithInt(2);
+			NSMutableArray_addObject(uidevicefamily, num);
+		}
+		else if(projDevice==DEVICE_ALL)
+		{
+			void* num = NSNumber_numberWithInt(1);
+			NSMutableArray_addObject(uidevicefamily, num);
+			num = NSNumber_numberWithInt(2);
+			NSMutableArray_addObject(uidevicefamily, num);
+		}
+		
+		if(projDevice!=DEVICE_UNKNOWN)
+		{
+			NSMutableDictionary_setObjectForKey(infoPlist, uidevicefamily, "UIDeviceFamily");
+		}
+		id_release(uidevicefamily);
+		
+		id_release(infoPlist);
+	}
 }
 
 void CompilerTools_copyResources(ProjectData_struct*project, CopyResourcesThreadFinishCallback callback, void*data)

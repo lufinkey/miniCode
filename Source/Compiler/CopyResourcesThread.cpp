@@ -75,7 +75,21 @@ void CopyResourcesThread::setCallback(CopyResourcesThreadFinishCallback callback
 void CopyResourcesThread::run()
 {
 	String resFolder = (String)ProjLoad_getSavedProjectsFolder() + '/' + projData->getFolderName() + "/res";
-	String dstFolder = (String)ProjLoad_getSavedProjectsFolder() + '/' + projData->getFolderName() + "/bin/release/" + projData->getProductName() + ".app";
+	String releaseFolder = (String)ProjLoad_getSavedProjectsFolder() + '/' + projData->getFolderName() + "/bin/release";
+	String dstFolder;
+	switch(projData->getProjectType())
+	{
+		case PROJECTTYPE_UNKNOWN:
+		case PROJECTTYPE_APPLICATION:
+		dstFolder = releaseFolder + '/' + projData->getProductName() + ".app";
+		break;
+		
+		case PROJECTTYPE_CONSOLE:
+		case PROJECTTYPE_DYNAMICLIBRARY:
+		case PROJECTTYPE_STATICLIBRARY:
+		dstFolder = releaseFolder + '/' + projData->getProductName();
+		break;
+	}
 	
 	StringTree& resTree = projData->getResourceFiles();
 	

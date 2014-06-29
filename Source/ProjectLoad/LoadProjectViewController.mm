@@ -99,6 +99,7 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 
 - (void)resetLayout
 {
+	[super resetLayout];
 	[navBar setFrame:CGRectMake(0, 0, self.view.bounds.size.width, navBar.bounds.size.height)];
 	[recentProjects setFrame:CGRectMake(0, navBar.bounds.size.height, self.view.bounds.size.width, self.view.bounds.size.height-navBar.bounds.size.height)];
 	//[recentProjects reloadData];

@@ -60,8 +60,9 @@
 
 - (void)resetLayout
 {
-	[preview setFrame:CGRectMake(0, 0, self.view.frame.size.width, preview.frame.size.height)];
-	[sizer setFrame:CGRectMake(sizer.frame.origin.x, sizer.frame.origin.y, self.view.frame.size.width-sizer.frame.origin.x, sizer.frame.size.height)];
+	[super resetLayout];
+	[preview setFrame:CGRectMake(0, 0, self.view.bounds.size.width, preview.frame.size.height)];
+	[sizer setFrame:CGRectMake(sizer.frame.origin.x, sizer.frame.origin.y, self.view.bounds.size.width-sizer.frame.origin.x, sizer.frame.size.height)];
 }
 
 - (void)sizerDidChangeValue

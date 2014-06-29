@@ -258,7 +258,16 @@ StringTree* StringTree::getBranch(const String&branch)
 	}
 	else
 	{
-		int result = branchNames.get(branch);
+		String branchName;
+		if(branch.charAt(0)=='/')
+		{
+			branchName = branch.substring(1);
+		}
+		else
+		{
+			branchName = branch;
+		}
+		int result = branchNames.get(branchName);
 		if(result==-1)
 		{
 			return NULL;
@@ -286,7 +295,16 @@ const StringTree* StringTree::getBranch(const String&branch) const
 	}
 	if(slashIndex!=-1)
 	{
-		String subBranch = branch.substring(0,slashIndex);
+		String subBranch;
+		if(branch.charAt(0)=='/')
+		{
+			subBranch = branch.substring(1,slashIndex);
+		}
+		else
+		{
+			subBranch = branch.substring(0,slashIndex);
+		}
+		
 		int result = branchNames.get(subBranch);
 		if(result==-1)
 		{
@@ -301,7 +319,16 @@ const StringTree* StringTree::getBranch(const String&branch) const
 	}
 	else
 	{
-		int result = branchNames.get(branch);
+		String branchName;
+		if(branch.charAt(0)=='/')
+		{
+			branchName = branch.substring(1);
+		}
+		else
+		{
+			branchName = branch;
+		}
+		int result = branchNames.get(branchName);
 		if(result==-1)
 		{
 			return NULL;

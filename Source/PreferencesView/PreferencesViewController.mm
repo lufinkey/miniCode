@@ -54,6 +54,7 @@
 
 - (void)resetLayout
 {
+	[super resetLayout];
 	[preferences setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 

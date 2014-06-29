@@ -64,8 +64,8 @@
 
 - (void)resetLayout
 {
-	[navigationBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-	CGRect pathTableFrame = CGRectMake(0,navigationBar.frame.size.height,self.view.frame.size.width,self.view.frame.size.height-navigationBar.frame.size.height);
+	[navigationBar setFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+	CGRect pathTableFrame = CGRectMake(0,navigationBar.frame.size.height,self.view.bounds.size.width,self.view.bounds.size.height-navigationBar.frame.size.height);
 	[pathTable setFrame:pathTableFrame];
 }
 

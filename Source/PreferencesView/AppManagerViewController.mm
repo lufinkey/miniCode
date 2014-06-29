@@ -53,12 +53,13 @@
 
 - (void)resetLayout
 {
-	[appTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[super resetLayout];
+	[appTable setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)onEditButtonSelected
 {
-	[appTable setEditing:YES];
+	[appTable setEditing:YES animated:YES];
 	
 	UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButtonSelected)];
 	[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
@@ -69,7 +70,7 @@
 
 - (void)onDoneButtonSelected
 {
-	[appTable setEditing:NO];
+	[appTable setEditing:NO animated:YES];
 	
 	UIBarButtonItem* editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(onEditButtonSelected)];
 	[self.navigationItem setRightBarButtonItem:editButton animated:YES];

@@ -69,6 +69,22 @@ CompilerOutputLine::CompilerOutputLine(const String&fileName, unsigned int line,
 	{
 		output = (String)"clang: fatal error: " + this->message;
 	}
+	else if(this->errorType.equals("libtool file"))
+	{
+		output = (String)"libtool: file: " + this->message;
+	}
+	else if(this->errorType.equals("libtool warning"))
+	{
+		output = (String)"libtool: warning: " + this->message;
+	}
+	else if(this->errorType.equals("libtool error"))
+	{
+		output = (String)"libtool: error: " + this->message;
+	}
+	else if(this->errorType.equals("libtool fatal error"))
+	{
+		output = (String)"libtool: fatal error: " + this->message;
+	}
 	else if(this->errorType.equals("undefined symbols"))
 	{
 		output = this->message;
@@ -347,6 +363,14 @@ void CompilerOrganizer::parseError(const String& error)
 					String message = error.substring(colon2+1);
 					
 					currentError = CompilerOutputLine("", 0, 0, (String)"clang "+errorType, message);
+					handleOutputLine(currentError);
+					return;
+				}
+				else if(errorPrefix.equals("libtool"))
+				{
+					String errorType = error.substring(colon1+1, colon2).trim();
+					String message = error.substring(colon2+1);
+					currentError = CompilerOutputLine("", 0, 0, (String)"libtool "+errorType, message); 
 					handleOutputLine(currentError);
 					return;
 				}

@@ -12,6 +12,7 @@
 	NSMutableArray* cells;
 	
 	@private
+	CGRect rect;
 	UIView* bgView;
 	UIImageView* carrotView;
 	UIImageView* iconView;
@@ -29,17 +30,24 @@
 - (BOOL)isSetAsBranch;
 - (void)setAsBranch:(BOOL)toggle;
 - (void)setBranchOpen:(BOOL)toggle;
+- (void)setBranchOpen:(BOOL)toggle animated:(BOOL)animated;
 - (BOOL)isBranchOpen;
 
 - (NSUInteger)count;
 - (void)addMember:(UITreeViewCell*)cell;
+- (void)addMember:(UITreeViewCell*)cell animated:(BOOL)animated;
 - (void)insertMember:(UITreeViewCell*)cell atIndex:(NSUInteger)index;
+- (void)insertMember:(UITreeViewCell*)cell atIndex:(NSUInteger)index animated:(BOOL)animated;;
 - (void)removeMember:(UITreeViewCell*)cell;
+- (void)removeMember:(UITreeViewCell*)cell animated:(BOOL)animated;
 - (void)removeMemberAtIndex:(NSUInteger)index;
+- (void)removeMemberAtIndex:(NSUInteger)index animated:(BOOL)animated;
 - (UITreeViewCell*)memberAtIndex:(NSUInteger)index;
 - (NSInteger)indexOfMember:(UITreeViewCell*)cell;
 - (void)moveMemberAtIndex:(NSUInteger)srcIndex toIndex:(NSUInteger)dstIndex;
+- (void)moveMemberAtIndex:(NSUInteger)srcIndex toIndex:(NSUInteger)dstIndex animated:(BOOL)animated;
 - (void)removeAllMembers;
+- (void)removeAllMembersAnimated:(BOOL)animated;
 
 - (void)setIcon:(UIImage*)icon;
 - (void)setButtonShown:(BOOL)toggle;

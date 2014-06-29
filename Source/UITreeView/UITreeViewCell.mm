@@ -7,8 +7,10 @@
 @interface UITreeViewCell()
 - (NSInteger)getIconSize;
 - (void)addToTreeView;
+- (void)addToTreeViewAnimated:(BOOL)animated;
 - (NSUInteger)getCurrentOffset;
 - (void)pushCellsAfterCell:(UITreeViewCell*)cell by:(NSInteger)offset;
+- (void)pushCellsAfterCell:(UITreeViewCell*)cell by:(NSInteger)offset animated:(BOOL)animated;
 - (void)onButtonSelect;
 - (void)onControlEventTouchDown;
 - (void)onControlEventTouchDragOutside;
@@ -19,6 +21,7 @@
 @property (nonatomic, retain) UIImageView* iconView;
 @property (nonatomic, retain) UILabel* label;
 @property (nonatomic, retain) UIButton* button;
+@property (nonatomic, readonly) CGRect rect;
 @end
 
 
@@ -33,6 +36,7 @@
 @synthesize label;
 @synthesize button;
 @synthesize cells;
+@synthesize rect;
 
 static unsigned int iconPadding = 4;
 
@@ -47,7 +51,9 @@ static unsigned int iconPadding = 4;
 	
 	int iconsize = [self getIconSize];
 	
-	if([super initWithFrame:CGRectMake(0, 0, 320, iconsize)]==nil)
+	rect = CGRectMake(0, 0, 320, iconsize);
+	
+	if([super initWithFrame:rect]==nil)
 	{
 		return nil;
 	}
@@ -75,16 +81,17 @@ static unsigned int iconPadding = 4;
 	[UIImageManager loadImage:@"Images/icons/folder.png"];
 	[UIImageManager loadImage:@"Images/icons/file.png"];
 	
-	offsetX = carrotView.frame.origin.x+iconsize;
+	offsetX += iconsize;
 	
 	iconView = [[UIImageView alloc] initWithFrame:CGRectMake(offsetX, 0, iconsize, iconsize)];
 	[iconView setImage:[UIImageManager getImage:@"Images/icons/file.png"]];
 	[self addSubview:iconView];
 	[iconView setUserInteractionEnabled:NO];
 	
-	offsetX = iconView.frame.origin.x+iconView.frame.size.width;
+	offsetX += iconsize;
 	
-	label = [[UILabel alloc] initWithFrame:CGRectMake(offsetX+iconPadding, 0, self.frame.size.width-offsetX-iconPadding, iconsize)];
+	int labelWidth = rect.size.width-offsetX-iconPadding;
+	label = [[UILabel alloc] initWithFrame:CGRectMake(offsetX+iconPadding, 0, labelWidth, iconsize)];
 	[label setText:text];
 	[label setBackgroundColor:[UIColor clearColor]];
 	[label setTextColor:[UIColor blackColor]];
@@ -130,8 +137,28 @@ static unsigned int iconPadding = 4;
 	tree = supercell.tree;
 }
 
+- (void)updateFrame:(CGRect)frame animated:(BOOL)animated
+{
+	if(animated)
+	{
+		double animTime = 0.5;
+		if(tree!=nil)
+		{
+			animTime = tree.animationTime;
+		}
+		[UIView animateWithDuration:animTime animations:^{
+			[self updateFrame:frame];
+		}];
+	}
+	else
+	{
+		[self updateFrame:frame];
+	}
+}
+
 - (void)updateFrame:(CGRect)frame
 {
+	rect = frame;
 	[super setFrame:frame];
 	
 	int iconsize = [self getIconSize];
@@ -139,26 +166,32 @@ static unsigned int iconPadding = 4;
 	int offsetX = 0;
 	[carrotView setFrame:CGRectMake(offsetX, 0, iconsize, iconsize)];
 	
-	offsetX = carrotView.frame.origin.x+carrotView.frame.size.width;
+	offsetX += iconsize;
 	[iconView setFrame:CGRectMake(offsetX, 0, iconsize, iconsize)];
 	
-	offsetX = iconView.frame.origin.x+iconView.frame.size.width;
+	offsetX += iconsize;
 	if([self.subviews indexOfObject:button]==NSNotFound)
 	{
 		[label setFrame:CGRectMake(offsetX+iconPadding, 0, frame.size.width-offsetX-iconPadding, iconsize)];
 	}
 	else
 	{
-		[label setFrame:CGRectMake(offsetX+iconPadding, 0, frame.size.width-offsetX-iconsize-iconPadding, iconsize)];
+		int labelWidth = frame.size.width-offsetX-iconsize-iconPadding;
+		[label setFrame:CGRectMake(offsetX+iconPadding, 0, labelWidth, iconsize)];
 		
-		offsetX = label.frame.origin.x+label.frame.size.width;
+		offsetX += iconPadding + labelWidth;
 		[button setFrame:CGRectMake(offsetX, 0, iconsize, iconsize)];
 	}
 }
 
 - (void)fixFrame:(CGRect)frame
 {
-	[self updateFrame:frame];
+	[self fixFrame:frame animated:NO];
+}
+
+- (void)fixFrame:(CGRect)frame animated:(BOOL)animated
+{
+	[self updateFrame:frame animated:animated];
 	if(isBranch==YES && branchOpened==YES)
 	{
 		int iconsize = [self getIconSize];
@@ -169,7 +202,7 @@ static unsigned int iconPadding = 4;
 		for(unsigned int i=0; i<[cells count]; i++)
 		{
 			UITreeViewCell*cell = [cells objectAtIndex:i];
-			[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize)];
+			[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize) animated:animated];
 			int offset = [cell getCurrentHeight];
 			offsetY+=offset;
 		}
@@ -208,23 +241,47 @@ static unsigned int iconPadding = 4;
 	[super removeFromSuperview];
 }
 
+- (void)removeFromSuperviewAnimated:(BOOL)animated
+{
+	if(animated)
+	{
+		double animTime = 0.5;
+		if(tree!=nil)
+		{
+			animTime = tree.animationTime;
+		}
+		[UIView animateWithDuration:animTime animations:^{
+			[self removeFromSuperview];
+		}];
+	}
+	else
+	{
+		[self removeFromSuperview];
+	}
+}
+
 - (void)addToTreeView
+{
+	[self addToTreeViewAnimated:NO];
+}
+
+- (void)addToTreeViewAnimated:(BOOL)animated
 {
 	if(self.tree!=nil)
 	{
 		int iconsize = [self getIconSize];
 		
-		[self.tree addSubview:self];
+		[self.tree addSubview:self animated:animated];
 		if(branchOpened==YES)
 		{
-			unsigned int subWidth = self.frame.size.width-iconsize;
-			unsigned int offsetY = self.frame.origin.y+iconsize;
-			unsigned int offsetX = self.frame.origin.x+iconsize;
+			unsigned int subWidth = rect.size.width-iconsize;
+			unsigned int offsetY = rect.origin.y+iconsize;
+			unsigned int offsetX = rect.origin.x+iconsize;
 			for(unsigned int i=0; i<[cells count]; i++)
 			{
 				UITreeViewCell*cell = [cells objectAtIndex:i];
-				[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize)];
-				[cell addToTreeView];
+				[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize) animated:animated];
+				[cell addToTreeViewAnimated:animated];
 				unsigned int cellHeight = [cell getCurrentHeight];
 				offsetY += cellHeight;
 			}
@@ -270,18 +327,23 @@ static unsigned int iconPadding = 4;
 
 - (void)pushCellsAfterCell:(UITreeViewCell*)cell by:(NSInteger)offset
 {
+	[self pushCellsAfterCell:cell by:offset animated:NO];
+}
+
+- (void)pushCellsAfterCell:(UITreeViewCell*)cell by:(NSInteger)offset animated:(BOOL)animated
+{
 	NSUInteger startIndex = [cells indexOfObject:cell];
 	if(startIndex!=NSNotFound)
 	{
 		for(unsigned int i=(startIndex+1); i<[cells count]; i++)
 		{
 			UITreeViewCell*cell = [cells objectAtIndex:i];
-			[cell fixFrame:CGRectMake(cell.frame.origin.x, cell.frame.origin.y+offset, cell.frame.size.width, cell.frame.size.height)];
+			[cell fixFrame:CGRectMake(cell.rect.origin.x, cell.rect.origin.y+offset, cell.rect.size.width, cell.rect.size.height) animated:animated];
 		}
 		
 		if(self.supercell!=nil)
 		{
-			[self.supercell pushCellsAfterCell:self by:offset];
+			[self.supercell pushCellsAfterCell:self by:offset animated:animated];
 		}
 	}
 }
@@ -322,6 +384,11 @@ static unsigned int iconPadding = 4;
 
 - (void)setBranchOpen:(BOOL)toggle
 {
+	[self setBranchOpen:toggle animated:NO];
+}
+
+- (void)setBranchOpen:(BOOL)toggle animated:(BOOL)animated
+{
 	if(isBranch)
 	{
 		int iconsize = [self getIconSize];
@@ -338,17 +405,17 @@ static unsigned int iconPadding = 4;
 			
 			[carrotView setImage:[UIImageManager getImage:@"Images/arrow_open.png"]];
 			
-			unsigned int subWidth = self.frame.size.width-iconsize;
-			unsigned int offsetY = self.frame.origin.y+iconsize;
-			unsigned int offsetX = self.frame.origin.x+iconsize;
+			unsigned int subWidth = rect.size.width-iconsize;
+			unsigned int offsetY = rect.origin.y+iconsize;
+			unsigned int offsetX = rect.origin.x+iconsize;
 			int pushOffset = 0;
 			for(unsigned int i=0; i<[cells count]; i++)
 			{
 				UITreeViewCell*cell = [cells objectAtIndex:i];
-				[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize)];
+				[cell fixFrame:CGRectMake(offsetX, offsetY, subWidth, iconsize) animated:animated];
 				if(self.tree!=nil)
 				{
-					[cell addToTreeView];
+					[cell addToTreeViewAnimated:animated];
 				}
 				unsigned int cellHeight = [cell getCurrentHeight];
 				pushOffset += cellHeight;
@@ -356,7 +423,7 @@ static unsigned int iconPadding = 4;
 			}
 			if(self.supercell!=nil)
 			{
-				[self.supercell pushCellsAfterCell:self by:pushOffset];
+				[self.supercell pushCellsAfterCell:self by:pushOffset animated:animated];
 			}
 			
 			if(self.tree!=nil && self.tree.delegate!=nil && [self.tree.delegate respondsToSelector:@selector(treeView:branchDidOpen:)])
@@ -381,12 +448,12 @@ static unsigned int iconPadding = 4;
 			{
 				UITreeViewCell*cell = [cells objectAtIndex:i];
 				pushOffset -= [cell getCurrentHeight];
-				[cell removeFromSuperview];
+				[cell removeFromSuperviewAnimated:animated];
 			}
 			
 			if(self.supercell!=nil)
 			{
-				[self.supercell pushCellsAfterCell:self by:pushOffset];
+				[self.supercell pushCellsAfterCell:self by:pushOffset animated:animated];
 			}
 			
 			if(self.tree!=nil && self.tree.delegate!=nil && [self.tree.delegate respondsToSelector:@selector(treeView:branchDidClose:)])
@@ -413,19 +480,24 @@ static unsigned int iconPadding = 4;
 
 - (void)addMember:(UITreeViewCell*)cell
 {
+	[self addMember:cell animated:NO];
+}
+
+- (void)addMember:(UITreeViewCell*)cell animated:(BOOL)animated
+{
 	if(branchOpened && self.tree!=nil)
 	{
 		int iconsize = [self getIconSize];
 		int offsetY = [self getCurrentHeight];
 		[cell setTree:self.tree];
 		[cell setSupercell:self];
-		[cell fixFrame:CGRectMake(self.frame.origin.x+iconsize, self.frame.origin.y+offsetY, self.frame.size.width-iconsize, iconsize)];
+		[cell fixFrame:CGRectMake(rect.origin.x+iconsize, rect.origin.y+offsetY, rect.size.width-iconsize, iconsize) animated:animated];
 		if(supercell!=nil)
 		{
 			int pushOffset = [cell getCurrentHeight];
-			[supercell pushCellsAfterCell:self by:(pushOffset)];
+			[supercell pushCellsAfterCell:self by:(pushOffset) animated:animated];
 		}
-		[cell addToTreeView];
+		[cell addToTreeViewAnimated:animated];
 		[cells addObject:cell];
 	}
 	else
@@ -440,19 +512,19 @@ static unsigned int iconPadding = 4;
 	}
 }
 
-- (void)insertMember:(UITreeViewCell *)cell atIndex:(NSUInteger)index
+- (void)insertMember:(UITreeViewCell*)cell atIndex:(NSUInteger)index
+{
+	[self insertMember:cell atIndex:index animated:NO];
+}
+
+- (void)insertMember:(UITreeViewCell*)cell atIndex:(NSUInteger)index animated:(BOOL)animated
 {
 	if(index==[cells count])
 	{
-		[self addMember:cell];
+		[self addMember:cell animated:animated];
 	}
 	else if(index<[cells count])
 	{
-		/*BOOL reOpenWhenDone = branchOpened;
-		if(branchOpened && self.tree!=nil)
-		{
-			[self setBranchOpen:NO];
-		}*/
 		if(branchOpened && self.tree!=nil)
 		{
 			int iconsize = [self getIconSize];
@@ -475,10 +547,10 @@ static unsigned int iconPadding = 4;
 				}
 			}
 			
-			[cell fixFrame:CGRectMake(self.frame.origin.x+iconsize, self.frame.origin.y+offsetY, self.frame.size.width-iconsize, iconsize)];
+			[cell fixFrame:CGRectMake(rect.origin.x+iconsize, rect.origin.y+offsetY, rect.size.width-iconsize, iconsize) animated:animated];
 			[cells insertObject:cell atIndex:index];
-			[self pushCellsAfterCell:cell by:pushOffset];
-			[cell addToTreeView];
+			[self pushCellsAfterCell:cell by:pushOffset animated:animated];
+			[cell addToTreeViewAnimated:animated];
 		}
 		else
 		{
@@ -486,10 +558,6 @@ static unsigned int iconPadding = 4;
 			[cell setSupercell:self];
 			[cells insertObject:cell atIndex:index];
 		}
-		/*if(reOpenWhenDone)
-		{
-			[self setBranchOpen:YES];
-		}*/
 	}
 	if(self.tree!=nil)
 	{
@@ -499,6 +567,11 @@ static unsigned int iconPadding = 4;
 
 - (void)removeMember:(UITreeViewCell*)cell
 {
+	[self removeMember:cell animated:NO];
+}
+
+- (void)removeMember:(UITreeViewCell*)cell animated:(BOOL)animated
+{
 	[cell retain];
 	int index = [cells indexOfObject:cell];
 	if(index!=NSNotFound)
@@ -506,14 +579,14 @@ static unsigned int iconPadding = 4;
 		if(branchOpened)
 		{
 			int cellHeight = [cell getCurrentHeight];
-			[self pushCellsAfterCell:cell by:(-cellHeight)];
+			[self pushCellsAfterCell:cell by:(-cellHeight) animated:animated];
 			[cells removeObjectAtIndex:index];
-			[cell removeFromSuperview];
+			[cell removeFromSuperviewAnimated:animated];
 		}
 		else
 		{
 			[cells removeObjectAtIndex:index];
-			[cell removeFromSuperview];
+			[cell removeFromSuperviewAnimated:animated];
 		}
 		if(self.tree!=nil)
 		{
@@ -525,20 +598,25 @@ static unsigned int iconPadding = 4;
 
 - (void)removeMemberAtIndex:(NSUInteger)index
 {
+	[self removeMemberAtIndex:index animated:NO];
+}
+
+- (void)removeMemberAtIndex:(NSUInteger)index animated:(BOOL)animated
+{
 	UITreeViewCell* cell = [cells objectAtIndex:index];
 	if(cell!=nil)
 	{
 		if(branchOpened)
 		{
 			int cellHeight = [cell getCurrentHeight];
-			[self pushCellsAfterCell:cell by:(-cellHeight)];
+			[self pushCellsAfterCell:cell by:(-cellHeight) animated:animated];
 			[cells removeObjectAtIndex:index];
-			[cell removeFromSuperview];
+			[cell removeFromSuperviewAnimated:animated];
 		}
 		else
 		{
 			[cells removeObjectAtIndex:index];
-			[cell removeFromSuperview];
+			[cell removeFromSuperviewAnimated:animated];
 		}
 		if(self.tree!=nil)
 		{
@@ -549,9 +627,14 @@ static unsigned int iconPadding = 4;
 
 - (void)removeAllMembers
 {
+	[self removeAllMembersAnimated:NO];
+}
+
+- (void)removeAllMembersAnimated:(BOOL)animated
+{
 	if(isBranch && branchOpened)
 	{
-		[self setBranchOpen:NO];
+		[self setBranchOpen:NO animated:animated];
 	}
 	
 	[cells removeAllObjects];
@@ -569,9 +652,18 @@ static unsigned int iconPadding = 4;
 
 - (void)moveMemberAtIndex:(NSUInteger)srcIndex toIndex:(NSUInteger)dstIndex
 {
+	[self moveMemberAtIndex:srcIndex toIndex:dstIndex animated:NO];
+}
+
+- (void)moveMemberAtIndex:(NSUInteger)srcIndex toIndex:(NSUInteger)dstIndex animated:(BOOL)animated
+{
+	if(srcIndex==dstIndex)
+	{
+		return;
+	}
 	UITreeViewCell* cell = [[cells objectAtIndex:srcIndex] retain];
-	[self removeMemberAtIndex:srcIndex];
-	[self insertMember:cell atIndex:dstIndex];
+	[self removeMemberAtIndex:srcIndex animated:animated];
+	[self insertMember:cell atIndex:dstIndex animated:animated];
 	[cell release];
 }
 
@@ -586,10 +678,11 @@ static unsigned int iconPadding = 4;
 	{
 		int iconsize = [self getIconSize];
 		
-		int offsetX = iconView.frame.origin.x+iconView.frame.size.width;
-		[label setFrame:CGRectMake(offsetX, 0, self.frame.size.width-offsetX-iconsize, iconsize)];
+		int offsetX = iconsize+iconsize;
+		int labelWidth = rect.size.width-offsetX-iconsize;
+		[label setFrame:CGRectMake(offsetX, 0, labelWidth, iconsize)];
 		
-		offsetX = label.frame.origin.x+label.frame.size.width;
+		offsetX += labelWidth;
 		[button setFrame:CGRectMake(offsetX, 0, iconsize, iconsize)];
 		
 		if([self.subviews indexOfObject:carrotView]==NSNotFound)
@@ -651,6 +744,12 @@ static unsigned int iconPadding = 4;
 
 - (void)onControlEventTouchUpInside
 {
+	BOOL animated = NO;
+	if(tree!=nil)
+	{
+		animated = tree.animatesByDefault;
+	}
+	
 	if(isSelected)
 	{
 		[self deselect];
@@ -659,12 +758,12 @@ static unsigned int iconPadding = 4;
 			if(branchOpened==YES)
 			{
 				//close the branch
-				[self setBranchOpen:NO];
+				[self setBranchOpen:NO animated:animated];
 			}
 			else
 			{
 				//open the branch
-				[self setBranchOpen:YES];
+				[self setBranchOpen:YES animated:animated];
 			}
 		}
 		else

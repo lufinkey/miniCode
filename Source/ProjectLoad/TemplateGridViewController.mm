@@ -60,7 +60,8 @@
 
 - (void)resetLayout
 {
-	[grid setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[super resetLayout];
+	[grid setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)gridView:(UIGridView *)gridView didSelectIndex:(NSUInteger)index

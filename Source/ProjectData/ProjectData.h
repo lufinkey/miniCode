@@ -10,6 +10,7 @@ class ProjectData
 {
 private:
 	ProjectType projType;
+	ProjectDevice device;
 	
 	String folderName;
 	
@@ -41,6 +42,7 @@ public:
 	ProjectData& operator=(const ProjectData&projData);
 	
 	void setProjectType(const ProjectType&type);
+	void setProjectDevice(const ProjectDevice& device);
 	void setName(const String&name);
 	void setAuthor(const String&author);
 	void setBundleIdentifier(const String&bundleID);
@@ -53,6 +55,7 @@ public:
 	String getBundleName();
 	
 	ProjectType getProjectType() const;
+	ProjectDevice getProjectDevice() const;
 	const String& getName() const;
 	const String& getAuthor() const;
 	const String& getBundleIdentifier() const;

@@ -13,6 +13,8 @@
 	NSString* bundleID;
 	NSString* execName;
 	NSString* prodName;
+	ProjectType projectType;
+	ProjectDevice projectDevice;
 	NSString* sdk;
 	NSMutableArray* warnings;
 	NSMutableArray* assemblerFlags;
@@ -36,6 +38,7 @@
 @property (nonatomic, retain) NSString* bundleID;
 @property (nonatomic, retain) NSString* execName;
 @property (nonatomic, retain) NSString* prodName;
+@property (nonatomic, assign) ProjectType projectType;
 @property (nonatomic, retain) NSString* sdk;
 @property (nonatomic, retain) NSMutableArray* warnings;
 @end
@@ -81,6 +84,22 @@
 
 @property (nonatomic, readonly) UITableView* listTable;
 @end
+
+@interface ProjectSettingsListViewController : NavigatedViewController <UITableViewDelegate, UITableViewDataSource>
+{
+	UITableView* listTable;
+	NSInteger selectedIndex;
+	
+	@private
+	NSArray* array;
+}
+
+- (id)initWithArray:(NSArray*)array selectedIndex:(NSInteger)selectedIndex;
+
+@property (nonatomic, readonly) UITableView* listTable;
+@property (nonatomic, assign) NSInteger selectedIndex;
+@end
+
 
 
 

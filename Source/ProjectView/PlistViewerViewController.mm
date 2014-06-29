@@ -184,7 +184,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 - (void)resetLayout
 {
 	[super resetLayout];
-	[stringBox setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[stringBox setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -297,16 +297,16 @@ static const int BRANCHTYPE_ARRAY = 6;
 	[super resetLayout];
 	if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
 	{
-		int height = ((self.view.frame.size.height)/2);
-		[datePicker setFrame:CGRectMake(0, 0, self.view.frame.size.width, height)];
+		int height = ((self.view.bounds.size.height)/2);
+		[datePicker setFrame:CGRectMake(0, 0, self.view.bounds.size.width, height)];
 		int hOffset = datePicker.frame.size.height;
-		[timePicker setFrame:CGRectMake(0, hOffset, self.view.frame.size.width, self.view.frame.size.height - hOffset)];
+		[timePicker setFrame:CGRectMake(0, hOffset, self.view.bounds.size.width, self.view.bounds.size.height - hOffset)];
 	}
 	else
 	{
-		int w = self.view.frame.size.width;
-		[datePicker setFrame:CGRectMake(0, 0, w/2, self.view.frame.size.height)];
-		[datePicker setFrame:CGRectMake(w/2, 0, w/2, self.view.frame.size.height)];
+		int w = self.view.bounds.size.width;
+		[datePicker setFrame:CGRectMake(0, 0, w/2, self.view.bounds.size.height)];
+		[timePicker setFrame:CGRectMake(w/2, 0, w/2, self.view.bounds.size.height)];
 	}
 }
 
@@ -613,7 +613,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 - (void)resetLayout
 {
 	[super resetLayout];
-	[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[objects setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 	[objects reloadData];
 }
 
@@ -1027,7 +1027,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 - (void)resetLayout
 {
 	[super resetLayout];
-	[objects setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[objects setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 	[objects reloadData];
 }
 
@@ -1420,6 +1420,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (void)resetLayout
 {
+	[super resetLayout];
 	if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad || self.interfaceOrientation==UIInterfaceOrientationPortrait
 	   || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
 	{
@@ -1428,14 +1429,14 @@ static const int BRANCHTYPE_ARRAY = 6;
 		if(keyField!=nil)
 		{
 			textInputHeight = 36;
-			[keyField setFrame:CGRectMake((self.view.frame.size.width/2)-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+			[keyField setFrame:CGRectMake((self.view.bounds.size.width/2)-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
 		}
 		else
 		{
 			textInputHeight = 0;
 		}
 		
-		[objectTypes setFrame:CGRectMake(0, textInputHeight+50, self.view.frame.size.width, 100)];
+		[objectTypes setFrame:CGRectMake(0, textInputHeight+50, self.view.bounds.size.width, 100)];
 	}
 	else
 	{
@@ -1443,12 +1444,12 @@ static const int BRANCHTYPE_ARRAY = 6;
 		{
 			int textInputWidth = 200;
 			int textInputHeight = 36;
-			[keyField setFrame:CGRectMake((self.view.frame.size.width/4)-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
-			[objectTypes setFrame:CGRectMake((self.view.frame.size.width/2) + 10, 28, (self.view.frame.size.width/2) - 20, 100)];
+			[keyField setFrame:CGRectMake((self.view.bounds.size.width/4)-(textInputWidth/2), 40, textInputWidth, textInputHeight)];
+			[objectTypes setFrame:CGRectMake((self.view.bounds.size.width/2) + 10, 28, (self.view.bounds.size.width/2) - 20, 100)];
 		}
 		else
 		{
-			[objectTypes setFrame:CGRectMake(0, 40, self.view.frame.size.width, 100)];
+			[objectTypes setFrame:CGRectMake(0, 40, self.view.bounds.size.width, 100)];
 		}
 	}
 }

@@ -68,9 +68,11 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 		return nil;
 	}
 	
+	[self.view setBackgroundColor:[UIColor blackColor]];
+	
 	int height = self.view.frame.size.height;
 	
-	toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, height-32, self.view.frame.size.width, 32)];
+	toolbar = [[UIScrollableToolbar alloc] initWithFrame:CGRectMake(0, height-32, self.view.frame.size.width, 32)];
 	[toolbar setBarStyle:UIBarStyleBlack];
 	[self.view addSubview:toolbar];
 	
@@ -142,17 +144,34 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 
 - (void)resetLayout
 {
-	[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-toolbar.frame.size.height, self.view.frame.size.width, toolbar.frame.size.height)];
-	[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-toolbar.frame.size.height)];
+	[super resetLayout];
+	
+	int toolbarHeight = 32;
+	if(self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight)
+	{
+		toolbarHeight = 26;
+	}
+	
+	[toolbar setFrame:CGRectMake(0, self.view.bounds.size.height-toolbarHeight, self.view.bounds.size.width, toolbarHeight)];
+	if(locked)
+	{
+		[self loadLockedToolbarItems];
+	}
+	else
+	{
+		[self loadNormalToolbarItems];
+	}
+	[codeArea setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-toolbarHeight)];
 }
 
 - (void)loadNormalToolbarItems
 {
+	int buttonSize = toolbar.bounds.size.height-4;
 	NSMutableArray* toolbarItems = [[NSMutableArray alloc] init];
 	
 	[UIImageManager loadImage:@"Images/buttons_white/indent_less.png"];
 	UIBarImageButtonItem* indentLessButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/buttons_white/indent_less.png"] target:self action:@selector(indentLeftButtonSelected)];
-	[indentLessButton setSize:28];
+	[indentLessButton setSize:buttonSize];
 	[toolbarItems addObject:indentLessButton];
 	[indentLessButton release];
 	
@@ -161,7 +180,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	
 	[UIImageManager loadImage:@"Images/buttons_white/indent_more.png"];
 	UIBarImageButtonItem* indentMoreButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/buttons_white/indent_more.png"] target:self action:@selector(indentRightButtonSelected)];
-	[indentMoreButton setSize:28];
+	[indentMoreButton setSize:buttonSize];
 	[toolbarItems addObject:indentMoreButton];
 	[indentMoreButton release];
 	
@@ -169,7 +188,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	
 	[UIImageManager loadImage:@"Images/buttons_white/save.png"];
 	UIBarImageButtonItem* saveButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/buttons_white/save.png"] target:self action:@selector(saveCurrentFile)];
-	[saveButton setSize:28];
+	[saveButton setSize:buttonSize];
 	[toolbarItems addObject:saveButton];
 	[saveButton release];
 	
@@ -177,7 +196,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	
 	[UIImageManager loadImage:@"Images/buttons_white/keyboard.png"];
 	UIBarImageButtonItem* keyboardButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/buttons_white/keyboard.png"] target:self action:@selector(keyboardButtonSelected)];
-	[keyboardButton setSize:28];
+	[keyboardButton setSize:buttonSize];
 	[toolbarItems addObject:keyboardButton];
 	[keyboardButton release];
 	
@@ -196,6 +215,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 
 - (void)loadLockedToolbarItems
 {
+	int buttonSize = self.toolbar.bounds.size.height-4;
 	NSMutableArray* toolbarItems = [[NSMutableArray alloc] init];
 	
 	UIBarButtonItem*flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -203,7 +223,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	
 	[UIImageManager loadImage:@"Images/lock.png"];
 	UIBarImageButtonItem* lockButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/lock.png"] target:self action:@selector(lockButtonSelected)];
-	[lockButton setSize:28];
+	[lockButton setSize:buttonSize];
 	[toolbarItems addObject:lockButton];
 	[lockButton release];
 	
@@ -743,6 +763,10 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	if([text isEqual:@"\n"])
 	{
 		returning = YES;
+	}
+	else
+	{
+		returning = NO;
 	}
 	return YES;
 }

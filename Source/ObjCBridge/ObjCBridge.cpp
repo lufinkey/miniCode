@@ -758,6 +758,83 @@ bool ProjectBuildInfo_saveBuildInfoPlist(ProjectBuildInfo_struct*projBuildInfo, 
 
 //ProjectData
 
+ProjectType ProjectType_convertFromString(const char* projType)
+{
+	String projectType = projType;
+	if(projectType.equals("Application"))
+	{
+		return PROJECTTYPE_APPLICATION;
+	}
+	else if(projectType.equals("Console"))
+	{
+		return PROJECTTYPE_CONSOLE;
+	}
+	else if(projectType.equals("DynamicLibrary"))
+	{
+		return PROJECTTYPE_DYNAMICLIBRARY;
+	}
+	else if(projectType.equals("StaticLibrary"))
+	{
+		return PROJECTTYPE_STATICLIBRARY;
+	}
+	return PROJECTTYPE_UNKNOWN;
+}
+
+void* ProjectType_convertToNSString(ProjectType projType)
+{
+	switch(projType)
+	{
+		case PROJECTTYPE_UNKNOWN:
+		case PROJECTTYPE_APPLICATION:
+		return NSString_stringWithUTF8String("Application");
+		
+		case PROJECTTYPE_CONSOLE:
+		return NSString_stringWithUTF8String("Console");
+		
+		case PROJECTTYPE_DYNAMICLIBRARY:
+		return NSString_stringWithUTF8String("DynamicLibrary");
+		
+		case PROJECTTYPE_STATICLIBRARY:
+		return NSString_stringWithUTF8String("StaticLibrary");
+	}
+	return NULL;
+}
+
+ProjectDevice ProjectDevice_convertFromString(const char* projDevice)
+{
+	String projectDevice = projDevice;
+	if(projectDevice.equals("iPhone"))
+	{
+		return DEVICE_IPHONE;
+	}
+	else if(projectDevice.equals("iPad"))
+	{
+		return DEVICE_IPAD;
+	}
+	else if(projectDevice.equals("iPhone/iPad") || projectDevice.equals("iPad/iPhone"))
+	{
+		return DEVICE_ALL;
+	}
+	return DEVICE_UNKNOWN;
+}
+
+void* ProjectDevice_convertToNSString(ProjectDevice projDevice)
+{
+	switch(projDevice)
+	{
+		case DEVICE_UNKNOWN:
+		case DEVICE_IPHONE:
+		return NSString_stringWithUTF8String("iPhone");
+			
+		case DEVICE_IPAD:
+		return NSString_stringWithUTF8String("iPad");
+			
+		case DEVICE_ALL:
+		return NSString_stringWithUTF8String("iPhone/iPad");
+	}
+	return NULL;
+}
+
 bool ProjectData_checkValidString(const char*str)
 {
 	if(str!=NULL && strlen(str)>0)
@@ -818,11 +895,19 @@ void*ProjectData_getData(ProjectData_struct*projData)
 	return NULL;
 }
 
-void ProjectData_setProjectType(ProjectData_struct *projData, ProjectType type)
+void ProjectData_setProjectType(ProjectData_struct*projData, ProjectType type)
 {
 	if(projData!=NULL && projData->data!=NULL)
 	{
 		((ProjectData*)projData->data)->setProjectType(type);
+	}
+}
+
+void ProjectData_setProjectDevice(ProjectData_struct*projData, ProjectDevice device)
+{
+	if(projData!=NULL && projData->data!=NULL)
+	{
+		((ProjectData*)projData->data)->setProjectDevice(device);
 	}
 }
 
@@ -888,7 +973,16 @@ ProjectType ProjectData_getProjectType(ProjectData_struct*projData)
 	{
 		return ((ProjectData*)projData->data)->getProjectType();
 	}
-	return PROJECTTYPE_CONSOLE;
+	return PROJECTTYPE_UNKNOWN;
+}
+
+ProjectDevice ProjectData_getProjectDevice(ProjectData_struct*projData)
+{
+	if(projData!=NULL && projData->data!=NULL)
+	{
+		return ((ProjectData*)projData->data)->getProjectDevice();
+	}
+	return DEVICE_UNKNOWN;
 }
 
 const char* ProjectData_getName(ProjectData_struct*projData)

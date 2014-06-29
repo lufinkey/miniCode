@@ -262,11 +262,26 @@ bool ProjectBuildInfo_saveBuildInfoPlist(ProjectBuildInfo_struct*projBuildInfo, 
 
 typedef enum
 {
+	PROJECTTYPE_UNKNOWN,
 	PROJECTTYPE_APPLICATION,
 	PROJECTTYPE_CONSOLE,
 	PROJECTTYPE_DYNAMICLIBRARY,
 	PROJECTTYPE_STATICLIBRARY
 } ProjectType;
+
+ProjectType ProjectType_convertFromString(const char* projType);
+void* ProjectType_convertToNSString(ProjectType projType);
+
+typedef enum
+{
+	DEVICE_UNKNOWN,
+	DEVICE_IPHONE,
+	DEVICE_IPAD,
+	DEVICE_ALL
+} ProjectDevice;
+
+ProjectDevice ProjectDevice_convertFromString(const char* projDevice);
+void* ProjectDevice_convertToNSString(ProjectDevice projDevice);
 
 bool ProjectData_checkValidString(const char*str);
 
@@ -279,6 +294,7 @@ void ProjectData_destroyInstance(ProjectData_struct*projData);
 void*ProjectData_getData(ProjectData_struct*projData);
 
 void ProjectData_setProjectType(ProjectData_struct*projData, ProjectType type);
+void ProjectData_setProjectDevice(ProjectData_struct*projData, ProjectDevice device);
 void ProjectData_setName(ProjectData_struct*projData, const char*name);
 void ProjectData_setAuthor(ProjectData_struct*projData, const char*author);
 void ProjectData_setBundleIdentifier(ProjectData_struct*projData, const char*bundleID);
@@ -289,6 +305,7 @@ void ProjectData_setFolderName(ProjectData_struct*projData, const char*folder);
 void ProjectData_addFramework(ProjectData_struct*projData, const char*framework);
 
 ProjectType ProjectData_getProjectType(ProjectData_struct*projData);
+ProjectDevice ProjectData_getProjectDevice(ProjectData_struct*projData);
 const char* ProjectData_getName(ProjectData_struct*projData);
 const char* ProjectData_getAuthor(ProjectData_struct*projData);
 const char* ProjectData_getBundleIdentifier(ProjectData_struct*projData);

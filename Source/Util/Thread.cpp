@@ -1,10 +1,9 @@
 
 #include "Thread.h"
-#include "SDL_timer.h"
-#include "SDL_thread.h"
+#include <unistd.h>
 #include "../ObjCBridge/ObjCBridge.h"
 
-int ThreadHandler(void*data)
+void* Thread_Handler(void*data)
 {
 	void*pool = NSAutoReleasePool_alloc_init();
 	Thread*thread = (Thread*)data;
@@ -12,21 +11,19 @@ int ThreadHandler(void*data)
 	thread->alive = false;
 	thread->finish();
 	id_release(pool);
-	return 0;
+	return NULL;
 }
 
 Thread::Thread()
 {
 	alive = false;
-	thread = NULL;
 }
 
 Thread::~Thread()
 {
-	if(thread!=NULL)
+	if(alive)
 	{
-		SDL_WaitThread((SDL_Thread*)thread, NULL);
-		thread = NULL;
+		pthread_join(thread, NULL);
 	}
 }
 
@@ -44,15 +41,8 @@ void Thread::start()
 {
 	if(!alive)
 	{
-		if(thread!=NULL)
-		{
-			SDL_WaitThread((SDL_Thread*)thread, NULL);
-			thread = NULL;
-		}
-		
 		alive = true;
-		
-		thread = (void*)SDL_CreateThread(ThreadHandler, "SDL_Thread", this);
+		pthread_create(&thread, NULL, &Thread_Handler, this);
 	}
 }
 
@@ -60,14 +50,14 @@ void Thread::join()
 {
 	if(alive)
 	{
-		SDL_WaitThread((SDL_Thread*)thread, NULL);
-		thread = NULL;
+		pthread_join(thread, NULL);
 	}
 }
 
-void Thread::sleep(long millis)
+void Thread::sleep(unsigned long millis)
 {
-	SDL_Delay(millis);
+	unsigned long micros = millis*1000;
+	usleep(micros);
 }
 
 bool Thread::isAlive()

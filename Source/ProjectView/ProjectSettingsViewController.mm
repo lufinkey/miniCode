@@ -18,6 +18,8 @@ static const int PROJPROPERTIES_AUTHOR = 1;
 static const int PROJPROPERTIES_BUNDLEID = 2;
 static const int PROJPROPERTIES_EXECUTABLE = 3;
 static const int PROJPROPERTIES_PRODUCTNAME = 4;
+static const int PROJPROPERTIES_PROJECTTYPE = 5;
+static const int PROJPROPERTIES_PROJECTDEVICE = 6;
 
 static const int COMPILERSETTINGS_SDK = 0;
 static const int COMPILERSETTINGS_WARNINGS = 1;
@@ -33,6 +35,7 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 @synthesize bundleID;
 @synthesize execName;
 @synthesize prodName;
+@synthesize projectType;
 @synthesize sdk;
 @synthesize warnings;
 
@@ -52,6 +55,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	bundleID = [[NSString alloc] initWithUTF8String:ProjectData_getBundleIdentifier(projData)];
 	execName = [[NSString alloc] initWithUTF8String:ProjectData_getExecutableName(projData)];
 	prodName = [[NSString alloc] initWithUTF8String:ProjectData_getProductName(projData)];
+	projectType = ProjectData_getProjectType(projData);
+	projectDevice = ProjectData_getProjectDevice(projData);
 	sdk = [[NSString alloc] initWithUTF8String:ProjectSettings_getSDK(&projSettings)];
 	warnings = [[NSMutableArray alloc] init];
 	StringList_struct disabledWarnings = ProjectSettings_getDisabledWarnings(&projSettings);
@@ -106,13 +111,14 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (void)resetLayout
 {
-	[settingsTable setFrame:CGRectMake(0,0, self.view.frame.size.width,self.view.frame.size.height)];
+	[super resetLayout];
+	[settingsTable setFrame:CGRectMake(0,0, self.view.bounds.size.width,self.view.bounds.size.height)];
 	[settingsTable reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[settingsTable reloadData];
+	[super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -132,6 +138,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	ProjectData_setBundleIdentifier(projData, [bundleID UTF8String]);
 	ProjectData_setExecutableName(projData, [execName UTF8String]);
 	ProjectData_setProductName(projData, [prodName UTF8String]);
+	ProjectData_setProjectType(projData, projectType);
+	ProjectData_setProjectDevice(projData, projectDevice);
 	ProjectSettings_setSDK(&projSettings, [sdk UTF8String]);
 	StringList_struct disabledWarnings = ProjectSettings_getDisabledWarnings(&projSettings);
 	StringList_clear(&disabledWarnings);
@@ -212,7 +220,7 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	{
 		case SETTINGSSECTION_PROJECTPROPERTIES:
 		//Project Properties
-		return 5;
+		return 7;
 		
 		case SETTINGSSECTION_COMPILERSETTINGS:
 		//Compiler settings
@@ -261,6 +269,56 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 			// Product Name
 			cellID = [[NSString alloc] initWithUTF8String:"Product Name:"];
 			objVal = prodName;
+			break;
+			
+			case PROJPROPERTIES_PROJECTTYPE:
+			// Project Type
+			cellID = [[NSString alloc] initWithUTF8String:"Project Type"];
+			switch(projectType)
+			{
+				case PROJECTTYPE_UNKNOWN:
+				objVal = @"Unknown";
+				break;
+				
+				case PROJECTTYPE_APPLICATION:
+				objVal = @"Application";
+				break;
+				
+				case PROJECTTYPE_CONSOLE:
+				objVal = @"Console";
+				break;
+				
+				case PROJECTTYPE_DYNAMICLIBRARY:
+				objVal = @"Dynamic Library";
+				break;
+				
+				case PROJECTTYPE_STATICLIBRARY:
+				objVal = @"Static Library";
+				break;
+			}
+			break;
+			
+			case PROJPROPERTIES_PROJECTDEVICE:
+			// Project Type
+			cellID = [[NSString alloc] initWithUTF8String:"Device Family"];
+			switch(projectDevice)
+			{
+				case DEVICE_UNKNOWN:
+				objVal = @"Unknown";
+				break;
+				
+				case DEVICE_IPHONE:
+				objVal = @"iPhone";
+				break;
+				
+				case DEVICE_IPAD:
+				objVal = @"iPad";
+				break;
+				
+				case DEVICE_ALL:
+				objVal = @"iPhone/iPad";
+				break;
+			}
 			break;
 		}
 	}
@@ -313,7 +371,14 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	[cell setDelegate:self];
 	[cellID release];
 	
-	if(indexPath.section==SETTINGSSECTION_COMPILERSETTINGS)
+	if(indexPath.section==SETTINGSSECTION_PROJECTPROPERTIES)
+	{
+		if(indexPath.row==PROJPROPERTIES_PROJECTTYPE || indexPath.row==PROJPROPERTIES_PROJECTDEVICE)
+		{
+			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		}
+	}
+	else if(indexPath.section==SETTINGSSECTION_COMPILERSETTINGS)
 	{
 		if(indexPath.row==COMPILERSETTINGS_WARNINGS || indexPath.row==COMPILERSETTINGS_ASSEMBLERFLAGS
 		   || indexPath.row==COMPILERSETTINGS_COMPILERFLAGS)
@@ -372,6 +437,68 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 			{
 				str = prodName;
 				header = [[NSString alloc] initWithUTF8String:"Product Name"];
+			}
+			break;
+			
+			case PROJPROPERTIES_PROJECTTYPE:
+			// Project Type
+			{
+				NSArray* list = [[NSArray alloc] initWithObjects:@"Application", @"Console", @"Dynamic Library", @"Static Library", nil];
+				NSInteger selectedIndex = 0;
+				switch(projectType)
+				{
+					case PROJECTTYPE_UNKNOWN:
+					case PROJECTTYPE_APPLICATION:
+					selectedIndex = 0;
+					break;
+					
+					case PROJECTTYPE_CONSOLE:
+					selectedIndex = 1;
+					break;
+					
+					case PROJECTTYPE_DYNAMICLIBRARY:
+					selectedIndex = 2;
+					break;
+					
+					case PROJECTTYPE_STATICLIBRARY:
+					selectedIndex = 3;
+					break;
+				}
+				
+				ProjectSettingsListViewController* viewCtrl = [[ProjectSettingsListViewController alloc] initWithArray:list selectedIndex:selectedIndex];
+				[viewCtrl setTitle:@"Project Type"];
+				[list release];
+				[self.navigationController pushViewController:viewCtrl animated:YES];
+				[viewCtrl release];
+			}
+			break;
+			
+			case PROJPROPERTIES_PROJECTDEVICE:
+			// Project Device
+			{
+				NSArray* list = [[NSArray alloc] initWithObjects:@"iPhone", @"iPad", @"iPhone/iPad", nil];
+				NSInteger selectedIndex = 0;
+				switch(projectDevice)
+				{
+					case DEVICE_UNKNOWN:
+					case DEVICE_IPHONE:
+					selectedIndex = 0;
+					break;
+					
+					case DEVICE_IPAD:
+					selectedIndex = 1;
+					break;
+					
+					case DEVICE_ALL:
+					selectedIndex = 2;
+					break;
+				}
+				
+				ProjectSettingsListViewController* viewCtrl = [[ProjectSettingsListViewController alloc] initWithArray:list selectedIndex:selectedIndex];
+				[viewCtrl setTitle:@"Device Family"];
+				[list release];
+				[self.navigationController pushViewController:viewCtrl animated:YES];
+				[viewCtrl release];
 			}
 			break;
 		}
@@ -498,6 +625,58 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	[fileExplorer dismissModalViewControllerAnimated:YES];
 }
 
+- (void)willReturnFrom:(UIViewController*)viewController;
+{
+	if([viewController isKindOfClass:[ProjectSettingsListViewController class]] && viewController.title!=nil)
+	{
+		ProjectSettingsListViewController* viewCtrl = (ProjectSettingsListViewController*)viewController;
+		if([viewCtrl.title isEqual:@"Project Type"])
+		{
+			int index = viewCtrl.selectedIndex;
+			switch(index)
+			{
+				case 0:
+				projectType = PROJECTTYPE_APPLICATION;
+				break;
+				
+				case 1:
+				projectType = PROJECTTYPE_CONSOLE;
+				break;
+				
+				case 2:
+				projectType = PROJECTTYPE_DYNAMICLIBRARY;
+				break;
+				
+				case 3:
+				projectType = PROJECTTYPE_STATICLIBRARY;
+				break;
+			}
+			
+			[settingsTable reloadData];
+		}
+		else if([viewCtrl.title isEqual:@"Device Family"])
+		{
+			int index = viewCtrl.selectedIndex;
+			switch(index)
+			{
+				case 0:
+				projectDevice = DEVICE_IPHONE;
+				break;
+				
+				case 1:
+				projectDevice = DEVICE_IPAD;
+				break;
+				
+				case 2:
+				projectDevice = DEVICE_ALL;
+				break;
+			}
+			
+			[settingsTable reloadData];
+		}
+	}
+}
+
 - (void)onSDKInfoButtonSelected
 {
 	const char* message = "SDKs can be added by copying a .sdk package from xcode to /var/stash/Developer/SDKs on your device.\n\n"
@@ -522,6 +701,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 }
 
 @end
+
+
 
 @implementation ProjectSettingsStringViewController
 
@@ -600,7 +781,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (void)resetLayout
 {
-	[stringBox setFrame:CGRectMake(20, 40, self.view.frame.size.width-40, 36)];
+	[super resetLayout];
+	[stringBox setFrame:CGRectMake(20, 40, self.view.bounds.size.width-40, 36)];
 }
 
 - (BOOL)shouldNavigateBackward
@@ -764,7 +946,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (void)resetLayout
 {
-	[listTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[super resetLayout];
+	[listTable setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -883,7 +1066,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (void)resetLayout
 {
-	[listTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[super resetLayout];
+	[listTable setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)onAddButtonSelected
@@ -990,6 +1174,94 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 }
 
 @end
+
+
+
+@implementation ProjectSettingsListViewController
+
+@synthesize listTable;
+@synthesize selectedIndex;
+
+- (id)initWithArray:(NSArray*)list selectedIndex:(NSInteger)index
+{
+	if([super init]==nil)
+	{
+		return nil;
+	}
+	
+	selectedIndex = index;
+	array = [list retain];
+	
+	listTable = [[UITableView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) style:UITableViewStyleGrouped];
+	[listTable setDelegate:self];
+	[listTable setDataSource:self];
+	[self.view addSubview:listTable];
+	
+	return self;
+}
+
+- (void)resetLayout
+{
+	[super resetLayout];
+	[listTable setFrame:CGRectMake(0,0, self.view.bounds.size.width, self.view.bounds.size.height)];
+}
+
+- (void)setSelectedIndex:(NSInteger)index
+{
+	selectedIndex = index;
+	[listTable release];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [array count];
+}
+
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	NSString* cellID = [array objectAtIndex:indexPath.row];
+	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+	if(cell==nil)
+	{
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
+	}
+	
+	[cell.textLabel setText:cellID];
+	
+	if(indexPath.row==selectedIndex)
+	{
+		[cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+	}
+	else
+	{
+		[cell setAccessoryType:UITableViewCellAccessoryNone];
+	}
+	
+	return cell;
+}
+
+- (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
+{
+	selectedIndex = indexPath.row;
+	[tableView reloadData];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)dealloc
+{
+	[array release];
+	[listTable release];
+	[super dealloc];
+}
+
+@end
+
+
 
 
 

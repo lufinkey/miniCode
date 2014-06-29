@@ -10,6 +10,7 @@
 
 @interface CompilerViewController()
 - (void)refreshErrorTable;
+- (void)setStatus:(const char*)status;
 - (void)finishedRunningCompilerWithResult:(int)result;
 - (void)finishedCopyingResourcesWithResult:(bool)result;
 - (void)finishedInstallingWithResult:(bool)result;
@@ -96,7 +97,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	
 	statusBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
 	[statusBar setBarStyle:UIBarStyleBlack];
-	UINavigationItem* navItem = [[UINavigationItem alloc] initWithTitle:@"Loading..."];
+	UINavigationItem* navItem = [[UINavigationItem alloc] initWithTitle:@""];
 	statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.view.frame.size.width-10, 44)];
 	[statusLabel setBackgroundColor:[UIColor clearColor]];
 	[statusLabel setFont:[UIFont fontWithName:@"Helvetica" size:16]];
@@ -152,10 +153,11 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 
 - (void)resetLayout
 {
-	[errorTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-44)];
-	[statusBar setFrame:CGRectMake(0, self.view.frame.size.height-44, self.view.frame.size.width, 44)];
-	[statusLabel setFrame:CGRectMake(10, 0, self.view.frame.size.width-10, 44)];
-	[successView setFrame:CGRectMake(0, 0, self.view.frame.size.width, successView.frame.size.height)];
+	[super resetLayout];
+	[errorTable setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-44)];
+	[statusBar setFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+	[statusLabel setFrame:CGRectMake(10, 0, self.view.bounds.size.width-10, 44)];
+	[successView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, successView.frame.size.height)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -204,6 +206,11 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 - (BOOL)isRunning
 {
 	return CompilerOrganizer_isRunning(organizer);
+}
+
+- (void)setStatus:(const char*)status
+{
+	CompilerViewController_CompilerStatusCallback(self, status);
 }
 
 - (void)build
@@ -288,6 +295,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 		CompilerTools_clearInfoPlist(projData);
 		CompilerTools_copyResources(projData, &CompilerViewController_CopyResourcesFinishHandler, self);
 		[self.navigationItem setTitle:@"Copying Resources.."];
+		[self setStatus:"Copying resources"];
 	}
 	else
 	{
@@ -296,6 +304,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 		UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
 		[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
 		[doneButton release];
+		[self setStatus:"Failed"];
 	}
 }
 
@@ -317,6 +326,8 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 			
 			[self.navigationItem setTitle:@"Installing..."];
 			CompilerTools_installApplication(projData, &CompilerViewController_InstallFinishHandler, self);
+			
+			[self setStatus:"Installing"];
 		}
 		else
 		{
@@ -325,6 +336,8 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 			UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
 			[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
 			[doneButton release];
+			
+			[self setStatus:"Failed to copy resources"];
 		}
 	}
 	else
@@ -339,11 +352,14 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 			}
 			running = NO;
 			[self.navigationItem setTitle:@"Finished"];
+			
+			[self setStatus:"Success"];
 		}
 		else
 		{
 			running = NO;
 			[self.navigationItem setTitle:@"Resources Failed"];
+			[self setStatus:"Failed to copy resources"];
 		}
 		UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
 		[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
@@ -368,6 +384,8 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 		[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
 		[doneButton release];
 		
+		[self setStatus:"Installed"];
+		
 		CompilerTools_runApplication(ProjectData_getBundleIdentifier(projData));
 	}
 	else
@@ -384,6 +402,8 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 		UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
 		[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
 		[doneButton release];
+		
+		[self setStatus:"Failed to install"];
 	}
 	
 	installHUD = nil;
@@ -470,9 +490,10 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	
 	BOOL isWarning = [errorType isEqual:@"warning"];
 	BOOL isClangWarning = [errorType isEqual:@"clang warning"];
+	BOOL isLibtoolWarning = [errorType isEqual:@"libtool warning"];
 	
-	if(isWarning || isClangWarning || [errorType isEqual:@"error"] || [errorType isEqual:@"fatal error"] || [errorType isEqual:@"ld"]
-	   || [errorType isEqual:@"clang error"] || [errorType isEqual:@"clang fatal error"] || [errorType isEqual:@"undefined symbols"])
+	if(isWarning || isClangWarning || isLibtoolWarning || [errorType isEqual:@"error"] || [errorType isEqual:@"fatal error"] || [errorType isEqual:@"ld"]
+	   || [errorType isEqual:@"clang error"] || [errorType isEqual:@"clang fatal error"] || [errorType isEqual:@"undefined symbols"] || [errorType isEqual:@"libtool error"] || [errorType isEqual:@"libtool fatal error"])
 	{
 		NSString* filePathString = [[NSString alloc] initWithUTF8String:CompilerOutputLine_getFileName(&outputLine)];
 		if(filePathString==nil || [filePathString length]==0)
@@ -498,7 +519,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 				[messageString release];
 			}
 		}
-		if(isWarning || isClangWarning)
+		if(isWarning || isClangWarning || isLibtoolWarning)
 		{
 			[cell.imageView setImage:[UIImageManager getImage:@"Images/warning.png"]];
 		}

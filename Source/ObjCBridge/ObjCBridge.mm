@@ -698,7 +698,7 @@ void*ProjectSettings_convertToNSMutableDictionary(ProjectSettings_struct*projSet
 	[compilerFlagsArray release];
 	
 	NSMutableArray* disabledWarningsArray = [[NSMutableArray alloc] init];
-	StringList_struct disabledWarnings = ProjectSettings_getCompilerFlags(projSettings);
+	StringList_struct disabledWarnings = ProjectSettings_getDisabledWarnings(projSettings);
 	for(int i=0; i<StringList_size(&disabledWarnings); i++)
 	{
 		[disabledWarningsArray addObject:[NSString stringWithUTF8String:StringList_get(&disabledWarnings, i)]];
@@ -762,6 +762,12 @@ void*ProjectData_convertToNSMutableDictionary(ProjectData_struct*projData)
 	[dict setObject:[NSString stringWithUTF8String:ProjectData_getBundleIdentifier(projData)] forKey:@"bundleIdentifier"];
 	[dict setObject:[NSString stringWithUTF8String:ProjectData_getExecutableName(projData)] forKey:@"executable"];
 	[dict setObject:[NSString stringWithUTF8String:ProjectData_getProductName(projData)] forKey:@"product"];
+	
+	NSString* projectType = (NSString*)ProjectType_convertToNSString(ProjectData_getProjectType(projData));
+	[dict setObject:projectType forKey:@"projectType"];
+	
+	NSString* projectDevice = (NSString*)ProjectDevice_convertToNSString(ProjectData_getProjectDevice(projData));
+	[dict setObject:projectDevice forKey:@"projectDevice"];
 	
 	NSDate*currentDate = [NSDate date];
 	

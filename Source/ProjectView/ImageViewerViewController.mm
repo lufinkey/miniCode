@@ -284,7 +284,8 @@
 
 - (void)resetLayout
 {
-	[pictureViewer setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[super resetLayout];
+	[pictureViewer setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (BOOL)loadWithFile:(NSString*)filePath

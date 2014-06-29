@@ -6,6 +6,11 @@
 {
 	@private
 	UIViewController* viewController;
+	
+	int buildIndex;
+	int buildAndRunIndex;
+	int cleanIndex;
+	int resultsIndex;
 }
 
 - (id)initForViewController:(UIViewController*)viewController;

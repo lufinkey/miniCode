@@ -1,11 +1,13 @@
 
+#include <pthread.h>
+
 #pragma once
 
 class Thread
 {
-	friend int ThreadHandler(void*);
+	friend void* Thread_Handler(void*);
 private:
-	void*thread;
+	pthread_t thread;
 	bool alive;
 	
 public:
@@ -20,5 +22,5 @@ public:
 	
 	bool isAlive();
 	
-	static void sleep(long millis);
+	static void sleep(unsigned long millis);
 };

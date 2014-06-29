@@ -32,7 +32,7 @@
 	info.contentInset = UIEdgeInsetsMake(2,0,0,0);
 	
 	NSString* errorType = [[NSString alloc] initWithUTF8String:CompilerOutputLine_getErrorType(&outputLine)];
-	if([errorType isEqual:@"warning"] || [errorType isEqual:@"clang warning"] || [errorType isEqual:@"note"])
+	if([errorType isEqual:@"warning"] || [errorType isEqual:@"clang warning"] || [errorType isEqual:@"note"] || [errorType isEqual:@"libtool file"] || [errorType isEqual:@"libtool warning"])
 	{
 		[icon setImage:[UIImageManager getImage:@"Images/warning.png"]];
 		if([errorType length]>0)
@@ -75,18 +75,19 @@
 
 - (void)resetLayout
 {
+	[super resetLayout];
 	if(/*UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad || */self.interfaceOrientation==UIInterfaceOrientationPortrait
 	   || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
 	{
-		int size = (self.view.frame.size.width)/2;
+		int size = (self.view.bounds.size.width)/2;
 		[name setFrame:CGRectMake(size, 0, size, size)];
 		[icon setFrame:CGRectMake(0, 0, size, size)];
-		[info setFrame:CGRectMake(0, size, self.view.frame.size.width, self.view.frame.size.height-size)];
+		[info setFrame:CGRectMake(0, size, self.view.bounds.size.width, self.view.bounds.size.height-size)];
 	}
 	else
 	{
-		int w = self.view.frame.size.width;
-		int h = self.view.frame.size.height;
+		int w = self.view.bounds.size.width;
+		int h = self.view.bounds.size.height;
 		[icon setFrame:CGRectMake(20, 10, (w/2)-40, (w/2)-40)];
 		[name setFrame:CGRectMake(0, icon.frame.size.height+10, w/2, 40)];
 		[info setFrame:CGRectMake(w/2, 0, w/2, h)];

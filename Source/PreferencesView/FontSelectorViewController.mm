@@ -37,7 +37,8 @@
 
 - (void)resetLayout
 {
-	[fontTable setFrame:self.view.frame];
+	[super resetLayout];
+	[fontTable setFrame:CGRectMake(0,0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)dealloc

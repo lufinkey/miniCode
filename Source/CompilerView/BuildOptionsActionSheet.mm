@@ -9,7 +9,7 @@
 
 - (id)initForViewController:(UIViewController*)viewCtrl
 {
-	if([super initWithTitle:@"Build Options" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Build", @"Build and Run", @"Clean", @"Results", nil]==nil)
+	if([super initWithTitle:@"Build Options" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]==nil)
 	{
 		return nil;
 	}
@@ -18,17 +18,48 @@
 	
 	[self setDelegate:self];
 	
+	int cancelIndex = 4;
+	
+	iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+	ProjectType projType = ProjectData_getProjectType(appDelegate.projData);
+	if(projType==PROJECTTYPE_APPLICATION || projType==PROJECTTYPE_CONSOLE)
+	{
+		buildIndex = 0;
+		buildAndRunIndex = 1;
+		cleanIndex = 2;
+		resultsIndex = 3;
+		cancelIndex= 4;
+	}
+	else if(projType==PROJECTTYPE_DYNAMICLIBRARY || projType==PROJECTTYPE_STATICLIBRARY)
+	{
+		buildIndex = 0;
+		cleanIndex = 1;
+		resultsIndex = 2;
+		cancelIndex = 3;
+		buildAndRunIndex = 4;
+	}
+	
+	[self addButtonWithTitle:@"Build"];
 	[UIImageManager loadImage:@"Images/build.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:0] setImage:[UIImageManager getImage:@"Images/build.png"] forState:UIControlStateNormal];
+	[[[self valueForKey:@"_buttons"] objectAtIndex:buildIndex] setImage:[UIImageManager getImage:@"Images/build.png"] forState:UIControlStateNormal];
 	
-	[UIImageManager loadImage:@"Images/buildandrun.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:1] setImage:[UIImageManager getImage:@"Images/buildandrun.png"] forState:UIControlStateNormal];
+	if(projType==PROJECTTYPE_APPLICATION || projType==PROJECTTYPE_CONSOLE)
+	{
+		[self addButtonWithTitle:@"Build and Run"];
+		[UIImageManager loadImage:@"Images/buildandrun.png"];
+		[[[self valueForKey:@"_buttons"] objectAtIndex:buildAndRunIndex] setImage:[UIImageManager getImage:@"Images/buildandrun.png"] forState:UIControlStateNormal];
+	}
 	
+	[self addButtonWithTitle:@"Clean"];
 	[UIImageManager loadImage:@"Images/clean.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:2] setImage:[UIImageManager getImage:@"Images/clean.png"] forState:UIControlStateNormal];
+	[[[self valueForKey:@"_buttons"] objectAtIndex:cleanIndex] setImage:[UIImageManager getImage:@"Images/clean.png"] forState:UIControlStateNormal];
 	
+	[self addButtonWithTitle:@"Results"];
 	[UIImageManager loadImage:@"Images/results.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:3] setImage:[UIImageManager getImage:@"Images/results.png"] forState:UIControlStateNormal];
+	[[[self valueForKey:@"_buttons"] objectAtIndex:resultsIndex] setImage:[UIImageManager getImage:@"Images/results.png"] forState:UIControlStateNormal];
+	
+	[self addButtonWithTitle:@"Cancel"];
+	self.cancelButtonIndex = cancelIndex;
 	
 	return self;
 }
@@ -41,7 +72,7 @@
 		return;
 	}
 	
-	if(buttonIndex==0 || buttonIndex==1 || buttonIndex==3)
+	if(buttonIndex==buildIndex || buttonIndex==buildAndRunIndex || buttonIndex==resultsIndex)
 	{
 		CompilerViewController*viewCtrl = nil;
 		BOOL needsRelease = NO;
@@ -84,11 +115,11 @@
 			[navigator release];
 		}
 		
-		if(buttonIndex==0) //Build
+		if(buttonIndex==buildIndex) //Build
 		{
 			[viewCtrl build];
 		}
-		else if(buttonIndex==1) //Build and Run
+		else if(buttonIndex==buildAndRunIndex) //Build and Run
 		{
 #if (TARGET_IPHONE_SIMULATOR)
 			[viewCtrl build];
@@ -102,7 +133,7 @@
 			[viewCtrl release];
 		}
 	}
-	else if(buttonIndex==2)
+	else if(buttonIndex==cleanIndex)
 	{
 		iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
 		CompilerTools_cleanOutput(appDelegate.projData);

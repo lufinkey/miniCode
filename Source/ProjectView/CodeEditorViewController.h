@@ -2,6 +2,7 @@
 #import <Foundation/Foundation.h>
 #import "FileEditorDelegate.h"
 #import "../Navigation/NavigatedViewController.h"
+#import "../UIScrollableToolbar/UIScrollableToolbar.h"
 
 @interface CodeEditorViewController : NavigatedViewController <FileEditorDelegate, UITextViewDelegate>
 {
@@ -15,7 +16,7 @@
 	UITextView* codeArea;
 	NSString* currentFilePath;
 	
-	UIToolbar*toolbar;
+	UIScrollableToolbar*toolbar;
 }
 
 - (void)keyboardDidShow:(NSNotification*)notification;
@@ -40,6 +41,6 @@
 @property (nonatomic, readonly) BOOL isOnScreen;
 @property (nonatomic, retain, readonly) UITextView* codeArea;
 @property (nonatomic, retain, readonly) NSString* currentFilePath;
-@property (nonatomic, retain, readonly) UIToolbar* toolbar;
+@property (nonatomic, retain, readonly) UIScrollableToolbar* toolbar;
 
 @end

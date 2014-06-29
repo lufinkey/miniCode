@@ -1,7 +1,6 @@
 
 #include "Console.h"
 #include <iostream>
-//#include "SDL_rwops.h"
 #include "../ObjCBridge/ObjCBridge.h"
 
 String Console::outputFile = "";

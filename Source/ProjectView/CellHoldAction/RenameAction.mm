@@ -99,7 +99,7 @@
 				showSimpleMessageBox("Error", "Unknown cell category");
 				return;
 			}
-			NSMutableFilePath* relPath = [[NSMutableFilePath alloc] initWithString:[viewCtrl.selectedCell getPath]];
+			NSFilePath* relPath = [[NSFilePath alloc] initWithString:[viewCtrl.selectedCell getPath]];
 			[fullPathString appendString:[relPath pathAsString]];
 			NSFilePath* oldPath = [[NSFilePath alloc] initWithString:fullPathString];
 			[fullPathString release];
@@ -326,6 +326,7 @@
 					[branchFolder release];
 					return;
 				}
+				
 				const char* branchPath = [[branchFolder pathAsString] UTF8String];
 				StringTree_struct folderTree = StringTree_getBranch(&sourceTree, branchPath);
 				

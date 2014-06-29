@@ -84,6 +84,11 @@
 	return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+	[self resetFrame];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 	[self resetFrame];
@@ -114,7 +119,7 @@
 
 - (void)resetFrame
 {
-	[fileTable setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[fileTable setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)refreshWithEntries:(NSArray*)entries

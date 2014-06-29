@@ -191,7 +191,8 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 
 - (void)resetLayout
 {
-	[treeView setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+	[super resetLayout];
+	[treeView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 

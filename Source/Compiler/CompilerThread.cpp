@@ -2,12 +2,14 @@
 #include "CompilerThread.h"
 #include "../ObjCBridge/ObjCBridge.h"
 #include "../Util/FileTools.h"
+#include "../Util/Console.h"
 #include "../ProjectData/ProjectData.h"
 #include "../ProjectLoad/ProjLoadTools.h"
 #include "../Util/Subprocess.h"
 #include "../PreferencesView/GlobalPreferences.h"
 
 static String clangCommand = "clang";
+static String libtoolCommand = "libtool";
 
 const char* sourceTypes[7] = {"cpp", "c", "cc", "m", "mm", "a", "o"};
 
@@ -158,7 +160,8 @@ typedef struct
 } CompilerThread_FileDependencyList;
 
 String CompilerThread_createAssembleString(ProjectData& projData, const String& file, const String& outputFile, const String& dependencyFile);
-String CompilerThread_createCompileString(ProjectData& projData, const ArrayList<String> inputFiles, const String& outputFile);
+String CompilerThread_createCompileString(ProjectData& projData, const ArrayList<String>& inputFiles, const String& outputFile);
+String CompilerThread_createLibtoolString(ProjectData& projData, const ArrayList<String>& inputFiles, const String& outputFile);
 bool CompilerThread_stringExistsAtIndex(const String& str, const String&cmp, int index);
 String CompilerThread_getExtensionForFilename(const String& fileName);
 CompilerThread_FileDependencyList* CompilerThread_parseDependencyFile(const String& file, const String& sourceFile, bool relativeOnly, const String& filter);
@@ -303,6 +306,10 @@ void CompilerThread::run()
 			free(currentLine);
 			fclose(file);
 		}
+		else
+		{
+			Console::WriteLine((String)"Error opening output file " + fullPath);
+		}
 	}
 	
 	//Assemble remaining files
@@ -351,6 +358,9 @@ void CompilerThread::run()
 		inputFiles.add(buildFolder + '/' + fakeCompiling.get(i) + ".o");
 	}
 	
+	//FileTools::deleteFromFilesystem(releaseFolder);
+	//FileTools::createDirectory(releaseFolder);
+	
 	String outputFolder;
 	ProjectType type = projData.getProjectType();
 	if(type==PROJECTTYPE_APPLICATION)
@@ -394,7 +404,15 @@ void CompilerThread::run()
 	}
 	
 	//Compiling everything
-	String compileCommand = CompilerThread_createCompileString(projData, inputFiles, outputFile);
+	String compileCommand;
+	if(type==PROJECTTYPE_APPLICATION || type==PROJECTTYPE_CONSOLE)
+	{
+		compileCommand = CompilerThread_createCompileString(projData, inputFiles, outputFile);
+	}
+	else if(type==PROJECTTYPE_DYNAMICLIBRARY || type==PROJECTTYPE_STATICLIBRARY)
+	{
+		compileCommand = CompilerThread_createLibtoolString(projData, inputFiles, outputFile);
+	}
 	currentFile = "";
 	CompilerThread_ChangeStatus(this, "Compiling...");
 	subprocess_execute(compileCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CompilerThread_ResultReciever, true);
@@ -406,25 +424,27 @@ void CompilerThread::run()
 		return;
 	}
 	
-	CompilerThread_ChangeStatus(this, (String)"Codesigning " + projData.getExecutableName() + "...");
-	String codesignCommand = (String)"ldid -S \"" + outputFile + "\"";
-	currentFile = "";
-	subprocess_execute(codesignCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CodesignThread_ResultReciever, true);
-	
-	if(lastResult!=0)
+	if(type==PROJECTTYPE_APPLICATION || type==PROJECTTYPE_CONSOLE)
 	{
-		result = -1;
+		CompilerThread_ChangeStatus(this, (String)"Codesigning " + projData.getExecutableName() + "...");
+		String codesignCommand = (String)"ldid -S \"" + outputFile + "\"";
+		currentFile = "";
+		subprocess_execute(codesignCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CodesignThread_ResultReciever, true);
+		
+		if(lastResult!=0)
+		{
+			result = -1;
+		}
+		
+		if(result==0)
+		{
+			CompilerThread_ChangeStatus(this, "Succeeded");
+		}
+		else
+		{
+			CompilerThread_ChangeStatus(this, "Failed");
+		}
 	}
-	
-	if(result==0)
-	{
-		CompilerThread_ChangeStatus(this, "Succeeded");
-	}
-	else
-	{
-		CompilerThread_ChangeStatus(this, "Failed");
-	}
-
 	
 	CompilerThread_FinishReciever(this, result);
 }
@@ -510,7 +530,7 @@ String CompilerThread_createAssembleString(ProjectData& projData, const String& 
 	return command;
 }
 
-String CompilerThread_createCompileString(ProjectData& projData, const ArrayList<String> inputFiles, const String& outputFile)
+String CompilerThread_createCompileString(ProjectData& projData, const ArrayList<String>& inputFiles, const String& outputFile)
 {
 	String projectRoot = (String)ProjLoad_getSavedProjectsFolder() + '/' + projData.getFolderName();
 	
@@ -628,6 +648,46 @@ String CompilerThread_createCompileString(ProjectData& projData, const ArrayList
 	
 	//output file (executable)
 	command += (String)"-o \"" + outputFile + "\" ";
+	
+	return command;
+}
+
+String CompilerThread_createLibtoolString(ProjectData& projData, const ArrayList<String>& inputFiles, const String& outputFile)
+{
+	String projectRoot = (String)ProjLoad_getSavedProjectsFolder() + '/' + projData.getFolderName();
+	
+	String command = libtoolCommand + ' ';
+	
+	ProjectType projType = projData.getProjectType();
+	if(projType==PROJECTTYPE_DYNAMICLIBRARY)
+	{
+		command += "-dynamic ";
+	}
+	else if(projType==PROJECTTYPE_STATICLIBRARY)
+	{
+		command += "-static ";
+	}
+	
+	//user-specified compiler flags
+	ArrayList<String>& flags = projData.getProjectSettings().getCompilerFlags();
+	for(int i=0; i<flags.size(); i++)
+	{
+		String& flag = flags.get(i);
+		command += flag + " ";
+	}
+	
+	//source (input) files
+	for(int i=0; i<inputFiles.size(); i++)
+	{
+		const String& file = inputFiles.get(i);
+		String extension = CompilerThread_getExtensionForFilename(file);
+		if(!extension.equals("h"))
+		{
+			command += (String)"\"" + file + "\" ";
+		}
+	}
+	
+	command += (String)"-o \"" + outputFile + "\"";
 	
 	return command;
 }

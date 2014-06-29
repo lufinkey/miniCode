@@ -157,6 +157,26 @@ ProjectData_struct*ProjLoad_loadProjectDataFromNSDictionary(void*dict)
 		projData.setProductName(product);
 	}
 	
+	const char*projectType = NSString_UTF8String(NSDictionary_objectForKey(dict,"projectType"));
+	if(projectType!=NULL && strlen(projectType)!=0)
+	{
+		ProjectType projType = ProjectType_convertFromString(projectType);
+		if(projType!=PROJECTTYPE_UNKNOWN)
+		{
+			projData.setProjectType(projType);
+		}
+	}
+	
+	const char*projectDevice = NSString_UTF8String(NSDictionary_objectForKey(dict,"projectDevice"));
+	if(projectDevice!=NULL && strlen(projectDevice)!=0)
+	{
+		ProjectDevice projDevice = ProjectDevice_convertFromString(projectDevice);
+		if(projDevice!=DEVICE_UNKNOWN)
+		{
+			projData.setProjectDevice(projDevice);
+		}
+	}
+	
 	void*frameworks = NSDictionary_objectForKey(dict,"frameworks");
 	if(frameworks!=NULL)
 	{

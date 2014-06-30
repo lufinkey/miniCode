@@ -69,7 +69,7 @@ public:
 class SubprocessThread : public Thread
 {
 	friend FILE* subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler);
-	//friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool);
+	friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool);
 private:
 	String command;
 	FILE* outFile[3];
@@ -181,10 +181,12 @@ void subprocess_execute(const char*command, void*data, SubprocessOutputHandler o
 		bool success = process->exec();
 		if(!success)
 		{
+			//*pid = -1;
 			delete process;
 		}
 		else
 		{
+			//*pid = process->pid;
 			process->join();
 			delete process;
 		}
@@ -198,7 +200,9 @@ FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler 
 	if(!success)
 	{
 		delete process;
+		//*pid = -1;
 		return NULL;
 	}
+	//*pid = process->pid;
 	return process->outFile[STDIN_FILENO];
 }

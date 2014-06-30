@@ -3,6 +3,7 @@
 #import "FileEditorDelegate.h"
 #import "../Navigation/NavigatedViewController.h"
 #import "../UIScrollableToolbar/UIScrollableToolbar.h"
+#import "../UICodeEditorView/UICodeEditorView.h"
 
 @interface CodeEditorViewController : NavigatedViewController <FileEditorDelegate, UITextViewDelegate>
 {
@@ -13,7 +14,7 @@
 	BOOL returning;
 	BOOL codeEditing;
 	
-	UITextView* codeArea;
+	UICodeEditorView* codeArea;
 	NSString* currentFilePath;
 	
 	UIScrollableToolbar*toolbar;
@@ -39,7 +40,7 @@
 @property (nonatomic, readonly) BOOL fileEdited;
 @property (nonatomic, readonly) BOOL locked;
 @property (nonatomic, readonly) BOOL isOnScreen;
-@property (nonatomic, retain, readonly) UITextView* codeArea;
+@property (nonatomic, retain, readonly) UICodeEditorView* codeArea;
 @property (nonatomic, retain, readonly) NSString* currentFilePath;
 @property (nonatomic, retain, readonly) UIScrollableToolbar* toolbar;
 

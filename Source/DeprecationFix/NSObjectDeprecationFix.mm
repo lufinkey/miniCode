@@ -17,7 +17,7 @@
 	// If method is non-void:
 	if (length > 0)
 	{
-		void *buffer = (void *)malloc(length);
+		void *buffer = (void*)malloc(length);
 		[invocation getReturnValue:buffer];
 		return buffer;
 	}

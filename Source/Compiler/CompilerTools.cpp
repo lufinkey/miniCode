@@ -316,6 +316,7 @@ void CompilerTools_fillInfoPlist(ProjectData_struct*project)
 		}
 		id_release(uidevicefamily);
 		
+		ProjLoad_savePlist(infoPlist, path);
 		id_release(infoPlist);
 	}
 }

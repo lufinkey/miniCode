@@ -732,6 +732,7 @@ CompilerThread_FileDependencyList* CompilerThread_parseDependencyFile(const Stri
 	String pathFilter;
 	if(!FileTools::expandPath(filter, pathFilter))
 	{
+		Console::WriteLine((String)"Error expanding path filter " + filter);
 		return NULL;
 	}
 	
@@ -758,99 +759,81 @@ CompilerThread_FileDependencyList* CompilerThread_parseDependencyFile(const Stri
 		
 		if(c=='\n' || lastChar)
 		{
-			if(lastChar && c!='\n')
+			if(lastChar && c!='\n' && c!='\\')
 			{
-				currentLine+=c;
+				currentLine += c;
 			}
 			
-			if(currentLine.length()>=2)
+			currentLine = currentLine.trim();
+			
+			if(currentLine.length()>2)
 			{
 				if(currentLine.charAt(currentLine.length()-1)=='\\')
 				{
 					if(currentLine.charAt(currentLine.length()-2)==' ')
 					{
-						currentLine = currentLine.substring(0, currentLine.length()-2);
+						currentLine = currentLine.substring(0, currentLine.length()-2).trim();
 					}
 					else
 					{
-						currentLine = currentLine.substring(0, currentLine.length()-1);
+						currentLine = currentLine.substring(0, currentLine.length()-1).trim();
 					}
 				}
 			}
 			
-			currentLine = currentLine.trim();
-			
-			if(lines == 0)
+			if(currentLine.length()>0)
 			{
-				if(currentLine.length()==0)
-				{
-					delete list;
-					return NULL;
-				}
-				
-				int colonIndex = currentLine.indexOf(':');
-				
-				if(colonIndex==-1)
-				{
-					delete list;
-					return NULL;
-				}
-				
-				String outputFile = currentLine.substring(0, colonIndex).trim();
-				String sourceFile = currentLine.substring(colonIndex+1).trim();
-				if(outputFile.length()==0 || sourceFile.length()==0)
-				{
-					delete list;
-					return NULL;
-				}
-				
-				list->outputFile = outputFile;
-				list->sourceFile = sourceFile;
-			}
-			else
-			{
-				String path;
 				if(currentLine.charAt(0)!='/')
 				{
-					path = containingFolder + '/' + currentLine;
-				}
-				else
-				{
-					path = currentLine;
+					currentLine = containingFolder + '/' + currentLine;
 				}
 				
-				String fullPath;
-				if(FileTools::expandPath(path, fullPath))
+				String fullLine;
+				if(FileTools::expandPath(currentLine, fullLine))
 				{
-					if(CompilerThread_stringExistsAtIndex(fullPath, pathFilter, 0))
+					if(lines==0)
 					{
-						if(fullPath.charAt(pathFilter.length()=='/'))
-						{
-							currentLine = fullPath.substring(pathFilter.length()+1);
-						}
-						else
-						{
-							currentLine = fullPath.substring(pathFilter.length());
-						}
-						list->dependencies.add(currentLine);
+						list->outputFile = fullLine;
 					}
-					else if(!relativeOnly)
+					else if(lines==1)
 					{
-						list->dependencies.add(fullPath);
+						list->sourceFile = fullLine;
+					}
+					else
+					{
+						if(pathFilter.length()>0 && CompilerThread_stringExistsAtIndex(fullLine, pathFilter, 0))
+						{
+							String depFilePath;
+							
+							if(fullLine.charAt(pathFilter.length())=='/')
+							{
+								depFilePath = fullLine.substring(pathFilter.length()+1);
+							}
+							else
+							{
+								depFilePath = fullLine.substring(pathFilter.length());
+							}
+							list->dependencies.add(depFilePath);
+						}
+						else if(!relativeOnly)
+						{
+							list->dependencies.add(fullLine);
+						}
 					}
 				}
 				else
 				{
-					delete list;
-					return NULL;
+					Console::WriteLine((String)"Error expanding path \"" + currentLine + "\" in dependency file \"" + file + "\"");
 				}
+				
+				lines++;
 			}
-			lines++;
-			currentLine = "";
+			
+			currentLine.clear();
 		}
 		else
 		{
-			currentLine+=c;
+			currentLine += c;
 		}
 	}
 	

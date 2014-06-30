@@ -116,6 +116,7 @@
 		A0D6C8851957B6B1007A3328 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8831957B6B1007A3328 /* Icon.png */; };
 		A0D6C8861957B6B1007A3328 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8841957B6B1007A3328 /* Icon@2x.png */; };
 		A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DD33171954CEE60000D832 /* MoveAction.mm */; };
+		A0F56A2F1961EA6D000E4FF0 /* UICodeEditorView.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0F56A2E1961EA6D000E4FF0 /* UICodeEditorView.mm */; };
 		A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */ = {isa = PBXBuildFile; fileRef = A0FC89CD1955F89400839646 /* CompilerWarnings.txt */; };
 /* End PBXBuildFile section */
 
@@ -326,6 +327,8 @@
 		A0D6C8841957B6B1007A3328 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		A0DD33161954CEE60000D832 /* MoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAction.h; sourceTree = "<group>"; };
 		A0DD33171954CEE60000D832 /* MoveAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MoveAction.mm; sourceTree = "<group>"; };
+		A0F56A2D1961EA6D000E4FF0 /* UICodeEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICodeEditorView.h; sourceTree = "<group>"; };
+		A0F56A2E1961EA6D000E4FF0 /* UICodeEditorView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UICodeEditorView.mm; sourceTree = "<group>"; };
 		A0FC89CD1955F89400839646 /* CompilerWarnings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CompilerWarnings.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -424,6 +427,7 @@
 				A066D4C11951165100F49F6D /* ProjectData */,
 				A066D4C81951165100F49F6D /* ProjectLoad */,
 				A066D4D61951165100F49F6D /* ProjectView */,
+				A0F56A2C1961EA52000E4FF0 /* UICodeEditorView */,
 				A066D50C1951165100F49F6D /* UIFileBrowserViewController */,
 				A066D5161951165100F49F6D /* UIGridView */,
 				A0450BCC19608A03004BD8C8 /* UIScrollableToolbar */,
@@ -751,6 +755,15 @@
 			path = UIWebViewController;
 			sourceTree = "<group>";
 		};
+		A0F56A2C1961EA52000E4FF0 /* UICodeEditorView */ = {
+			isa = PBXGroup;
+			children = (
+				A0F56A2D1961EA6D000E4FF0 /* UICodeEditorView.h */,
+				A0F56A2E1961EA6D000E4FF0 /* UICodeEditorView.mm */,
+			);
+			path = UICodeEditorView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -915,6 +928,7 @@
 				A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */,
 				A0450BCF19608A03004BD8C8 /* UIScrollableToolbar.mm in Sources */,
 				A0450BD219608A1A004BD8C8 /* UIViewCategory.mm in Sources */,
+				A0F56A2F1961EA6D000E4FF0 /* UICodeEditorView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -970,7 +984,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -988,7 +1002,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

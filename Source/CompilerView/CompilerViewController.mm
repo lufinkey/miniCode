@@ -193,9 +193,6 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-	//[errorTable removeFromSuperview];
-	//[errorTable release];
-	//errorTable = nil;
 	if(closing)
 	{
 		closing = NO;
@@ -316,7 +313,10 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 		{
 			CompilerTools_fillInfoPlist(projData);
 			
-			[self.view addSubview:successView];
+			if(CompilerOrganizer_totalFiles(organizer)==0)
+			{
+				[self.view addSubview:successView];
+			}
 			
 			installHUD = [LGViewHUD defaultHUD];
 			[installHUD setActivityIndicatorOn:YES];

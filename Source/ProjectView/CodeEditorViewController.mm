@@ -76,7 +76,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	[toolbar setBarStyle:UIBarStyleBlack];
 	[self.view addSubview:toolbar];
 	
-	codeArea = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, height-toolbar.frame.size.height)];
+	codeArea = [[UICodeEditorView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, height-toolbar.frame.size.height)];
 	[codeArea setDelegate:self];
 	[codeArea setAutocorrectionType:UITextAutocorrectionTypeNo];
 	[codeArea setEnablesReturnKeyAutomatically:YES];
@@ -362,227 +362,17 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 
 - (void)indentLeftButtonSelected
 {
-	if(codeArea.isFirstResponder)
+	if([codeArea isFirstResponder])
 	{
-		NSMutableArray* linePoints = [[NSMutableArray alloc] init];
-		int counter = 0;
-		int lastLinePoint = 0;
-		
-		NSRange selectedRange = codeArea.selectedRange;
-		
-		for(int i=0; i<selectedRange.location; i++)
-		{
-			char c = [codeArea.text UTF8String][i];
-			if(c=='\n')
-			{
-				lastLinePoint = i+1;
-			}
-			counter++;
-		}
-		
-		NSNumber*currentLine = [[NSNumber alloc] initWithInt:lastLinePoint];
-		[linePoints addObject:currentLine];
-		[currentLine release];
-		
-		int highlightOffset = 0;
-		if(counter==lastLinePoint && selectedRange.length>0)
-		{
-			highlightOffset++;
-		}
-		
-		for(int i=0; i<selectedRange.length; i++)
-		{
-			char c = [codeArea.text UTF8String][counter];
-			if(c=='\n')
-			{
-				highlightOffset++;
-				currentLine = [[NSNumber alloc] initWithInt:counter+1];
-				[linePoints addObject:currentLine];
-				[currentLine release];
-			}
-			counter++;
-		}
-		
-		NSMutableString* newText = [[NSMutableString alloc] initWithString:codeArea.text];
-		
-		for(int i=([linePoints count]-1); i>=0; i--)
-		{
-			int linePoint = [[linePoints objectAtIndex:i] intValue];
-			int j = linePoint;
-			BOOL parsedSpacing = NO;
-			int spaces = 0;
-			int tabs = 0;
-			int lastSize = 0;
-			while(!parsedSpacing && j<[newText length])
-			{
-				char c = [codeArea.text UTF8String][j];
-				if(c==' ')
-				{
-					spaces++;
-					if(spaces>=8)
-					{
-						spaces=0;
-						tabs++;
-					}
-				}
-				else if(c=='\t')
-				{
-					lastSize = spaces+1;
-					spaces = 0;
-					tabs++;
-				}
-				else
-				{
-					parsedSpacing = YES;
-				}
-				j++;
-			}
-			
-			j--;
-			
-			unsigned int deleteLength = 0;
-			unsigned int deletePoint = 0;
-			if(spaces>0)
-			{
-				deleteLength = spaces;
-				deletePoint = j-deleteLength;
-			}
-			else if(tabs>0)
-			{
-				deleteLength = lastSize;
-				deletePoint = j-deleteLength;
-			}
-			else
-			{
-				deleteLength = 0;
-				deletePoint = j;
-			}
-			
-			if(deletePoint<selectedRange.location)
-			{
-				if(selectedRange.location>=deleteLength)
-				{
-					selectedRange.location-=deleteLength;
-				}
-				else
-				{
-					selectedRange.location = 0;
-				}
-			}
-			else
-			{
-				if(selectedRange.length>=deleteLength)
-				{
-					selectedRange.length-=deleteLength;
-				}
-				else
-				{
-					selectedRange.length = 0;
-				}
-			}
-			
-			[newText deleteCharactersInRange:NSMakeRange(deletePoint, deleteLength)];
-		}
-		
-		[codeArea setScrollEnabled:NO];
-		[codeArea setText:newText];
-		[newText release];
-		[linePoints release];
-		[codeArea setSelectedRange:NSMakeRange(selectedRange.location, selectedRange.length)];
-		[codeArea setScrollEnabled:YES];
+		[codeArea tabLeft:codeArea.selectedRange];
 	}
 }
 
 - (void)indentRightButtonSelected
 {
-	if(codeArea.isFirstResponder)
+	if([codeArea isFirstResponder])
 	{
-		NSRange selectedRange = codeArea.selectedRange;
-		
-		if(selectedRange.length==0)
-		{
-			NSMutableString* newText = [[NSMutableString alloc] initWithString:codeArea.text];
-			NSString* tabEscape = [[NSString alloc] initWithUTF8String:"\t"];
-			[newText insertString:tabEscape atIndex:selectedRange.location];
-			
-			[codeArea setScrollEnabled:NO];
-			[codeArea setText:newText];
-			[newText release];
-			[codeArea setSelectedRange:NSMakeRange(selectedRange.location+1, 0)];
-			[codeArea setScrollEnabled:YES];
-			[tabEscape release];
-		}
-		else
-		{
-			NSMutableArray* linePoints = [[NSMutableArray alloc] init];
-			int lastLinePoint = 0;
-			
-			if(selectedRange.location == 0)
-			{
-				lastLinePoint = 0;
-			}
-			else
-			{
-				for(int i=((selectedRange.location)-1); i>=0; i--)
-				{
-					char c = [codeArea.text UTF8String][i];
-					if(c=='\n')
-					{
-						lastLinePoint = i+1;
-						i=0;
-					}
-					else
-					{
-						if(i==0)
-						{
-							lastLinePoint = 0;
-						}
-					}
-				}
-			}
-			
-			int counter = lastLinePoint;
-			
-			NSNumber*currentLine = [[NSNumber alloc] initWithInt:lastLinePoint];
-			[linePoints addObject:currentLine];
-			[currentLine release];
-			
-			int highlightOffset = 0;
-			if(lastLinePoint==selectedRange.location && selectedRange.length>0)
-			{
-				highlightOffset++;
-			}
-			
-			for(int i=0; i<selectedRange.length; i++)
-			{
-				char c = [codeArea.text UTF8String][counter];
-				if(c=='\n')
-				{
-					highlightOffset++;
-					currentLine = [[NSNumber alloc] initWithInt:counter+1];
-					[linePoints addObject:currentLine];
-					[currentLine release];
-				}
-				counter++;
-			}
-			
-			NSMutableString* newText = [[NSMutableString alloc] initWithString:codeArea.text];
-			NSString* tabEscape = [[NSString alloc] initWithUTF8String:"\t"];
-			
-			for(int i=([linePoints count]-1); i>=0; i--)
-			{
-				int linePoint = [[linePoints objectAtIndex:i] intValue];
-				[newText insertString:tabEscape atIndex:linePoint];
-			}
-			
-			[codeArea setScrollEnabled:NO];
-			[codeArea setText:newText];
-			[newText release];
-			[linePoints release];
-			[codeArea setSelectedRange:NSMakeRange(selectedRange.location+1, selectedRange.length+highlightOffset)];
-			[codeArea setScrollEnabled:YES];
-			[tabEscape release];
-		}
+		[codeArea tabRight:codeArea.selectedRange];
 	}
 }
 
@@ -677,83 +467,31 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	self.fileEdited = YES;
 	if(returning)
 	{
-		int lastLine = 0;
-		
-		BOOL foundLastLine = NO;
-		
-		int currentNewline = codeArea.selectedRange.location-1;
-		
-		int i=currentNewline-1;
-		while(i>=0 && !foundLastLine)
+		if(codeArea.selectedRange.location>=2)
 		{
-			if(i==0)
+			TabOffset tabOffset = [codeArea tabOffsetForLine:(codeArea.selectedRange.location-2)];
+			
+			NSMutableString* tabText = [[NSMutableString alloc] init];
+			NSString* tabString = [[NSString alloc] initWithUTF8String:"\t"];
+			for(unsigned int i=0; i<tabOffset.tabs; i++)
 			{
-				foundLastLine = YES;
-				lastLine = 0;
+				[tabText appendString:tabString];
 			}
-			else
+			[tabString release];
+			[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
+			
+			NSMutableString* spaceText = [[NSMutableString alloc] init];
+			NSString* spaceString = [[NSString alloc] initWithUTF8String:" "];
+			for(unsigned int i=0; i<tabOffset.spaces; i++)
 			{
-				char c = [codeArea.text UTF8String][i];
-				if(c=='\n')
-				{
-					lastLine = i+1;
-					foundLastLine = YES;
-				}
+				[spaceText appendString:spaceString];
 			}
-			i--;
+			[spaceString release];
+			[codeArea insertText:spaceText atPoint:codeArea.selectedRange.location];
+			
+			[tabText release];
+			[spaceText release];
 		}
-		
-		BOOL parsedSpacing = NO;
-		int spaces = 0;
-		int tabs = 0;
-		i=lastLine;
-		while(i<currentNewline && !parsedSpacing)
-		{
-			char c = [codeArea.text UTF8String][i];
-			if(c==' ')
-			{
-				spaces++;
-				if(spaces>=8)
-				{
-					spaces=0;
-					tabs++;
-				}
-			}
-			else if(c=='\t')
-			{
-				spaces = 0;
-				tabs++;
-			}
-			else
-			{
-				parsedSpacing = YES;
-			}
-			i++;
-		}
-		
-		NSMutableString* newText = [[NSMutableString alloc] initWithString:codeArea.text];
-		int insertionPoint = currentNewline+1;
-		for(int j=0; j<tabs; j++)
-		{
-			NSString* tabEscape = [[NSString alloc] initWithUTF8String:"\t"];
-			[newText insertString:tabEscape atIndex:insertionPoint];
-			[tabEscape release];
-			insertionPoint++;
-		}
-		
-		for(int j=0; j<spaces; j++)
-		{
-			NSString* space = [[NSString alloc] initWithUTF8String:" "];
-			[newText insertString:space atIndex:insertionPoint];
-			[space release];
-			insertionPoint++;
-		}
-		
-		[codeArea setScrollEnabled:NO];
-		[codeArea setText:newText];
-		[newText release];
-		[codeArea setSelectedRange:NSMakeRange(insertionPoint, 0)];
-		[codeArea setScrollEnabled:YES];
 	}
 	returning = NO;
 }
@@ -777,23 +515,27 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	{
 		CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 		
+		int toolbarHeight = toolbar.bounds.size.height;
+		
 		if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
 		{
-			[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.height-toolbar.frame.size.height)];
-			[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-keyboardSize.height-32, self.view.frame.size.width, 32)];
+			[codeArea setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-keyboardSize.height-toolbarHeight)];
+			[toolbar setFrame:CGRectMake(0, self.view.bounds.size.height-keyboardSize.height-toolbarHeight, self.view.bounds.size.width, toolbarHeight)];
 		}
 		else
 		{
-			[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-keyboardSize.width-toolbar.frame.size.height)];
-			[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-keyboardSize.width-32, self.view.frame.size.width, 32)];
+			[codeArea setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-keyboardSize.width-toolbarHeight)];
+			[toolbar setFrame:CGRectMake(0, self.view.bounds.size.height-keyboardSize.width-toolbarHeight, self.view.frame.size.width, toolbarHeight)];
 		}
 	}
 }
 
 - (void)keyboardDidHide:(NSNotification*)notification
 {
-	[codeArea setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-toolbar.frame.size.height)];
-	[toolbar setFrame:CGRectMake(0, self.view.frame.size.height-32, self.view.frame.size.width, 32)];
+	int toolbarHeight = toolbar.bounds.size.height;
+	
+	[codeArea setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-toolbarHeight)];
+	[toolbar setFrame:CGRectMake(0, self.view.bounds.size.height-toolbarHeight, self.view.bounds.size.width, toolbarHeight)];
 }
 
 - (void)setFileEdited:(BOOL)edited

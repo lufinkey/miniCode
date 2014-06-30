@@ -446,6 +446,13 @@ void CompilerThread::run()
 		}
 	}
 	
+	if(result==0)
+	{
+		projBuildInfo.getEditedFiles().clear();
+		ProjectBuildInfo_saveBuildInfoPlist(&projBuildInfoStruct, &projDataStruct);
+		
+	}
+	
 	CompilerThread_FinishReciever(this, result);
 }
 

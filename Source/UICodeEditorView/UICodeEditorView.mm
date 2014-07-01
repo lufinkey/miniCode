@@ -95,6 +95,11 @@ static unsigned int tabSpaces = 8;
 
 - (void)overwriteRange:(NSRange)range withText:(NSString*)text
 {
+	if(range.length==0 && [text length]==0)
+	{
+		return;
+	}
+	
 	BOOL wasFirstResponder = [self isFirstResponder];
 	NSRange oldSelectedRange = self.selectedRange;
 	

@@ -478,7 +478,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 				[tabText appendString:tabString];
 			}
 			[tabString release];
-			[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
+			//[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
 			
 			NSMutableString* spaceText = [[NSMutableString alloc] init];
 			NSString* spaceString = [[NSString alloc] initWithUTF8String:" "];
@@ -487,7 +487,16 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 				[spaceText appendString:spaceString];
 			}
 			[spaceString release];
-			[codeArea insertText:spaceText atPoint:codeArea.selectedRange.location];
+			if([spaceText length]>0)
+			{
+				[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
+				[codeArea insertText:spaceText atPoint:codeArea.selectedRange.location];
+			}
+			else
+			{
+				[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
+			}
+
 			
 			[tabText release];
 			[spaceText release];

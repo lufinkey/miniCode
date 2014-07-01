@@ -271,7 +271,7 @@ void CompilerThread::run()
 	{
 		String relPath = fakeCompiling.get(i);
 		
-		CompilerThread_ChangeStatus(this, (String)"Reading /bin/build/" + relPath + ".output");
+		CompilerThread_ChangeStatus(this, (String)"Reading bin/build/" + relPath + ".output");
 		
 		String fullPath = buildFolder + '/' + relPath + ".output";
 		
@@ -450,7 +450,6 @@ void CompilerThread::run()
 	{
 		projBuildInfo.getEditedFiles().clear();
 		ProjectBuildInfo_saveBuildInfoPlist(&projBuildInfoStruct, &projDataStruct);
-		
 	}
 	
 	CompilerThread_FinishReciever(this, result);

@@ -146,37 +146,37 @@ NSMutableArray* UIFileBrowser_allocateArrayFromDirectory(const char*path)
 - (id)initWithString:(NSString*)startPath
 {
 	NSFilePath* startFilePath = [[NSFilePath alloc] initWithString:startPath];
-	id result = [self initWithFilePath:startFilePath];
+	self = [self initWithFilePath:startFilePath];
 	[startFilePath release];
-	return result;
+	return self;
 }
 
 - (id)initWithString:(NSString*)startPath delegate:(id<UIFileBrowserDelegate>)del
 {
 	NSFilePath* startFilePath = [[NSFilePath alloc] initWithString:startPath];
-	id result = [self initWithFilePath:startFilePath delegate:del];
+	self = [self initWithFilePath:startFilePath delegate:del];
 	[startFilePath release];
-	return result;
+	return self;
 }
 
 - (id)initWithString:(NSString*)startPath root:(NSString*)pathRoot
 {
 	NSFilePath* startFilePath = [[NSFilePath alloc] initWithString:startPath];
 	NSFilePath* filePathRoot = [[NSFilePath alloc] initWithString:pathRoot];
-	id result = [self initWithFilePath:startFilePath root:filePathRoot];
+	self = [self initWithFilePath:startFilePath root:filePathRoot];
 	[startFilePath release];
 	[filePathRoot release];
-	return result;
+	return self;
 }
 
 - (id)initWithString:(NSString*)startPath root:(NSString*)pathRoot delegate:(id<UIFileBrowserDelegate>)del
 {
 	NSFilePath* startFilePath = [[NSFilePath alloc] initWithString:startPath];
 	NSFilePath* filePathRoot = [[NSFilePath alloc] initWithString:pathRoot];
-	id result = [self initWithFilePath:startFilePath root:filePathRoot delegate:del];
+	self = [self initWithFilePath:startFilePath root:filePathRoot delegate:del];
 	[startFilePath release];
 	[filePathRoot release];
-	return result;
+	return self;
 }
 
 - (id)initWithFilePath:(NSFilePath*)startPath
@@ -187,9 +187,9 @@ NSMutableArray* UIFileBrowser_allocateArrayFromDirectory(const char*path)
 - (id)initWithFilePath:(NSFilePath*)startPath delegate:(id<UIFileBrowserDelegate>)del
 {
 	NSFilePath* rootPath = [[NSFilePath alloc] initWithString:@""];
-	id result = [self initWithFilePath:startPath root:rootPath delegate:del];
+	self = [self initWithFilePath:startPath root:rootPath delegate:del];
 	[rootPath release];
-	return result;
+	return self;
 }
 
 - (id)initWithFilePath:(NSFilePath*)startPath root:(NSFilePath*)pathRoot
@@ -233,7 +233,8 @@ NSMutableArray* UIFileBrowser_allocateArrayFromDirectory(const char*path)
 	UIFolderViewController* rootPathController = [[UIFolderViewController alloc] initWithName:[root lastMember] entries:rootDirItems navigator:self];
 	[rootDirItems release];
 	
-	if([super initWithRootViewController:rootPathController]==nil)
+	self = [super initWithRootViewController:rootPathController];
+	if(self==nil)
 	{
 		[dirList release];
 		[rootPathController release];

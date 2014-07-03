@@ -36,7 +36,8 @@ void EditLibFoldersAction_FileOperationFinishHandler(void*data);
 		[dir release];
 	}
 	
-	if([super initWithProjectTreeViewController:projectTreeViewController paths:paths]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController paths:paths];
+	if(self==nil)
 	{
 		[paths release];
 		return nil;

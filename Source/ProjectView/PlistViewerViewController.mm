@@ -64,7 +64,8 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (id)init
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -164,7 +165,8 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (id)initWithNSString:(NSString*)string
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -260,7 +262,8 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (id)initWithNSDate:(NSDate*)nsdate
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -573,7 +576,8 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (id)initWithNSDictionary:(NSDictionary*)dictionary
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -976,7 +980,8 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (id)initWithNSArray:(NSArray*)arr
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -1373,7 +1378,8 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 - (id)initWithKeyfieldShown:(BOOL)showKeyfield isEditing:(BOOL)isEditing type:(int)type
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -1708,7 +1714,8 @@ void DismissPlistViewAlertHandler(void*data, int buttonIndex)
 
 - (id)init
 {
-	if([super initWithNSDictionary:nil]==nil)
+	self = [super initWithNSDictionary:nil];
+	if(self==nil)
 	{
 		return nil;
 	}

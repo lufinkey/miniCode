@@ -63,7 +63,8 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	codeEditing = NO;
 	currentFilePath = nil;
 	
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

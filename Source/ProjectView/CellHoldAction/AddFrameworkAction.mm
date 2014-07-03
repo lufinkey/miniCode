@@ -37,7 +37,8 @@
 		[sdkString release];
 		[frameworksPath appendString:@"/System/Library/Frameworks"];
 		
-		if([super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:frameworksPath]==nil)
+		self = [super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:frameworksPath];
+		if(self==nil)
 		{
 			[frameworksPath release];
 			return nil;

@@ -7,7 +7,8 @@
 
 - (id)initWithOutputLine:(CompilerOutputLine_struct)outputLine
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

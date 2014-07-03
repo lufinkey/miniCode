@@ -10,7 +10,8 @@
 {
 	minimumToolbarWidth = frame.size.width;
 	
-	if([super initWithFrame:frame]==nil)
+	self = [super initWithFrame:frame];
+	if(self==nil)
 	{
 		return nil;
 	}

@@ -53,7 +53,8 @@ static unsigned int iconPadding = 4;
 	
 	rect = CGRectMake(0, 0, 320, iconsize);
 	
-	if([super initWithFrame:rect]==nil)
+	self = [super initWithFrame:rect];
+	if(self==nil)
 	{
 		return nil;
 	}

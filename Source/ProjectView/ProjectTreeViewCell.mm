@@ -49,7 +49,8 @@
 				}
 			}
 			
-			if([super initWithText:name]==nil)
+			self = [super initWithText:name];
+			if(self==nil)
 			{
 				return nil;
 			}
@@ -88,7 +89,8 @@
 				}
 			}
 			
-			if([super initWithText:name]==nil)
+			self = [super initWithText:name];
+			if(self==nil)
 			{
 				return nil;
 			}
@@ -102,7 +104,8 @@
 		case PROJECTTREECELL_LIBDIR:
 		case PROJECTTREECELL_CATEGORY:
 		{
-			if([super initWithText:identify]==nil)
+			self = [super initWithText:identify];
+			if(self==nil)
 			{
 				return nil;
 			}
@@ -114,7 +117,8 @@
 		
 		case PROJECTTREECELL_FRAMEWORK:
 		{
-			if([super initWithText:identify]==nil)
+			self = [super initWithText:identify];
+			if(self==nil)
 			{
 				return nil;
 			}

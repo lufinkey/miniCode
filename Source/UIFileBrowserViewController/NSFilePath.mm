@@ -85,7 +85,8 @@
 
 - (id)initWithString:(NSString*)fullPath
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -136,7 +137,8 @@
 
 - (id)initWithMembers:(NSString*)member, ...
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -170,7 +172,8 @@
 
 - (id)initWithFilePath:(NSFilePath*)fullPath
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -187,7 +190,8 @@
 
 - (id)initWithFilePaths:(NSFilePath*)member, ...
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -420,7 +424,8 @@
 
 - (id)init
 {
-	if([super initWithString:@""]==nil)
+	self = [super initWithString:@""];
+	if(self==nil)
 	{
 		return nil;
 	}

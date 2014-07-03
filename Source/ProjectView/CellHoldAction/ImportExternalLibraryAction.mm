@@ -31,13 +31,15 @@ void ImportExternalLibraryAction_FileOperationFinishHandler(void*data);
 	presentWaiting = NO;
 	
 #if (TARGET_IPHONE_SIMULATOR)
-	if([super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:@"/Users"]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:@"/Users"];
+	if(self==nil)
 	{
 		return nil;
 	}
 #else
 	NSString* userDir = [[NSString alloc] initWithUTF8String:getenv("HOME")];
-	if([super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:userDir]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:userDir];
+	if(self==nil)
 	{
 		[userDir release];
 		return nil;

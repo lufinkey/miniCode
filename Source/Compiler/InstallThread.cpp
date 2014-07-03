@@ -78,7 +78,7 @@ void InstallThread::run()
 #if !(TARGET_IPHONE_SIMULATOR)
 		if(needsRefresh)
 		{
-			subprocess_execute("uicache", NULL, NULL, NULL, NULL, true);
+			subprocess_execute("uicache", NULL, NULL, NULL, NULL, NULL, true);
 		}
 #endif
 	}

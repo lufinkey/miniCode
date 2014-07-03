@@ -51,12 +51,13 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 
 - (id)init
 {
-	pendingDelete = nil;
-	
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
+	
+	pendingDelete = nil;
 	
 	projectNames = [[NSMutableArray alloc] init];
 	projectFolders = [[NSMutableArray alloc] init];

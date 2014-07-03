@@ -12,7 +12,8 @@
 
 - (id)init
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

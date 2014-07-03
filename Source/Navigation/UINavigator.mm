@@ -9,7 +9,8 @@
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController
 {
-	if([super initWithRootViewController:rootViewController]==nil)
+	self = [super initWithRootViewController:rootViewController];
+	if(self==nil)
 	{
 		return nil;
 	}

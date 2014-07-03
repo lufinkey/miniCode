@@ -11,7 +11,8 @@
 
 - (id)initWithCategory:(NSString*)category
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

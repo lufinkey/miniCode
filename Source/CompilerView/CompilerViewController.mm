@@ -63,7 +63,8 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 
 - (id)initWithProjectData:(ProjectData_struct *)data
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

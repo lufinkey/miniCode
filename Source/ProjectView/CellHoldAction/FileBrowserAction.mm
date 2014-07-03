@@ -8,7 +8,8 @@
 
 - (id)initWithProjectTreeViewController:(ProjectTreeViewController*)projectTreeViewController path:(NSString*)path root:(NSString*)root
 {
-	if([super initWithProjectTreeViewController:projectTreeViewController]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController];
+	if(self==nil)
 	{
 		return nil;
 	}

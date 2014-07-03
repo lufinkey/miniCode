@@ -20,7 +20,8 @@ void LinkIncludeFolderAction_AlertViewDismissHandler(void*data, int buttonIndex)
 
 - (id)initWithProjectTreeViewController:(ProjectTreeViewController*)projectTreeViewController
 {
-	if([super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:@"/"]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:@"/"];
+	if(self==nil)
 	{
 		return nil;
 	}

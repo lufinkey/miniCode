@@ -23,7 +23,8 @@
 {
 	int size = 160;
 	
-	if([super initWithFrame:CGRectMake(0,0,size,size)]==nil)
+	self = [super initWithFrame:CGRectMake(0,0,size,size)];
+	if(self==nil)
 	{
 		return nil;
 	}

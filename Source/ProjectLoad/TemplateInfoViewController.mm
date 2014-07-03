@@ -25,7 +25,8 @@
 	}
 	NSString*description = [nfo objectForKey:@"Description"];
 	
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

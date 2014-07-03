@@ -41,7 +41,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (id)init
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -712,7 +713,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (id)initWithIndexPath:(NSIndexPath*)indexpath string:(NSString*)string settingsController:(ProjectSettingsViewController*)settingsCtrl
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -926,7 +928,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	list = elementList;
 	disabled = elementsDisabled;
 	
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -1042,7 +1045,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 	array = list;
 	selectedIndex = -1;
 	
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -1184,7 +1188,8 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 
 - (id)initWithArray:(NSArray*)list selectedIndex:(NSInteger)index
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

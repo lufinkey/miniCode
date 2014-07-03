@@ -15,7 +15,8 @@ void DeleteAction_FileOperationFinishHandler(void*data);
 
 - (id)initWithProjectTreeViewController:(ProjectTreeViewController*)projectTreeViewController
 {
-	if([super initWithProjectTreeViewController:projectTreeViewController]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController];
+	if(self==nil)
 	{
 		return nil;
 	}

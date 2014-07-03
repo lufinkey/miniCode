@@ -7,7 +7,8 @@
 
 - (id)initWithProjectTreeViewController:(ProjectTreeViewController*)projectTreeViewController paths:(NSArray*)paths
 {
-	if([super initWithProjectTreeViewController:projectTreeViewController]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController];
+	if(self==nil)
 	{
 		return nil;
 	}

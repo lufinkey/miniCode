@@ -81,14 +81,15 @@ static unsigned int tabSpaces = 8;
 
 - (id)initWithFrame:(CGRect)frame
 {
-	autotabbingEnabled = YES;
-	codeCompletionEnabled = YES;
-	syntaxHighlightingEnabled = YES;
-	
-	if([super initWithFrame:frame]==nil)
+	self = [super initWithFrame:frame];
+	if(self==nil)
 	{
 		return nil;
 	}
+	
+	autotabbingEnabled = YES;
+	codeCompletionEnabled = YES;
+	syntaxHighlightingEnabled = YES;
 	
 	return self;
 }

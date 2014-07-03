@@ -116,6 +116,7 @@
 		A0D6C8851957B6B1007A3328 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8831957B6B1007A3328 /* Icon.png */; };
 		A0D6C8861957B6B1007A3328 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8841957B6B1007A3328 /* Icon@2x.png */; };
 		A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DD33171954CEE60000D832 /* MoveAction.mm */; };
+		A0DF94F519635BA5002716AD /* ConsoleViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0DF94F419635BA5002716AD /* ConsoleViewController.mm */; };
 		A0F56A2F1961EA6D000E4FF0 /* UICodeEditorView.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0F56A2E1961EA6D000E4FF0 /* UICodeEditorView.mm */; };
 		A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */ = {isa = PBXBuildFile; fileRef = A0FC89CD1955F89400839646 /* CompilerWarnings.txt */; };
 /* End PBXBuildFile section */
@@ -327,6 +328,8 @@
 		A0D6C8841957B6B1007A3328 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		A0DD33161954CEE60000D832 /* MoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveAction.h; sourceTree = "<group>"; };
 		A0DD33171954CEE60000D832 /* MoveAction.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MoveAction.mm; sourceTree = "<group>"; };
+		A0DF94F319635BA5002716AD /* ConsoleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleViewController.h; sourceTree = "<group>"; };
+		A0DF94F419635BA5002716AD /* ConsoleViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConsoleViewController.mm; sourceTree = "<group>"; };
 		A0F56A2D1961EA6D000E4FF0 /* UICodeEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICodeEditorView.h; sourceTree = "<group>"; };
 		A0F56A2E1961EA6D000E4FF0 /* UICodeEditorView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UICodeEditorView.mm; sourceTree = "<group>"; };
 		A0FC89CD1955F89400839646 /* CompilerWarnings.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CompilerWarnings.txt; sourceTree = "<group>"; };
@@ -416,6 +419,7 @@
 			children = (
 				A066D4891951165100F49F6D /* Compiler */,
 				A066D4941951165100F49F6D /* CompilerView */,
+				A0DF94F119635B96002716AD /* ConsoleView */,
 				A066D49B1951165100F49F6D /* DDAlertPrompt */,
 				A066D49E1951165100F49F6D /* DeprecationFix */,
 				A066D4A11951165100F49F6D /* Homescreen */,
@@ -755,6 +759,15 @@
 			path = UIWebViewController;
 			sourceTree = "<group>";
 		};
+		A0DF94F119635B96002716AD /* ConsoleView */ = {
+			isa = PBXGroup;
+			children = (
+				A0DF94F319635BA5002716AD /* ConsoleViewController.h */,
+				A0DF94F419635BA5002716AD /* ConsoleViewController.mm */,
+			);
+			path = ConsoleView;
+			sourceTree = "<group>";
+		};
 		A0F56A2C1961EA52000E4FF0 /* UICodeEditorView */ = {
 			isa = PBXGroup;
 			children = (
@@ -929,6 +942,7 @@
 				A0450BCF19608A03004BD8C8 /* UIScrollableToolbar.mm in Sources */,
 				A0450BD219608A1A004BD8C8 /* UIViewCategory.mm in Sources */,
 				A0F56A2F1961EA6D000E4FF0 /* UICodeEditorView.mm in Sources */,
+				A0DF94F519635BA5002716AD /* ConsoleViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,8 @@
 {
 	initted = NO;
 	
-	if([super initWithFrame:frame]==nil)
+	self = [super initWithFrame:frame];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -127,62 +128,6 @@
 	
 	[self setZoomScale:1];
 	
-	/*if(image.size.width>=self.frame.size.width)
-	{
-		if(image.size.height>=self.frame.size.height)
-		{
-			int difW = self.frame.size.width - image.size.width;
-			int difH = self.frame.size.height - image.size.height;
-			
-			if(difW>difH)
-			{
-				float ratio = ((float)self.frame.size.width)/((float)image.size.width);
-				int w = self.frame.size.width;
-				int h = image.size.height*ratio;
-				
-				//[bgView setFrame:CGRectMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2), w, h)];
-				[bgView setFrame:CGRectMake(0, 0, w, h)];
-				offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
-			}
-			else
-			{
-				float ratio = ((float)self.frame.size.height)/((float)image.size.height);
-				int w = image.size.width*ratio;
-				int h = self.frame.size.height;
-				
-				//[bgView setFrame:CGRectMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2), w, h)];
-				[bgView setFrame:CGRectMake(0, 0, w, h)];
-				offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
-			}
-		}
-		else
-		{
-			float ratio = ((float)self.frame.size.width)/((float)image.size.width);
-			int w = self.frame.size.width;
-			int h = image.size.height*ratio;
-			
-			//[bgView setFrame:CGRectMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2), w, h)];
-			[bgView setFrame:CGRectMake(0, 0, w, h)];
-			offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
-		}
-	}
-	else if(image.size.height>=self.frame.size.height)
-	{
-		float ratio = ((float)self.frame.size.height)/((float)image.size.height);
-		int w = self.frame.size.width;
-		int h = image.size.height*ratio;
-		
-		//[bgView setFrame:CGRectMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2), w, h)];
-		[bgView setFrame:CGRectMake(0, 0, w, h)];
-		offset = CGPointMake((self.frame.size.width/2)-(w/2), (self.frame.size.height/2)-(h/2));
-	}
-	else
-	{
-		//[bgView setFrame:CGRectMake((self.frame.size.width/2)-(image.size.width/2),(self.frame.size.height/2)-(image.size.height/2), image.size.width, image.size.height)];
-		[bgView setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-		offset = CGPointMake((self.frame.size.width/2)-(image.size.width/2), (self.frame.size.height/2)-(image.size.height/2));
-	}*/
-	
 	if(image.size.width<self.frame.size.width && image.size.height<self.frame.size.height)
 	{
 		[bgView setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
@@ -263,7 +208,8 @@
 
 - (id)init
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

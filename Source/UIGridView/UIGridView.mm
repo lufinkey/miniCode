@@ -16,7 +16,8 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-	if([super initWithFrame:frame]==nil)
+	self = [super initWithFrame:frame];
+	if(self==nil)
 	{
 		return nil;
 	}

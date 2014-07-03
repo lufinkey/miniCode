@@ -9,7 +9,8 @@
 
 - (id)initForViewController:(UIViewController*)viewCtrl
 {
-	if([super initWithTitle:@"Build Options" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil]==nil)
+	self = [super initWithTitle:@"Build Options" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+	if(self==nil)
 	{
 		return nil;
 	}

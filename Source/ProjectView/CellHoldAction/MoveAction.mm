@@ -38,7 +38,8 @@ void MoveAction_FileOperationFinishHandler(void*data);
 	}
 	[projectRoot appendString:categoryName];
 	
-	if([super initWithProjectTreeViewController:projectTreeViewController path:slashString root:projectRoot]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController path:slashString root:projectRoot];
+	if(self==nil)
 	{
 		[slashString release];
 		[projectRoot release];

@@ -20,7 +20,8 @@
 
 - (id)initWithData:(void*)dataPtr willDismissHandler:(SimpleMessageBoxDismissHandler)willDismissHandler didDismissHandler:(SimpleMessageBoxDismissHandler)didDismissHandler
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -136,7 +137,8 @@ void showSimpleMessageBox(const char*title, const char*message)
 @implementation ThreadCallbackCaller
 - (id)initWithCallback:(ThreadCallback)callbackFunc data:(void *)dat
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}

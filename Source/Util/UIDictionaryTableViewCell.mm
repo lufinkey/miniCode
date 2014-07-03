@@ -53,7 +53,8 @@ DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 	currentState = UITableViewCellStateDefaultMask;
 	valueLocked = NO;
 	
-	if([super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseID]==nil)
+	self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseID];
+	if(self==nil)
 	{
 		return nil;
 	}

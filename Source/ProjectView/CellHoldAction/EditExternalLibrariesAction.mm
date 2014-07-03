@@ -39,7 +39,8 @@ void EditExternalLibrariesAction_FileOperationFinishHandler(void*data);
 	[saveFolder release];
 	[extFolderPath appendString:@"/ext"];
 	
-	if([super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:extFolderPath]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:extFolderPath];
+	if(self==nil)
 	{
 		[extFolderPath release];
 		return nil;

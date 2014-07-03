@@ -28,7 +28,8 @@ void SelectIncludeFolderAction_AlertViewDismissHandler(void*data, int buttonInde
 	self.pendingPath = root;
 	presentWaiting = NO;
 	
-	if([super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:root]==nil)
+	self = [super initWithProjectTreeViewController:projectTreeViewController path:@"/" root:root];
+	if(self==nil)
 	{
 		return nil;
 	}

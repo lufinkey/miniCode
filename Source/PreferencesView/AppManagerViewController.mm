@@ -23,7 +23,8 @@
 
 - (id)init
 {
-	if([super init]==nil)
+	self = [super init];
+	if(self==nil)
 	{
 		return nil;
 	}
@@ -186,7 +187,7 @@
 			else
 			{
 #if !(TARGET_IPHONE_SIMULATOR)
-				subprocess_execute("uicache", NULL, NULL, NULL, NULL, true);
+				subprocess_execute("uicache", NULL, NULL, NULL, NULL, NULL, true);
 #endif
 			}
 		}

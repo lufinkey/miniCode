@@ -68,8 +68,8 @@ public:
 
 class SubprocessThread : public Thread
 {
-	friend FILE* subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler);
-	friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool);
+	friend FILE* subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, int*);
+	friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, int*, bool);
 private:
 	String command;
 	FILE* outFile[3];
@@ -169,11 +169,11 @@ public:
 	}
 };
 
-void subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool wait)
+void subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, int*pid, bool wait)
 {
 	if(!wait)
 	{
-		subprocess_execute(command, data, outputHandle, errorHandle, resultHandle);
+		subprocess_execute(command, data, outputHandle, errorHandle, resultHandle, pid);
 	}
 	else
 	{
@@ -181,28 +181,40 @@ void subprocess_execute(const char*command, void*data, SubprocessOutputHandler o
 		bool success = process->exec();
 		if(!success)
 		{
-			//*pid = -1;
+			if(pid!=NULL)
+			{
+				*pid = -1;
+			}
 			delete process;
 		}
 		else
 		{
-			//*pid = process->pid;
+			if(pid!=NULL)
+			{
+				*pid = process->pid;
+			}
 			process->join();
 			delete process;
 		}
 	}
 }
 
-FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle)
+FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, int*pid)
 {
 	SubprocessThread* process = new SubprocessThread(command, data, outputHandle, errorHandle, resultHandle, true);
 	bool success = process->exec();
 	if(!success)
 	{
 		delete process;
-		//*pid = -1;
+		if(pid!=NULL)
+		{
+			*pid = -1;
+		}
 		return NULL;
 	}
-	//*pid = process->pid;
+	if(pid!=NULL)
+	{
+		*pid = process->pid;
+	}
 	return process->outFile[STDIN_FILENO];
 }

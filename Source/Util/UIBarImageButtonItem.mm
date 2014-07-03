@@ -18,7 +18,8 @@
 	target = targ;
 	action = act;
 	
-	if([super initWithCustomView:button]==nil)
+	self = [super initWithCustomView:button];
+	if(self==nil)
 	{
 		return nil;
 	}

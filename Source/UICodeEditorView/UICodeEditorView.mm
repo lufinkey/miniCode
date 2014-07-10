@@ -1,6 +1,5 @@
 
 #import "UICodeEditorView.h"
-#import <UIKit/UITextInput.h>
 
 TabOffset TabOffsetMake(unsigned int tabs, unsigned int spaces)
 {
@@ -71,7 +70,40 @@ UITextRange* UITextRange_createFromNSRange(NSRange range, id<UITextInput> textIn
 	return [textInput textRangeFromPosition:start toPosition:end];
 }
 
+NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fromIndex, unsigned int toIndex)
+{
+	if(toIndex<fromIndex)
+	{
+		return NULL;
+	}
+	else if(toIndex == fromIndex)
+	{
+		return [[NSMutableString alloc] initWithUTF8String:""];
+	}
+	
+	unsigned int capacity = toIndex - fromIndex;
+	char* characters = (char*)malloc(capacity+1);
+	characters[capacity] = '\0';
+	
+	unsigned int counter = 0;
+	for(unsigned int i=fromIndex; i<toIndex; i++)
+	{
+		characters[counter] = [str UTF8String][i];
+		counter++;
+	}
+	
+	NSMutableString* newStr = [[NSMutableString alloc] initWithUTF8String:characters];
+	free(characters);
+	return newStr;
+}
+
 static unsigned int tabSpaces = 8;
+
+@interface UICodeEditorView()
+- (void)overwriteRange:(NSRange)range withParsedText:(NSString*)text;
+@end
+
+
 
 @implementation UICodeEditorView
 
@@ -94,7 +126,7 @@ static unsigned int tabSpaces = 8;
 	return self;
 }
 
-- (void)overwriteRange:(NSRange)range withText:(NSString*)text
+- (void)overwriteRange:(NSRange)range withParsedText:(NSString*)text
 {
 	if(range.length==0 && [text length]==0)
 	{
@@ -123,6 +155,48 @@ static unsigned int tabSpaces = 8;
 		[self becomeFirstResponder];
 	}
 	[self setScrollEnabled:scrollWasEnabled];
+}
+
+- (void)overwriteRange:(NSRange)range withText:(NSString*)text
+{
+	unsigned int lastStartPosition = 0;
+	for(unsigned int i=0; i<[text length]; i++)
+	{
+		char c = [text UTF8String][i];
+		if(c=='\n' || c=='\t')
+		{
+			char specialCharString[2];
+			specialCharString[1] = '\0';
+			specialCharString[0] = c;
+			
+			NSString* specialString = [[NSString alloc] initWithUTF8String:specialCharString];
+			if(lastStartPosition==i)
+			{
+				[self overwriteRange:range withParsedText:specialString];
+				range = NSMakeRange(range.location+[specialString length], 0);
+				lastStartPosition = i+1;
+			}
+			else
+			{
+				NSString* substring = NSString_alloc_initWithSubstringOfString(text, lastStartPosition, i);
+				[self overwriteRange:range withParsedText:substring];
+				[substring release];
+				range = NSMakeRange(range.location+[substring length], 0);
+				
+				[self overwriteRange:range withParsedText:specialString];
+				range = NSMakeRange(range.location+[specialString length], 0);
+				
+				lastStartPosition = i+1;
+			}
+			[specialString release];
+		}
+	}
+	
+	if(lastStartPosition!=[text length])
+	{
+		NSString* substring = NSString_alloc_initWithSubstringOfString(text, lastStartPosition, [text length]);
+		[self overwriteRange:range withParsedText:substring];
+	}
 }
 
 - (void)insertText:(NSString*)text atPoint:(NSUInteger)location

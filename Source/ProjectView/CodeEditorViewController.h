@@ -11,13 +11,16 @@
 	BOOL locked;
 	BOOL isOnScreen;
 	
-	BOOL returning;
-	BOOL codeEditing;
-	
-	UICodeEditorView* codeArea;
 	NSString* currentFilePath;
 	
 	UIScrollableToolbar*toolbar;
+	
+	@private
+	UICodeEditorView* codeArea;
+	BOOL returning;
+	NSMutableArray* returnPoints;
+	BOOL insertingText;
+	BOOL codeEditing;
 }
 
 - (void)keyboardDidShow:(NSNotification*)notification;
@@ -40,8 +43,7 @@
 @property (nonatomic, readonly) BOOL fileEdited;
 @property (nonatomic, readonly) BOOL locked;
 @property (nonatomic, readonly) BOOL isOnScreen;
-@property (nonatomic, retain, readonly) UICodeEditorView* codeArea;
-@property (nonatomic, retain, readonly) NSString* currentFilePath;
-@property (nonatomic, retain, readonly) UIScrollableToolbar* toolbar;
+@property (nonatomic, readonly) NSString* currentFilePath;
+@property (nonatomic, readonly) UIScrollableToolbar* toolbar;
 
 @end

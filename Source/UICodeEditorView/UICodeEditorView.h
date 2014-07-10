@@ -8,6 +8,7 @@ typedef struct
 } TabOffset;
 
 TabOffset TabOffsetMake(unsigned int tabs, unsigned int spaces);
+NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fromIndex, unsigned int toIndex);
 
 @interface UICodeEditorView : UITextView
 {

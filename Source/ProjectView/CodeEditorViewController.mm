@@ -12,6 +12,12 @@
 #import "../UIFileBrowserViewController/NSFilePath.h"
 
 @interface CodeEditorViewController()
+- (void)overwriteRange:(NSRange)range withText:(NSString*)text;
+- (void)setText:(NSString*)text;
+- (void)addReturnPoint:(NSUInteger)point;
+- (NSUInteger)popReturnPoint;
+- (void)pushReturnPointsAfter:(NSUInteger)point by:(NSInteger)amount;
+- (void)removePointsBetweenPoint:(NSUInteger)startPoint andPoint:(NSUInteger)endPoint;
 - (void)setFileEdited:(BOOL)edited;
 - (void)setCurrentFilePath:(NSString*)path;
 - (void)loadNormalToolbarItems;
@@ -51,7 +57,6 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 @synthesize fileEdited;
 @synthesize locked;
 @synthesize isOnScreen;
-@synthesize codeArea;
 @synthesize currentFilePath;
 
 - (id)init
@@ -62,12 +67,15 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	returning = NO;
 	codeEditing = NO;
 	currentFilePath = nil;
+	insertingText = NO;
 	
 	self = [super init];
 	if(self==nil)
 	{
 		return nil;
 	}
+	
+	returnPoints = [[NSMutableArray alloc] init];
 	
 	[self.view setBackgroundColor:[UIColor blackColor]];
 	
@@ -275,7 +283,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 		
 		self.fileEdited = NO;
 		
-		[codeArea setText:fileContents];
+		[self setText:fileContents];
 		[fileContents release];
 		
 		NSString* extension = [IconManager getExtensionForFilename:filePath];
@@ -351,6 +359,92 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	{
 		showSimpleMessageBox("Error", "Unable to save file");
 		return NO;
+	}
+}
+
+- (void)setText:(NSString*)text
+{
+	BOOL wasInserting = insertingText;
+	insertingText = NO;
+	
+	[codeArea setText:text];
+	
+	insertingText = wasInserting;
+}
+
+- (void)overwriteRange:(NSRange)range withText:(NSString*)text
+{
+	BOOL wasInserting = insertingText;
+	insertingText = NO;
+	
+	[codeArea overwriteRange:range withText:text];
+	
+	insertingText = wasInserting;
+}
+
+- (void)addReturnPoint:(NSUInteger)point
+{
+	NSNumber* number = [[NSNumber alloc] initWithUnsignedInt:point];
+	[returnPoints addObject:number];
+	[number release];
+}
+
+- (NSUInteger)popReturnPoint
+{
+	NSUInteger number = [[returnPoints objectAtIndex:0] unsignedIntValue];
+	[returnPoints removeObjectAtIndex:0];
+	return number;
+}
+
+- (void)pushReturnPointsAfter:(NSUInteger)point by:(NSInteger)amount
+{
+	for(unsigned int i=0; i<[returnPoints count]; i++)
+	{
+		NSNumber* number = [returnPoints objectAtIndex:i];
+		NSUInteger integer = [number unsignedIntValue];
+		if(integer>point)
+		{
+			if(amount<0)
+			{
+				if((-amount)<integer)
+				{
+					integer += amount;
+				}
+				else
+				{
+					integer = 0;
+				}
+			}
+			else
+			{
+				integer += amount;
+			}
+		}
+		
+		[returnPoints removeObjectAtIndex:i];
+		
+		number = [[NSNumber alloc] initWithUnsignedInt:integer];
+		if([returnPoints count]==0)
+		{
+			[returnPoints addObject:number];
+		}
+		else
+		{
+			[returnPoints insertObject:number atIndex:i];
+		}
+		[number release];
+	}
+}
+
+- (void)removePointsBetweenPoint:(NSUInteger)startPoint andPoint:(NSUInteger)endPoint
+{
+	for(int i=([returnPoints count]-1); i>=0; i--)
+	{
+		NSUInteger number = [[returnPoints objectAtIndex:i] unsignedIntValue];
+		if(number>=startPoint && number<endPoint)
+		{
+			[returnPoints removeObjectAtIndex:i];
+		}
 	}
 }
 
@@ -459,18 +553,19 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	locked = NO;
 	[self  setCurrentFilePath:nil];
 	codeEditing = NO;
-	[codeArea setText:@""];
+	[self setText:@""];
 	[codeArea resignFirstResponder];
 }
 
 - (void)textViewDidChange:(UITextView*)textView
 {
 	self.fileEdited = YES;
-	if(returning)
+	while([returnPoints count]>0)
 	{
+		NSUInteger point = [self popReturnPoint]+1;
 		if(codeArea.selectedRange.location>=2)
 		{
-			TabOffset tabOffset = [codeArea tabOffsetForLine:(codeArea.selectedRange.location-2)];
+			TabOffset tabOffset = [codeArea tabOffsetForLine:(point-2)];
 			
 			NSMutableString* tabText = [[NSMutableString alloc] init];
 			NSString* tabString = [[NSString alloc] initWithUTF8String:"\t"];
@@ -479,44 +574,50 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 				[tabText appendString:tabString];
 			}
 			[tabString release];
-			//[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
 			
-			NSMutableString* spaceText = [[NSMutableString alloc] init];
 			NSString* spaceString = [[NSString alloc] initWithUTF8String:" "];
 			for(unsigned int i=0; i<tabOffset.spaces; i++)
 			{
-				[spaceText appendString:spaceString];
+				[tabText appendString:spaceString];
 			}
 			[spaceString release];
-			if([spaceText length]>0)
-			{
-				[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
-				[codeArea insertText:spaceText atPoint:codeArea.selectedRange.location];
-			}
-			else
-			{
-				[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
-			}
-
+			[codeArea insertText:tabText atPoint:codeArea.selectedRange.location];
 			
+			[self pushReturnPointsAfter:(point+1) by:[tabText length]];
 			[tabText release];
-			[spaceText release];
 		}
 	}
 	returning = NO;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text
-{  
+{
+	NSLog(@"shouldChange");
 	if([text isEqual:@"\n"])
 	{
-		returning = YES;
+		NSLog(@"newline");
+		[self addReturnPoint:range.location];
+		return YES;
 	}
 	else
 	{
-		returning = NO;
+		[self removePointsBetweenPoint:range.location andPoint:range.location+range.length];
+		int offset = (int)[text length] - (int)range.length;
+		if(offset!=0)
+		{
+			[self pushReturnPointsAfter:range.location by:offset];
+		}
 	}
-	return YES;
+	
+	if(insertingText || [text length]<=1)
+	{
+		return YES;
+	}
+	else
+	{
+		[self overwriteRange:range withText:text];
+		return NO;
+	}
 }
 
 - (void)keyboardDidShow:(NSNotification*)notification
@@ -598,6 +699,7 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	[codeArea release];
 	[currentFilePath release];
 	[toolbar release];
+	[returnPoints release];
 	[super dealloc];
 }
 

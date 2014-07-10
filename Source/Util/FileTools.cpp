@@ -454,7 +454,8 @@ bool FileTools::copyFolder(const String&src, const String&dest)
 		bool copied = copyFile(srcFile, dstFile);
 		if(!copied)
 		{
-			Console::WriteLine((String)"Error: FileTools::copyFolder(const String&, const String&), failed to copy file " + srcFile);
+			Console::WriteLine((String)"Error: FileTools::copyFolder(const String&, const String&), failed to copy file \"" + srcFile
+							   + "\" to \"" + dstFile + "\"");
 			success = false;
 		}
 	}

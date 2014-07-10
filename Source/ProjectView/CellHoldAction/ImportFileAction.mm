@@ -658,7 +658,7 @@ void ImportAllFilesAction_AlertViewDismissHandler(void*data, int buttonIndex)
 			NSMutableString* destFolder = [[NSMutableString alloc] initWithString:srcFolderPathString];
 			[destFolder appendString:slashString];
 			[destFolder appendString:selectedRelPathString];
-			action.dstFolder = selectedRelPathString;
+			action.dstFolder = destFolder;
 			[destFolder appendString:folderName];
 			
 			[action showObstructionInView:action.fileBrowserCtrl.view];
@@ -775,12 +775,12 @@ void ImportAllFilesAction_FileOperationFinishCallback(void*data, int result)
 			{
 				action.currentIndex = 0;
 				action.copyingBranches = NO;
-			}
-			
-			StringList_struct memberNames = StringTree_getMembers(&destBranch);
-			if(StringList_size(&memberNames)==0)
-			{
-				finished = YES;
+				
+				StringList_struct memberNames = StringTree_getMembers(action.contents);
+				if(StringList_size(&memberNames)==0)
+				{
+					finished = YES;
+				}
 			}
 		}
 		else
@@ -867,6 +867,11 @@ void ImportAllFilesAction_FileOperationFinishCallback(void*data, int result)
 	}
 	else
 	{
+		if(action.contents!=NULL)
+		{
+			StringTree_destroyInstance(action.contents);
+		}
+		
 		ImportFileAction_FileOperationPacket*packet = (ImportFileAction_FileOperationPacket*)malloc(sizeof(ImportFileAction_FileOperationPacket));
 		packet->data = data;
 		packet->result = result;

@@ -592,10 +592,8 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text
 {
-	NSLog(@"shouldChange");
 	if([text isEqual:@"\n"])
 	{
-		NSLog(@"newline");
 		[self addReturnPoint:range.location];
 		return YES;
 	}

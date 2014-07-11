@@ -795,10 +795,19 @@ CompilerThread_FileDependencyList* CompilerThread_parseDependencyFile(const Stri
 				}
 				
 				String fullLine;
+				
+				int slashIndex = currentLine.lastIndexOf('/');
+				String outputFileName;
+				if(lines==0)
+				{
+					outputFileName = currentLine.substring(slashIndex+1);
+					currentLine = currentLine.substring(0, slashIndex);
+				}
 				if(FileTools::expandPath(currentLine, fullLine))
 				{
 					if(lines==0)
 					{
+						fullLine += (String)"/" + outputFileName;
 						list->outputFile = fullLine;
 					}
 					else if(lines==1)

@@ -7,6 +7,7 @@
 #import "../iCodeAppDelegate.h"
 #import "../PreferencesView/GlobalPreferences.h"
 #import "CompileErrorViewController.h"
+#import "../ConsoleView/ConsoleViewController.h"
 
 @interface CompilerViewController()
 - (void)refreshErrorTable;
@@ -319,16 +320,49 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 				[self.view addSubview:successView];
 			}
 			
-			installHUD = [LGViewHUD defaultHUD];
-			[installHUD setActivityIndicatorOn:YES];
-			[installHUD setTopText:@"Installing..."];
-			[installHUD setBottomText:@""];
-			[installHUD showInView:self.view withAnimation:HUDAnimationShowZoom];
-			
-			[self.navigationItem setTitle:@"Installing..."];
-			CompilerTools_installApplication(projData, &CompilerViewController_InstallFinishHandler, self);
-			
-			[self setStatus:"Installing"];
+			ProjectType projType = ProjectData_getProjectType(projData);
+			if(projType==PROJECTTYPE_APPLICATION)
+			{
+				installHUD = [LGViewHUD defaultHUD];
+				[installHUD setActivityIndicatorOn:YES];
+				[installHUD setTopText:@"Installing..."];
+				[installHUD setBottomText:@""];
+				[installHUD showInView:self.view withAnimation:HUDAnimationShowZoom];
+				
+				[self.navigationItem setTitle:@"Installing..."];
+				CompilerTools_installApplication(projData, &CompilerViewController_InstallFinishHandler, self);
+				
+				[self setStatus:"Installing"];
+			}
+			else if(projType==PROJECTTYPE_CONSOLE)
+			{
+				[self.navigationItem setTitle:@"Finished"];
+				[self setStatus:"Success"];
+				UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
+				[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
+				[doneButton release];
+				
+				NSString* slashString = [[NSString alloc] initWithUTF8String:"/"];
+				NSMutableString* command = [[NSMutableString alloc] initWithUTF8String:ProjLoad_getSavedProjectsFolder()];
+				[command appendString:slashString];
+				NSString* folderName = [[NSString alloc] initWithUTF8String:ProjectData_getFolderName(projData)];
+				[command appendString:folderName];
+				[folderName release];
+				NSString* relPath = [[NSString alloc] initWithUTF8String:"/bin/release/"];
+				[command appendString:relPath];
+				[relPath release];
+				NSString* productName = [[NSString alloc] initWithUTF8String:ProjectData_getProductName(projData)];
+				[command appendString:productName];
+				[productName release];
+				[command appendString:slashString];
+				NSString* executableName = [[NSString alloc] initWithUTF8String:ProjectData_getExecutableName(projData)];
+				[command appendString:executableName];
+				[executableName release];
+				
+				ConsoleViewController* consoleViewCtrl = [[ConsoleViewController alloc] initWithCommand:command];
+				[self.navigationController pushViewController:consoleViewCtrl animated:YES];
+				[command release];
+			}
 		}
 		else
 		{

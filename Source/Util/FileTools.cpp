@@ -534,10 +534,42 @@ bool FileTools::expandPath(const String& path, String& dest)
 	{
 		free(buffer);
 		dest = "";
-		if(errno==EACCES)
+		String message;
+		switch(errno)
 		{
-			Console::WriteLine((String)"Error: FileTools::expandPath(const String&, String&): Access denied: " + path);
+			default:
+			message = "Unknown error";
+			break;
+			
+			case EACCES:
+			message = "Access denied";
+			break;
+			
+			case EINVAL:
+			message = "Path is NULL";
+			break;
+			
+			case EIO:
+			message = "I/O error";
+			break;
+			
+			case ELOOP:
+			message = "Too many symbolic links";
+			break;
+			
+			case ENAMETOOLONG:
+			message = "Path is too long";
+			break;
+			
+			case ENOENT:
+			message = "File does not exist";
+			break;
+			
+			case ENOTDIR:
+			message = "Path prefix is not a directory";
+			break;
 		}
+		Console::WriteLine((String)"Error: FileTools::expandPath(const String&, String&): " + message + ": " + path);
 		return false;
 	}
 	dest = buffer;

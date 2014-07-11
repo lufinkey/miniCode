@@ -19,7 +19,7 @@ static String defaultSDK = "";
 static String codeEditorFont = "Helvetica";
 static unsigned int codeEditorFontSize = 12;
 
-static double currentVersion = 1.020;
+static double currentVersion = 1.030;
 static String versionMessage = "Welcome to miniCode! If you enjoy using this app, feel free to donate by "
 								"going to \"Preferences\", selecting \"Donate\" and inputting an amount. Thank you!";
 

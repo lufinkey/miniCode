@@ -117,6 +117,7 @@ void ConsoleViewController_ResultReciever(void*data, int result)
 - (void)dealloc
 {
 	[outputView release];
+	[output release];
 	[command release];
 	[super dealloc];
 }

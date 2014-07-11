@@ -12,6 +12,8 @@
     <string>___EXECUTABLE_NAME___</string>
     <key>product</key>
     <string>___PRODUCT_NAME___</string>
+    <key>projectType</key>
+    <string>Application</string>
     <key>frameworks</key>
     <array>
         <string>UIKit</string>

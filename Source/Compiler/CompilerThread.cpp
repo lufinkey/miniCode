@@ -270,7 +270,6 @@ void CompilerThread::run()
 	for(int i=0; i<fakeCompiling.size(); i++)
 	{
 		String relPath = fakeCompiling.get(i);
-		
 		CompilerThread_ChangeStatus(this, (String)"Reading bin/build/" + relPath + ".output");
 		
 		String fullPath = buildFolder + '/' + relPath + ".output";
@@ -339,7 +338,12 @@ void CompilerThread::run()
 		}
 	}
 	
-	if(result!=0)
+	if(result==0)
+	{
+		projBuildInfo.getEditedFiles().clear();
+		ProjectBuildInfo_saveBuildInfoPlist(&projBuildInfoStruct, &projDataStruct);
+	}
+	else
 	{
 		CompilerThread_ChangeStatus(this, "Failed");
 		CompilerThread_FinishReciever(this, result);
@@ -444,12 +448,6 @@ void CompilerThread::run()
 		{
 			CompilerThread_ChangeStatus(this, "Failed");
 		}
-	}
-	
-	if(result==0)
-	{
-		projBuildInfo.getEditedFiles().clear();
-		ProjectBuildInfo_saveBuildInfoPlist(&projBuildInfoStruct, &projDataStruct);
 	}
 	
 	CompilerThread_FinishReciever(this, result);

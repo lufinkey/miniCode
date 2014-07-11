@@ -242,7 +242,7 @@ void CompilerOrganizer::parseError(const String& error)
 			}
 			else if(expectingSupplementaryOutput==1)
 			{
-				if(error.length()>4 && (error.substring(0,4).equals("    ") || error.charAt(0)=='\t'))
+				if(error.length()>2 && (error.substring(0,2).equals("  ") || error.charAt(0)=='\t'))
 				{
 					currentError.addSupplementaryOutput(error);
 					return;

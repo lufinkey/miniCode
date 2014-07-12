@@ -88,7 +88,7 @@
 {
 	if(section==0)
 	{
-		return 3;
+		return 4;
 	}
 	else if(section==1)
 	{
@@ -115,6 +115,7 @@
 	if(indexPath.section==0)
 	{
 		NSString*cellID = nil;
+		id obj = nil;
 		
 		switch(indexPath.row)
 		{
@@ -123,21 +124,34 @@
 			
 			case 0:
 			cellID = @"Default SDK";
+			obj = cellID;
 			break;
 			
 			case 1:
 			cellID = @"Code Editor Font";
+			obj = cellID;
 			break;
 			
 			case 2:
 			cellID = @"Code Editor Font Size";
+			obj = cellID;
+			break;
+			
+			case 3:
+			cellID = @"Syntax Highlighting";
+			obj = [NSNumber numberWithBool:GlobalPreferences_syntaxHighlightingEnabled()];
 			break;
 		}
 		
-		UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+		UIDictionaryTableViewCell* cell = (UIDictionaryTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellID];
 		if(cell==nil)
 		{
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID] autorelease];
+			cell = [[[UIDictionaryTableViewCell alloc] initForObject:obj label:cellID reuseIdentifier:cellID] autorelease];
+			cell.delegate = self;
+		}
+		else
+		{
+			[cell reloadForObject:obj label:cellID];
 		}
 		
 		NSMutableString* title = [[NSMutableString alloc] initWithString:cellID];
@@ -370,6 +384,14 @@
 	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)dictionaryTableViewCell:(UIDictionaryTableViewCell*)cell didToggleSwitch:(BOOL)toggle
+{
+	if([cell.reuseIdentifier isEqual:@"Syntax Highlighting"])
+	{
+		GlobalPreferences_enableSyntaxHighlighting(toggle);
+	}
 }
 
 - (BOOL)fileBrowser:(UIFileBrowserViewController*)fileBrowser shouldOpenFolder:(NSString*)folder

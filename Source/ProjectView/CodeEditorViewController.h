@@ -17,7 +17,6 @@
 	
 	@private
 	UICodeEditorView* codeArea;
-	BOOL returning;
 	NSMutableArray* returnPoints;
 	BOOL insertingText;
 	BOOL codeEditing;

@@ -11,17 +11,11 @@
 #import "PathListTableViewController.h"
 #import "ProjectSettingsViewController.h"
 
-static NSArray* EXTENSIONS_CODEEDITOR  = [[NSArray alloc]
-										  initWithObjects:@"c", @"cc", @"cpp", @"h", @"m", @"mm",
-										  @"txt", @"strings", nil];
-static NSArray* EXTENSIONS_TEXTEDITOR  = [[NSArray alloc]
-										  initWithObjects:@"txt", @"list", @"strings", nil];
-static NSArray* EXTENSIONS_IMAGEVIEWER = [[NSArray alloc]
-										  initWithObjects:@"jpg", @"jpeg", @"png", @"gif", @"bmp", @"tif", nil];
-static NSArray* EXTENSIONS_AUDIOPLAYER = [[NSArray alloc]
-										  initWithObjects:@"mp3", @"wav", @"aac", @"m4a", nil];
-static NSArray* EXTENSIONS_PLISTEDITOR = [[NSArray alloc]
-										  initWithObjects:@"plist", nil];
+#define EXTENSIONS_CODEEDITOR  [[[NSArray alloc] initWithObjects:@"c", @"cc", @"cp", @"cpp", @"cxx", @"c++", @"h", @"m", @"mm", @"txt", @"strings", nil] autorelease]
+#define EXTENSIONS_TEXTEDITOR  [[[NSArray alloc] initWithObjects:@"txt", @"list", @"strings", nil] autorelease]
+#define EXTENSIONS_IMAGEVIEWER [[[NSArray alloc] initWithObjects:@"jpg", @"jpeg", @"png", @"gif", @"bmp", @"tif", nil] autorelease]
+#define EXTENSIONS_AUDIOPLAYER [[[NSArray alloc] initWithObjects:@"mp3", @"wav", @"aac", @"m4a", nil] autorelease]
+#define EXTENSIONS_PLISTEDITOR [[[NSArray alloc] initWithObjects:@"plist", nil] autorelease]
 
 @class CellHoldAction;
 

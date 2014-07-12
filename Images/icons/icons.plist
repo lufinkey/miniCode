@@ -12,7 +12,15 @@
 		<string>file_bundle.png</string>
 		<key>c</key>
 		<string>file_c.png</string>
+		<key>cc</key>
+		<string>file_cpp.png</string>
+		<key>cp</key>
+		<string>file_cpp.png</string>
 		<key>cpp</key>
+		<string>file_cpp.png</string>
+		<key>cxx</key>
+		<string>file_cpp.png</string>
+		<key>c++</key>
 		<string>file_cpp.png</string>
 		<key>db</key>
 		<string>file_sql.png</string>

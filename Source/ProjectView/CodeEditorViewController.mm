@@ -10,6 +10,7 @@
 #import "ProjectTreeViewController.h"
 #import "../CompilerView/BuildOptionsActionSheet.h"
 #import "../UIFileBrowserViewController/NSFilePath.h"
+#import "../RegexHighlightView/SyntaxDefinitionManager.h"
 
 @interface CodeEditorViewController()
 - (void)overwriteRange:(NSRange)range withText:(NSString*)text;
@@ -64,7 +65,6 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	fileEdited = NO;
 	locked = NO;
 	isOnScreen = NO;
-	returning = NO;
 	codeEditing = NO;
 	currentFilePath = nil;
 	insertingText = NO;
@@ -132,6 +132,11 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 		[codeArea setFont:[UIFont fontWithName:@"Helvetica" size:GlobalPreferences_getCodeEditorFontSize()]];
 	}
 	[fontName release];
+	
+	BOOL highlighting = GlobalPreferences_syntaxHighlightingEnabled();
+	[codeArea setHighlightingEnabled:highlighting];
+	
+	[codeArea setNeedsDisplay];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -296,6 +301,10 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 			codeEditing = NO;
 		}
 		locked = NO;
+		
+		NSDictionary* syntaxDefinitions = [SyntaxDefinitionManager loadSyntaxDefinitionsForFile:filePath];
+		[codeArea setHighlightDefinition:syntaxDefinitions];
+		
 		return YES;
 	}
 	else
@@ -587,7 +596,12 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 			[tabText release];
 		}
 	}
-	returning = NO;
+	[textView setNeedsDisplay];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	[scrollView setNeedsDisplay];
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text

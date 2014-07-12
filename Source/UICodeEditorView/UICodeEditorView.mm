@@ -109,7 +109,6 @@ static unsigned int tabSpaces = 8;
 
 @synthesize autotabbingEnabled;
 @synthesize codeCompletionEnabled;
-@synthesize syntaxHighlightingEnabled;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -121,7 +120,8 @@ static unsigned int tabSpaces = 8;
 	
 	autotabbingEnabled = YES;
 	codeCompletionEnabled = YES;
-	syntaxHighlightingEnabled = YES;
+	
+	[self setHighlightTheme:kRegexHighlightViewThemeDefault];
 	
 	return self;
 }

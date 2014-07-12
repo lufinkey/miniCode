@@ -16,8 +16,9 @@ static String sdkFolder = "/var/stash/Developer/SDKs";
 static String bundleID = "com.BrokenPhysics.miniCode";
 
 static String defaultSDK = "";
-static String codeEditorFont = "Helvetica";
+static String codeEditorFont = "Courier";
 static unsigned int codeEditorFontSize = 12;
+static bool syntaxHighlightingOn = true;
 
 static double currentVersion = 1.030;
 static String versionMessage = "Welcome to miniCode! If you enjoy using this app, feel free to donate by "
@@ -62,6 +63,12 @@ bool GlobalPreferences_load()
 			{
 				codeEditorFontSize = CODEEDITOR_MAXFONTSIZE;
 			}
+		}
+		
+		void* syntaxHighlighting = NSDictionary_objectForKey(dict, "SyntaxHighlighting");
+		if(syntaxHighlighting)
+		{
+			syntaxHighlightingOn = NSNumber_boolValue(syntaxHighlighting);
 		}
 		
 		void* installedAppsArray = NSDictionary_objectForKey(dict, "InstalledApps");
@@ -126,6 +133,9 @@ bool GlobalPreferences_save()
 		void*editorFontSize = NSNumber_numberWithInt((int)codeEditorFontSize);
 		NSMutableDictionary_setObjectForKey(dict, editorFontSize, "EditorFontSize");
 		
+		void*syntaxHighlighting = NSNumber_numberWithBool(syntaxHighlightingOn);
+		NSMutableDictionary_setObjectForKey(dict, syntaxHighlighting, "SyntaxHighlighting");
+		
 		void*installedAppsArray = NSMutableArray_alloc_init();
 		for(int i=0; i<installedApps.size(); i++)
 		{
@@ -164,6 +174,11 @@ void GlobalPreferences_setCodeEditorFontSize(unsigned int size)
 	}
 }
 
+void GlobalPreferences_enableSyntaxHighlighting(bool toggle)
+{
+	syntaxHighlightingOn = toggle;
+}
+
 void GlobalPreferences_installedApps_add(const char* appName)
 {
 	String appNameString = appName;
@@ -191,6 +206,11 @@ const char* GlobalPreferences_getCodeEditorFont()
 unsigned int GlobalPreferences_getCodeEditorFontSize()
 {
 	return codeEditorFontSize;
+}
+
+bool GlobalPreferences_syntaxHighlightingEnabled()
+{
+	return syntaxHighlightingOn;
 }
 
 unsigned int GlobalPreferences_installedApps_size()

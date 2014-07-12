@@ -102,6 +102,7 @@
 		A066D59C1951165100F49F6D /* UIControlLabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D5441951165100F49F6D /* UIControlLabel.mm */; };
 		A066D59D1951165100F49F6D /* UIDictionaryTableViewCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D5461951165100F49F6D /* UIDictionaryTableViewCell.mm */; };
 		A066D59E1951165100F49F6D /* UIImageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D5481951165100F49F6D /* UIImageManager.mm */; };
+		A06CBC521970F1DB000784B3 /* Syntax Definitions in Resources */ = {isa = PBXBuildFile; fileRef = A06CBC511970F1DB000784B3 /* Syntax Definitions */; };
 		A08D37FD19511DD0009F1BB2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */; };
 		A08D37FE19511DD0009F1BB2 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D377019511DD0009F1BB2 /* Default-Portrait.png */; };
 		A08D37FF19511DD0009F1BB2 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */; };
@@ -111,6 +112,10 @@
 		A08D380419511DD0009F1BB2 /* Project Templates in Resources */ = {isa = PBXBuildFile; fileRef = A08D37BB19511DD0009F1BB2 /* Project Templates */; };
 		A08D38BF195124D6009F1BB2 /* FlipsideViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */; };
 		A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */; };
+		A0A1397719703F080061B778 /* RegexHighlightView.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0A1397619703F080061B778 /* RegexHighlightView.mm */; };
+		A0A1398319703F160061B778 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0A1398219703F160061B778 /* CoreFoundation.framework */; };
+		A0A139B219703F230061B778 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0A139B119703F230061B778 /* CoreText.framework */; };
+		A0B2F9DA1970E9C80060610B /* SyntaxDefinitionManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0B2F9D91970E9C80060610B /* SyntaxDefinitionManager.mm */; };
 		A0C0AD0F196F5D7800972CCB /* ConsoleOptionsActionSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0C0AD0E196F5D7800972CCB /* ConsoleOptionsActionSheet.mm */; };
 		A0CB3889195489900037BE42 /* CopyAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0CB3888195489900037BE42 /* CopyAction.mm */; };
 		A0D6C8851957B6B1007A3328 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0D6C8831957B6B1007A3328 /* Icon.png */; };
@@ -311,6 +316,7 @@
 		A066D5471951165100F49F6D /* UIImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageManager.h; sourceTree = "<group>"; };
 		A066D5481951165100F49F6D /* UIImageManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIImageManager.mm; sourceTree = "<group>"; };
 		A066D5491951165100F49F6D /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2.h; sourceTree = "<group>"; };
+		A06CBC511970F1DB000784B3 /* Syntax Definitions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Syntax Definitions"; sourceTree = "<group>"; };
 		A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A08D377019511DD0009F1BB2 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
@@ -322,6 +328,12 @@
 		A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FlipsideViewController.mm; sourceTree = "<group>"; };
 		A08D38BD195124D6009F1BB2 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebViewController.h; sourceTree = "<group>"; };
 		A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIWebViewController.mm; sourceTree = "<group>"; };
+		A0A1397519703F080061B778 /* RegexHighlightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexHighlightView.h; sourceTree = "<group>"; };
+		A0A1397619703F080061B778 /* RegexHighlightView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RegexHighlightView.mm; sourceTree = "<group>"; };
+		A0A1398219703F160061B778 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		A0A139B119703F230061B778 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		A0B2F9D81970E9C80060610B /* SyntaxDefinitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyntaxDefinitionManager.h; sourceTree = "<group>"; };
+		A0B2F9D91970E9C80060610B /* SyntaxDefinitionManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SyntaxDefinitionManager.mm; sourceTree = "<group>"; };
 		A0C0AD0D196F5D7800972CCB /* ConsoleOptionsActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleOptionsActionSheet.h; sourceTree = "<group>"; };
 		A0C0AD0E196F5D7800972CCB /* ConsoleOptionsActionSheet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ConsoleOptionsActionSheet.mm; sourceTree = "<group>"; };
 		A0CB3887195489900037BE42 /* CopyAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CopyAction.h; sourceTree = "<group>"; };
@@ -348,6 +360,8 @@
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				A066D3EA195115F300F49F6D /* QuartzCore.framework in Frameworks */,
 				A01A52D619536C1C001A7AD9 /* MessageUI.framework in Frameworks */,
+				A0A1398319703F160061B778 /* CoreFoundation.framework in Frameworks */,
+				A0A139B219703F230061B778 /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +392,7 @@
 			children = (
 				A0D6F980196F5F6F007A4C8B /* Images */,
 				A08D37BB19511DD0009F1BB2 /* Project Templates */,
+				A06CBC511970F1DB000784B3 /* Syntax Definitions */,
 				A0FC89CD1955F89400839646 /* CompilerWarnings.txt */,
 				A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */,
 				A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */,
@@ -401,7 +416,9 @@
 			children = (
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				A0A1398219703F160061B778 /* CoreFoundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				A0A139B119703F230061B778 /* CoreText.framework */,
 				A066D3E9195115F300F49F6D /* QuartzCore.framework */,
 				A01A52D519536C1C001A7AD9 /* MessageUI.framework */,
 			);
@@ -434,6 +451,7 @@
 				A066D4C11951165100F49F6D /* ProjectData */,
 				A066D4C81951165100F49F6D /* ProjectLoad */,
 				A066D4D61951165100F49F6D /* ProjectView */,
+				A0A1397419703F080061B778 /* RegexHighlightView */,
 				A0F56A2C1961EA52000E4FF0 /* UICodeEditorView */,
 				A066D50C1951165100F49F6D /* UIFileBrowserViewController */,
 				A066D5161951165100F49F6D /* UIGridView */,
@@ -762,6 +780,17 @@
 			path = UIWebViewController;
 			sourceTree = "<group>";
 		};
+		A0A1397419703F080061B778 /* RegexHighlightView */ = {
+			isa = PBXGroup;
+			children = (
+				A0A1397519703F080061B778 /* RegexHighlightView.h */,
+				A0A1397619703F080061B778 /* RegexHighlightView.mm */,
+				A0B2F9D81970E9C80060610B /* SyntaxDefinitionManager.h */,
+				A0B2F9D91970E9C80060610B /* SyntaxDefinitionManager.mm */,
+			);
+			path = RegexHighlightView;
+			sourceTree = "<group>";
+		};
 		A0DF94F119635B96002716AD /* ConsoleView */ = {
 			isa = PBXGroup;
 			children = (
@@ -846,6 +875,7 @@
 				A0504F4B1959151D00611FFB /* Default-PortraitUpsideDown.png in Resources */,
 				A0504F571959157700611FFB /* Default-Landscape.png in Resources */,
 				A0D6F9C3196F5F6F007A4C8B /* Images in Resources */,
+				A06CBC521970F1DB000784B3 /* Syntax Definitions in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,6 +979,8 @@
 				A0F56A2F1961EA6D000E4FF0 /* UICodeEditorView.mm in Sources */,
 				A0DF94F519635BA5002716AD /* ConsoleViewController.mm in Sources */,
 				A0C0AD0F196F5D7800972CCB /* ConsoleOptionsActionSheet.mm in Sources */,
+				A0A1397719703F080061B778 /* RegexHighlightView.mm in Sources */,
+				A0B2F9DA1970E9C80060610B /* SyntaxDefinitionManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

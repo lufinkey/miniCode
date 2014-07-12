@@ -1,5 +1,5 @@
 
-#import <UIKit/UIKit.h>
+#import "../RegexHighlightView/RegexHighlightView.h"
 
 typedef struct
 {
@@ -15,11 +15,10 @@ UITextRange* UITextRange_createFromNSRange(NSRange range, id<UITextInput> textIn
 
 NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fromIndex, unsigned int toIndex);
 
-@interface UICodeEditorView : UITextView
+@interface UICodeEditorView : RegexHighlightView
 {
 	BOOL autotabbingEnabled;
 	BOOL codeCompletionEnabled;
-	BOOL syntaxHighlightingEnabled;
 }
 
 - (NSRange)deleteTabInFront:(NSUInteger)location;
@@ -39,5 +38,4 @@ NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fr
 
 @property (nonatomic) BOOL autotabbingEnabled;
 @property (nonatomic) BOOL codeCompletionEnabled;
-@property (nonatomic) BOOL syntaxHighlightingEnabled;
 @end

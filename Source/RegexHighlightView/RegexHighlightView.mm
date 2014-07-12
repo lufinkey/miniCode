@@ -335,13 +335,14 @@ static NSMutableDictionary* highlightThemes;
 		if(c=='\t')
 		{
 			unsigned int requiredSpaces = tabSize - spaces;
-			char* spaces = (char*)malloc(requiredSpaces+1);
+			char* spacesText = (char*)malloc(requiredSpaces+1);
 			for(unsigned int j=0; j<requiredSpaces; j++)
 			{
-				spaces[j] = ' ';
+				spacesText[j] = ' ';
 			}
-			spaces[requiredSpaces] = '\0';
-			NSString* spaceString = [[NSString alloc] initWithUTF8String:spaces];
+			spacesText[requiredSpaces] = '\0';
+			NSString* spaceString = [[NSString alloc] initWithUTF8String:spacesText];
+			free(spacesText);
 			[coloredString replaceCharactersInRange:NSMakeRange(i, 1) withString:spaceString];
 			[spaceString release];
 			spaces = 0;

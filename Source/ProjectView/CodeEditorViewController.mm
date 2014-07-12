@@ -10,7 +10,7 @@
 #import "ProjectTreeViewController.h"
 #import "../CompilerView/BuildOptionsActionSheet.h"
 #import "../UIFileBrowserViewController/NSFilePath.h"
-#import "../RegexHighlightView/SyntaxDefinitionManager.h"
+#import "../UICodeEditorView/SyntaxDefinitionManager.h"
 
 @interface CodeEditorViewController()
 - (void)overwriteRange:(NSRange)range withText:(NSString*)text;
@@ -135,8 +135,6 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 	
 	BOOL highlighting = GlobalPreferences_syntaxHighlightingEnabled();
 	[codeArea setHighlightingEnabled:highlighting];
-	
-	[codeArea setNeedsDisplay];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -596,12 +594,11 @@ void DismissCodeViewAlertHandler(void*data, int buttonIndex)
 			[tabText release];
 		}
 	}
-	[textView setNeedsDisplay];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-	[scrollView setNeedsDisplay];
+	
+	/*if(codeArea.highlightingEnabled && ![codeArea.mutableAttributedString.string isEqual:codeArea.text])
+	{
+		[codeArea resetAttributedString:codeArea.text];
+	}*/
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString*)text

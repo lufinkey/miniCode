@@ -1162,7 +1162,7 @@ static const int COMPILERSETTINGS_COMPILERFLAGS = 3;
 			}
 			else
 			{
-				[array replaceObjectAtIndex:buttonIndex withObject:textField.text];
+				[array replaceObjectAtIndex:selectedIndex withObject:textField.text];
 				NSIndexPath* indexPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
 				UITableViewCell* cell = [listTable cellForRowAtIndexPath:indexPath];
 				[cell.textLabel setText:textField.text];

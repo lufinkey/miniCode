@@ -97,6 +97,17 @@ NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fr
 	return newStr;
 }
 
+CGFloat fontCharacterWidth(UIFont* font, char c)
+{
+	char str[2];
+	str[0] = c;
+	str[1] = '\0';
+	NSString* nsstring = [[NSString alloc] initWithUTF8String:str];
+	CGFloat width = [nsstring sizeWithFont:font].width;
+	[nsstring release];
+	return width;
+}
+
 static unsigned int tabSpaces = 8;
 
 @interface UICodeEditorView()
@@ -107,8 +118,14 @@ static unsigned int tabSpaces = 8;
 
 @implementation UICodeEditorView
 
+@synthesize highlightingEnabled;
 @synthesize autotabbingEnabled;
 @synthesize codeCompletionEnabled;
+
+@synthesize highlightColor;
+@synthesize highlightDefinition;
+
+@synthesize mutableAttributedString;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -118,12 +135,20 @@ static unsigned int tabSpaces = 8;
 		return nil;
 	}
 	
+	highlightingEnabled = YES;
 	autotabbingEnabled = YES;
 	codeCompletionEnabled = YES;
 	
-	[self setHighlightTheme:kRegexHighlightViewThemeDefault];
+	//[self setHighlightTheme:kRegexHighlightViewThemeDefault];
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	[highlightColor release];
+	[highlightDefinition release];
+	[super dealloc];
 }
 
 - (void)overwriteRange:(NSRange)range withParsedText:(NSString*)text

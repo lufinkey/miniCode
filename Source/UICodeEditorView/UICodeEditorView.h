@@ -1,5 +1,6 @@
 
-#import "../RegexHighlightView/RegexHighlightView.h"
+#import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
 
 typedef struct
 {
@@ -14,11 +15,18 @@ NSRange NSRangePush(NSRange range, NSRange push);
 UITextRange* UITextRange_createFromNSRange(NSRange range, id<UITextInput> textInput);
 
 NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fromIndex, unsigned int toIndex);
+CGFloat fontCharacterWidth(UIFont* font, char c);
 
-@interface UICodeEditorView : RegexHighlightView
+@interface UICodeEditorView : UITextView//RegexHighlightView
 {
 	BOOL autotabbingEnabled;
 	BOOL codeCompletionEnabled;
+	BOOL highlightingEnabled;
+	
+	NSDictionary* highlightColor;
+	NSDictionary* highlightDefinition;
+	
+	NSMutableAttributedString* mutableAttributedString;
 }
 
 - (NSRange)deleteTabInFront:(NSUInteger)location;
@@ -38,4 +46,8 @@ NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fr
 
 @property (nonatomic) BOOL autotabbingEnabled;
 @property (nonatomic) BOOL codeCompletionEnabled;
+@property (nonatomic) BOOL highlightingEnabled;
+@property (nonatomic, retain) NSDictionary* highlightColor;
+@property (nonatomic, retain) NSDictionary* highlightDefinition;
+@property (nonatomic, retain) NSMutableAttributedString* mutableAttributedString;
 @end

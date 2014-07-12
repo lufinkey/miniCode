@@ -11,14 +11,16 @@
 static String clangCommand = "clang";
 static String libtoolCommand = "libtool";
 
-const char* sourceTypes[7] = {"cpp", "c", "cc", "m", "mm", "a", "o"};
+#define sourceTypes {"cpp", "c", "cc", "c++", "cp", "cxx", "m", "mm", "a", "o"}
+#define sourceTypesTotal 10
 
 ArrayList<String> CompilerThread_getSourceTypes()
 {
+	const char* srcTypes[sourceTypesTotal] = sourceTypes;
 	ArrayList<String> srcTypesList;
-	for(int i=0; i<7; i++)
+	for(int i=0; i<sourceTypesTotal; i++)
 	{
-		srcTypesList.add(sourceTypes[i]);
+		srcTypesList.add(srcTypes[i]);
 	}
 	return srcTypesList;
 }

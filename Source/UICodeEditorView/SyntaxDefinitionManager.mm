@@ -21,7 +21,7 @@ static NSMutableArray* syntaxDefinitions = [[NSMutableArray alloc] init];
 #define extensions_objectivec (const char*[]){"m", "mm"}
 #define total_objectivec 2
 
-#define extensions_cpp (const char*[]){"cpp", "cc", "c++", "cp", "cxx"}
+#define extensions_cpp (const char*[]){"cpp", "cc", "c++", "cp", "cxx", "hpp"}
 #define total_cpp 1
 
 #define extensions_c (const char*[]){"c"}

@@ -187,7 +187,7 @@
 			else
 			{
 #if !(TARGET_IPHONE_SIMULATOR)
-				subprocess_execute("uicache", NULL, NULL, NULL, NULL, NULL, true);
+				subprocess_execute("uicache", NULL, NULL, NULL, NULL, true, NULL, true);
 #endif
 			}
 		}

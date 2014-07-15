@@ -6,11 +6,16 @@
 {
 	NSString* command;
 	NSMutableString* output;
+	NSMutableString* input;
 	UITextView* outputView;
 	
 	ConsoleOptionsActionSheet* consoleOptionsMenu;
 	int pid;
 	FILE* inputPipe;
+	
+	@private
+	BOOL settingText;
+	BOOL returning;
 }
 
 - (id)initWithCommand:(NSString*)command;

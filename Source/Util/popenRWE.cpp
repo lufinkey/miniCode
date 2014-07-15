@@ -17,7 +17,8 @@
 #include "popenRWE.h"
 #include <stdlib.h>
 
-int popenRWE(int *rwepipe, char *command) {
+int popenRWE(int *rwepipe, char *command)
+{
 	int in[2];
 	int out[2];
 	int err[2];

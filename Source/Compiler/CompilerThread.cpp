@@ -326,7 +326,7 @@ void CompilerThread::run()
 		String outPath = buildFolder + '/' + relPath + ".o";
 		
 		String assembleCommand = CompilerThread_createAssembleString(projData, fullPath, outPath, depPath);
-		subprocess_execute(assembleCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CompilerThread_ResultReciever, NULL, true);
+		subprocess_execute(assembleCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CompilerThread_ResultReciever, true, NULL, true);
 		//waits until subprocess finishes
 		
 		if(lastResult==0)
@@ -421,7 +421,7 @@ void CompilerThread::run()
 	}
 	currentFile = "";
 	CompilerThread_ChangeStatus(this, "Compiling...");
-	subprocess_execute(compileCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CompilerThread_ResultReciever, NULL, true);
+	subprocess_execute(compileCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CompilerThread_ResultReciever, true, NULL, true);
 	if(lastResult!=0)
 	{
 		result = -1;
@@ -435,7 +435,7 @@ void CompilerThread::run()
 		CompilerThread_ChangeStatus(this, (String)"Codesigning " + projData.getExecutableName() + "...");
 		String codesignCommand = (String)"ldid -S \"" + outputFile + "\"";
 		currentFile = "";
-		subprocess_execute(codesignCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CodesignThread_ResultReciever, NULL, true);
+		subprocess_execute(codesignCommand, this, &CompilerThread_OutputReciever, &CompilerThread_ErrorReciever, &CodesignThread_ResultReciever, true, NULL, true);
 		
 		if(lastResult!=0)
 		{

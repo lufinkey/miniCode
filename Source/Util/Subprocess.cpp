@@ -9,19 +9,22 @@ class SubprocessFileThread : public Thread
 private:
 	bool done;
 	bool ending;
+	bool readByLine;
 	FILE* outFile;
+	int outFileDes;
 	void* data;
 	
 	SubprocessOutputHandler outputHandle;
 	
 public:
-	SubprocessFileThread(SubprocessOutputHandler outputHandle, void*data)
+	SubprocessFileThread(SubprocessOutputHandler outputHandle, void*data, bool readByLine)
 	{
 		outFile = NULL;
 		this->outputHandle = outputHandle;
 		this->data = data;
 		ending = false;
 		done = false;
+		this->readByLine = readByLine;
 	}
 	
 	virtual ~SubprocessFileThread()
@@ -39,9 +42,10 @@ public:
 		return done;
 	}
 	
-	void exec(FILE* file)
+	void exec(FILE* file, int fileDes)
 	{
 		outFile = file;
+		outFileDes = fileDes;
 		if(outFile!=NULL)
 		{
 			start();
@@ -50,12 +54,43 @@ public:
 	
 	virtual void run()
 	{
-		char buffer[1028];
-		while(!ending && fgets(buffer, 1028, outFile) != NULL)
+		if(readByLine)
 		{
-			if(outputHandle!=NULL)
+			char buffer[1028];
+			while(/*!ending && */fgets(buffer, 1028, outFile) != NULL)
 			{
-				outputHandle(data, buffer);
+				if(outputHandle!=NULL)
+				{
+					outputHandle(data, buffer);
+				}
+			}
+		}
+		else
+		{
+			char buffer[1028];
+			bool finished = false;
+			int offset = 0;
+			while(/*!ending && */!finished)
+			{
+				
+				int totalRead = read(outFileDes, buffer, 1028);
+				//int errnum = errno;
+				if(totalRead==-1)
+				{
+					//
+				}
+				else if(totalRead==0)
+				{
+					finished = true;
+				}
+				else
+				{
+					offset += totalRead;
+					if(outputHandle!=NULL)
+					{
+						outputHandle(data, buffer);
+					}
+				}
 			}
 		}
 	}
@@ -68,8 +103,8 @@ public:
 
 class SubprocessThread : public Thread
 {
-	friend FILE* subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, int*);
-	friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, int*, bool);
+	friend FILE* subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool, int*);
+	friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool, int*, bool);
 private:
 	String command;
 	FILE* outFile[3];
@@ -78,6 +113,7 @@ private:
 	int pid;
 	
 	bool selfDestruct;
+	bool readByLine;
 	
 	SubprocessFileThread* errorThread;
 	
@@ -86,7 +122,7 @@ private:
 	SubprocessResultHandler resultHandle;
 	
 public:
-	SubprocessThread(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool selfDestruct)
+	SubprocessThread(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool selfDestruct, bool readByLine)
 	{
 		pid = -1;
 		outFile[STDIN_FILENO] = NULL;
@@ -103,6 +139,7 @@ public:
 		errorThread = NULL;
 		
 		this->selfDestruct = selfDestruct;
+		this->readByLine = readByLine;
 	}
 	
 	virtual ~SubprocessThread()
@@ -112,14 +149,15 @@ public:
 	
 	bool exec()
 	{
-		errorThread = new SubprocessFileThread(errorHandle, data);
+		errorThread = new SubprocessFileThread(errorHandle, data, readByLine);
 		pid = popenRWE(rwePipe, command);
 		if(pid!=-1)
 		{
 			outFile[STDIN_FILENO] = fdopen(rwePipe[STDIN_FILENO], "w");
 			outFile[STDOUT_FILENO] = fdopen(rwePipe[STDOUT_FILENO], "r");
 			outFile[STDERR_FILENO] = fdopen(rwePipe[STDERR_FILENO], "r");
-			errorThread->exec(outFile[STDERR_FILENO]);
+			setbuf(outFile[STDIN_FILENO], NULL);
+			errorThread->exec(outFile[STDERR_FILENO], rwePipe[STDERR_FILENO]);
 			start();
 			return true;
 		}
@@ -138,12 +176,43 @@ public:
 	
 	virtual void run()
 	{
-		char buffer[1028];
-		while(fgets(buffer, 1028, outFile[STDOUT_FILENO]) != NULL)
+		if(readByLine)
 		{
-			if(outputHandle!=NULL)
+			char buffer[1028];
+			while(fgets(buffer, 1028, outFile[STDOUT_FILENO]) != NULL)
 			{
-				outputHandle(data, buffer);
+				if(outputHandle!=NULL)
+				{
+					outputHandle(data, buffer);
+				}
+			}
+		}
+		else
+		{
+			char buffer[1028];
+			bool finished = false;
+			int offset = 0;
+			while(!finished)
+			{
+				
+				int totalRead = read(rwePipe[STDOUT_FILENO], buffer, 1028);
+				//int errnum = errno;
+				if(totalRead==-1)
+				{
+					//
+				}
+				else if(totalRead==0)
+				{
+					finished = true;
+				}
+				else
+				{
+					offset += totalRead;
+					if(outputHandle!=NULL)
+					{
+						outputHandle(data, buffer);
+					}
+				}
 			}
 		}
 		errorThread->end();
@@ -169,15 +238,15 @@ public:
 	}
 };
 
-void subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, int*pid, bool wait)
+void subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool readByLine, int*pid, bool wait)
 {
 	if(!wait)
 	{
-		subprocess_execute(command, data, outputHandle, errorHandle, resultHandle, pid);
+		subprocess_execute(command, data, outputHandle, errorHandle, resultHandle, readByLine, pid);
 	}
 	else
 	{
-		SubprocessThread* process = new SubprocessThread(command, data, outputHandle, errorHandle, resultHandle, false);
+		SubprocessThread* process = new SubprocessThread(command, data, outputHandle, errorHandle, resultHandle, false, readByLine);
 		bool success = process->exec();
 		if(!success)
 		{
@@ -199,9 +268,9 @@ void subprocess_execute(const char*command, void*data, SubprocessOutputHandler o
 	}
 }
 
-FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, int*pid)
+FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool readByLine, int*pid)
 {
-	SubprocessThread* process = new SubprocessThread(command, data, outputHandle, errorHandle, resultHandle, true);
+	SubprocessThread* process = new SubprocessThread(command, data, outputHandle, errorHandle, resultHandle, true, readByLine);
 	bool success = process->exec();
 	if(!success)
 	{

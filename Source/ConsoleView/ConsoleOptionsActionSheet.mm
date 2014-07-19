@@ -29,7 +29,7 @@
 	{
 		case 0:
 		//Kill
-		if(viewCtrl.inputPipe!=NULL)
+		if(viewCtrl.inputPipe!=-1)
 		{
 			NSLog(@"Sending SIGKILL to pid %i", viewCtrl.pid);
 			int result = kill(viewCtrl.pid, SIGKILL);
@@ -59,7 +59,7 @@
 		
 		case 1:
 		//Terminate
-		if(viewCtrl.inputPipe!=NULL)
+		if(viewCtrl.inputPipe!=-1)
 		{
 			NSLog(@"Sending SIGTERM to pid %i", viewCtrl.pid);
 			int result = kill(viewCtrl.pid, SIGTERM);

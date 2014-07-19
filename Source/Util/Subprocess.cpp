@@ -69,7 +69,6 @@ public:
 		{
 			char buffer[1028];
 			bool finished = false;
-			int offset = 0;
 			while(/*!ending && */!finished)
 			{
 				
@@ -85,7 +84,7 @@ public:
 				}
 				else
 				{
-					offset += totalRead;
+					buffer[totalRead] = '\0';
 					if(outputHandle!=NULL)
 					{
 						outputHandle(data, buffer);
@@ -103,7 +102,7 @@ public:
 
 class SubprocessThread : public Thread
 {
-	friend FILE* subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool, int*);
+	friend int subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool, int*);
 	friend void subprocess_execute(const char*,void*,SubprocessOutputHandler,SubprocessOutputHandler,SubprocessResultHandler, bool, int*, bool);
 private:
 	String command;
@@ -154,9 +153,11 @@ public:
 		if(pid!=-1)
 		{
 			outFile[STDIN_FILENO] = fdopen(rwePipe[STDIN_FILENO], "w");
-			outFile[STDOUT_FILENO] = fdopen(rwePipe[STDOUT_FILENO], "r");
-			outFile[STDERR_FILENO] = fdopen(rwePipe[STDERR_FILENO], "r");
 			setbuf(outFile[STDIN_FILENO], NULL);
+			outFile[STDOUT_FILENO] = fdopen(rwePipe[STDOUT_FILENO], "r");
+			//setbuf(outFile[STDOUT_FILENO], NULL);
+			outFile[STDERR_FILENO] = fdopen(rwePipe[STDERR_FILENO], "r");
+			//setbuf(outFile[STDERR_FILENO], NULL);
 			errorThread->exec(outFile[STDERR_FILENO], rwePipe[STDERR_FILENO]);
 			start();
 			return true;
@@ -191,7 +192,6 @@ public:
 		{
 			char buffer[1028];
 			bool finished = false;
-			int offset = 0;
 			while(!finished)
 			{
 				
@@ -207,7 +207,7 @@ public:
 				}
 				else
 				{
-					offset += totalRead;
+					buffer[totalRead]='\0';
 					if(outputHandle!=NULL)
 					{
 						outputHandle(data, buffer);
@@ -268,7 +268,7 @@ void subprocess_execute(const char*command, void*data, SubprocessOutputHandler o
 	}
 }
 
-FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool readByLine, int*pid)
+int subprocess_execute(const char*command, void*data, SubprocessOutputHandler outputHandle, SubprocessOutputHandler errorHandle, SubprocessResultHandler resultHandle, bool readByLine, int*pid)
 {
 	SubprocessThread* process = new SubprocessThread(command, data, outputHandle, errorHandle, resultHandle, true, readByLine);
 	bool success = process->exec();
@@ -279,11 +279,11 @@ FILE* subprocess_execute(const char*command, void*data, SubprocessOutputHandler 
 		{
 			*pid = -1;
 		}
-		return NULL;
+		return -1;
 	}
 	if(pid!=NULL)
 	{
 		*pid = process->pid;
 	}
-	return process->outFile[STDIN_FILENO];
+	return process->rwePipe[STDIN_FILENO];
 }

@@ -11,7 +11,7 @@
 	
 	ConsoleOptionsActionSheet* consoleOptionsMenu;
 	int pid;
-	FILE* inputPipe;
+	int inputPipe;
 	
 	@private
 	BOOL settingText;
@@ -20,8 +20,11 @@
 
 - (id)initWithCommand:(NSString*)command;
 
+- (void)keyboardDidShow:(NSNotification*)notification;
+- (void)keyboardDidHide:(NSNotification*)notification;
+
 @property (nonatomic, readonly) UITextView* outputView;
 @property (nonatomic, readonly) NSString* command;
 @property (nonatomic, readonly) int pid;
-@property (nonatomic, readonly) FILE* inputPipe;
+@property (nonatomic, readonly) int inputPipe;
 @end

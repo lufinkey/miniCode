@@ -58,7 +58,7 @@ void ConsoleViewController_ResultReciever(void*data, int result)
 		return nil;
 	}
 	
-	inputPipe = NULL;
+	inputPipe = -1;
 	pid = -1;
 	command = [[NSString alloc] initWithString:cmd];
 	output = [[NSMutableString alloc] initWithUTF8String:""];
@@ -77,6 +77,9 @@ void ConsoleViewController_ResultReciever(void*data, int result)
 	[self.navigationItem setRightBarButtonItem:optionsButton];
 	[optionsButton release];
 	[self.navigationItem setHidesBackButton:YES animated:NO];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
 	
 	return self;
 }
@@ -155,7 +158,7 @@ void ConsoleViewController_ResultReciever(void*data, int result)
 	}
 	else
 	{
-		if(inputPipe==NULL)
+		if(inputPipe==-1)
 		{
 			[input deleteCharactersInRange:NSMakeRange(0, [input length])];
 			return NO;
@@ -171,11 +174,11 @@ void ConsoleViewController_ResultReciever(void*data, int result)
 				NSString* substring = [input substringWithRange:NSMakeRange(lastNewLine, i+1)];
 				lastNewLine = i+1;
 				[output appendString:substring];
-				if(inputPipe!=NULL)
+				if(inputPipe!=-1)
 				{
-					NSLog(@"Sending input to program");
-					int written = fwrite([input UTF8String], 1, [input length]+1, inputPipe);
-					if(written!=([input length]+1))
+					NSLog(@"Sending input \"%@\" to program", substring);
+					int written = write(inputPipe, [substring UTF8String], [substring length]);
+					if(written!=[substring length])
 					{
 						NSLog(@"Error sending input. Only %i bytes sent", written);
 					}
@@ -198,6 +201,28 @@ void ConsoleViewController_ResultReciever(void*data, int result)
 		
 		return YES;
 	}
+}
+
+- (void)keyboardDidShow:(NSNotification*)notification
+{
+	if(self.navigationController.topViewController == self)
+	{
+		CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+		
+		if(self.interfaceOrientation==UIInterfaceOrientationPortrait || self.interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown)
+		{
+			[outputView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-keyboardSize.height)];
+		}
+		else
+		{
+			[outputView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height-keyboardSize.width)];
+		}
+	}
+}
+
+- (void)keyboardDidHide:(NSNotification*)notification
+{
+	[outputView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
 }
 
 - (void)dealloc

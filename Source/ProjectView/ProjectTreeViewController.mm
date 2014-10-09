@@ -167,7 +167,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 										   delegate:self
 								  cancelButtonTitle:@"Cancel"
 							 destructiveButtonTitle:nil
-								  otherButtonTitles:@"Open in...", "Rename File", @"Delete File", @"Move File", @"Copy File", nil];
+								  otherButtonTitles:@"Open in...", @"Rename File", @"Delete File", @"Move File", @"Copy File", nil];
 	
 	folderMenu = [[UIActionSheet alloc] initWithTitle:@"Folder Options"
 											 delegate:self

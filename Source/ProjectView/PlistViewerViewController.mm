@@ -1731,7 +1731,7 @@ void DismissPlistViewAlertHandler(void*data, int buttonIndex)
 {
 	NSDictionary*properties = (NSDictionary*)ProjLoad_loadAllocatedPlist([filePath UTF8String]);
 	
-	self.fileLocked = NO;
+	[self setFileLocked:NO];
 	
 	if(properties==nil)
 	{

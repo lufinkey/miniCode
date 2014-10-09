@@ -176,7 +176,7 @@ void ImportFolderAction_AlertViewDismissHandler(void*data, int buttonIndex)
 				{
 					StringTree_struct* dirTree = FileTools_getStringTreeFromDirectory([[destPath pathAsString] UTF8String]);
 					StringTree_addBranch(&folderTree, [itemName UTF8String], dirTree);
-					StringList_struct branchNames = StringTree_getBranchNames(&folderTree);
+					//StringList_struct branchNames = StringTree_getBranchNames(&folderTree);
 					int index = StringTree_hasMember(&folderTree, [itemName UTF8String]);
 					ProjectTreeViewCell* cell = [[ProjectTreeViewCell alloc] initWithType:PROJECTTREECELL_FOLDER identifier:itemName];
 					[action.viewCtrl.selectedCell insertMember:cell atIndex:index];

@@ -64,9 +64,6 @@
 	// Initialize Variables
 	self.projData = NULL;
 	
-	// Window bounds.
-	CGRect bounds = window.bounds;
-	
 	[IconManager reloadFromFile];
 	GlobalPreferences_load();
 	

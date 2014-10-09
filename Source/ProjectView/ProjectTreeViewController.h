@@ -11,7 +11,7 @@
 #import "PathListTableViewController.h"
 #import "ProjectSettingsViewController.h"
 
-#define EXTENSIONS_CODEEDITOR  [[[NSArray alloc] initWithObjects:@"c", @"cc", @"cp", @"cpp", @"cxx", @"c++", @"h", @"m", @"mm", @"txt", @"strings", nil] autorelease]
+#define EXTENSIONS_CODEEDITOR  [[[NSArray alloc] initWithObjects:@"c", @"cc", @"cp", @"cpp", @"cxx", @"c++", @"h", @"m", @"mm", @"txt", @"strings", @"js", @"html", @"script", nil] autorelease]
 #define EXTENSIONS_TEXTEDITOR  [[[NSArray alloc] initWithObjects:@"txt", @"list", @"strings", nil] autorelease]
 #define EXTENSIONS_IMAGEVIEWER [[[NSArray alloc] initWithObjects:@"jpg", @"jpeg", @"png", @"gif", @"bmp", @"tif", nil] autorelease]
 #define EXTENSIONS_AUDIOPLAYER [[[NSArray alloc] initWithObjects:@"mp3", @"wav", @"aac", @"m4a", nil] autorelease]
@@ -48,10 +48,12 @@
 	UIActionSheet* fileMenu;
 	UIActionSheet* folderMenu;
 	UIActionSheet* frameworkMenu;
+	UIActionSheet* openInMenu;
 }
 
 - (void)loadWithProjectData:(ProjectData_struct*)projData;
 - (id<FileEditorDelegate>)getFileViewerByExtension:(NSString*)extension;
+- (BOOL)openCell:(ProjectTreeViewCell*)cell withFileViewer:(id<FileEditorDelegate>)fileViewer;
 - (void)exitProjectView;
 
 + (void)addStringTreeToCell:(ProjectTreeViewCell*)cell tree:(StringTree_struct*)tree;

@@ -66,7 +66,7 @@ void DeleteAction_AlertViewDismissHandler(void*data, int buttonIndex)
 		NSString* itemName = [[relPath lastMember] retain];
 		[relPath removeLastMember];
 		
-		StringTree_struct folderTree = StringTree_getBranch(&sourceTree, [[relPath pathAsString] UTF8String]);
+		//StringTree_struct folderTree = StringTree_getBranch(&sourceTree, [[relPath pathAsString] UTF8String]);
 		[relPath release];
 		
 		NSMutableString* fullPath = [[NSMutableString alloc] initWithUTF8String:ProjLoad_getSavedProjectsFolder()];

@@ -89,6 +89,10 @@ CompilerOutputLine::CompilerOutputLine(const String&fileName, unsigned int line,
 	{
 		output = this->message;
 	}
+	else if(this->line==0 && this->offset==0 && this->fileName.equals("") && (this->errorType.equals("error") || this->errorType.equals("warning") || this->errorType.equals("fatal error")))
+	{
+		output = this->errorType + ": " + this->message;
+	}
 	else
 	{
 		output = this->fileName + ':' + this->line + ':' + this->offset + ": " + this->errorType + ": " + this->message;
@@ -311,10 +315,17 @@ void CompilerOrganizer::parseError(const String& error)
 			handleOutputLine(currentError);
 			return;
 		}
-		if(errorType.length()>=18 && error.substring(0,18).equals("Undefined symbols "))
+		if(error.length()>=18 && error.substring(0,18).equals("Undefined symbols "))
 		{
 			currentError = CompilerOutputLine("", 0, 0, "undefined symbols", error);
 			expectingSupplementaryOutput = 2;
+			return;
+		}
+		else if(errorType.equals("error") || errorType.equals("warning") || errorType.equals("fatal error"))
+		{
+			String message = error.substring(colon1+1, error.length());
+			currentError = CompilerOutputLine("", 0, 0, errorType, message);
+			handleOutputLine(currentError);
 			return;
 		}
 		else

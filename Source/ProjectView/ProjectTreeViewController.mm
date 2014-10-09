@@ -167,20 +167,25 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 										   delegate:self
 								  cancelButtonTitle:@"Cancel"
 							 destructiveButtonTitle:nil
-								  otherButtonTitles:@"Rename File", @"Delete File", @"Move File", @"Copy File", nil];
+								  otherButtonTitles:@"Open in...", "Rename File", @"Delete File", @"Move File", @"Copy File", nil];
 	
 	folderMenu = [[UIActionSheet alloc] initWithTitle:@"Folder Options"
 											 delegate:self
 									cancelButtonTitle:@"Cancel"
 							   destructiveButtonTitle:nil
-									otherButtonTitles:@"Rename Folder", @"Delete Folder", @"Move Folder", @"Copy Folder",
-													@"Import File", @"Import Folder", @"Create File", @"Create Folder", nil];
+									otherButtonTitles:@"Rename Folder", @"Delete Folder", @"Move Folder", @"Copy Folder", @"Import File", @"Import Folder", @"Create File", @"Create Folder", nil];
 	
 	frameworkMenu = [[UIActionSheet alloc] initWithTitle:@"Framework Options"
 												delegate:self
 									   cancelButtonTitle:@"Cancel"
 								  destructiveButtonTitle:nil
 									   otherButtonTitles:@"Remove Framework", nil];
+	
+	openInMenu = [[UIActionSheet alloc] initWithTitle:@"Open in..."
+											 delegate:self
+									cancelButtonTitle:@"Cancel"
+							   destructiveButtonTitle:nil
+									otherButtonTitles:@"Code Editor", @"Plist Editor", @"Image Viewer", nil];
 	
 	return self;
 }
@@ -254,6 +259,65 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 		}
 	}
 	return nil;
+}
+
+- (BOOL)openCell:(ProjectTreeViewCell*)cell withFileViewer:(id<FileEditorDelegate>)fileViewer
+{
+	if(cell!=nil && fileViewer!=nil && cell.type == PROJECTTREECELL_FILE)
+	{
+		NSString*relPath = [cell getPath];
+		if([relPath length]==0)
+		{
+			return NO;
+		}
+		
+		if([relPath UTF8String][0]=='/')
+		{
+			if([fileViewer loadWithFile:relPath])
+			{
+				if([[cell getCategory] isEqual:@"ext"] || [[cell getCategory] isEqual:@"frameworks"])
+				{
+					[fileViewer setFileLocked:YES];
+				}
+				[self.navigationController pushViewController:(UIViewController*)fileViewer animated:YES];
+				return YES;
+			}
+			return NO;
+		}
+		else
+		{
+			NSMutableString* fullPath = [[NSMutableString alloc] initWithUTF8String:ProjLoad_getSavedProjectsFolder()];
+			[fullPath appendString:@"/"];
+			NSString*saveFolder = [[NSString alloc] initWithUTF8String:ProjectData_getFolderName(((iCodeAppDelegate*)[[UIApplication sharedApplication] delegate]).projData)];
+			[fullPath appendString:saveFolder];
+			[saveFolder release];
+			[fullPath appendString:@"/"];
+			
+			NSString*categoryName = [cell getCategory];
+			if([categoryName length]!=0)
+			{
+				[fullPath appendString:categoryName];
+				[fullPath appendString:@"/"];
+			}
+			[fullPath appendString:relPath];
+			if([fileViewer loadWithFile:fullPath])
+			{
+				if([[cell getCategory] isEqual:@"ext"] || [[cell getCategory] isEqual:@"frameworks"])
+				{
+					[fileViewer setFileLocked:YES];
+				}
+				[self.navigationController pushViewController:(UIViewController*)fileViewer animated:YES];
+				[fullPath release];
+				return YES;
+			}
+			else
+			{
+				[fullPath release];
+				return NO;
+			}
+		}
+	}
+	return NO;
 }
 
 - (void)exitProjectView
@@ -503,49 +567,15 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			id<FileEditorDelegate> fileViewer = [self getFileViewerByExtension:pcell.extension];
 			if(fileViewer!=nil)
 			{
-				NSString*relPath = [pcell getPath];
-				if([relPath length]==0)
+				BOOL success = [self openCell:pcell withFileViewer:fileViewer];
+				if(!success)
 				{
-					return;
+					showSimpleMessageBox("Error", "Unable to load file");
 				}
-				
-				if([relPath UTF8String][0]=='/')
-				{
-					if([fileViewer loadWithFile:relPath])
-					{
-						if([[pcell getCategory] isEqual:@"ext"] || [[pcell getCategory] isEqual:@"frameworks"])
-						{
-							[fileViewer setFileLocked:YES];
-						}
-						[self.navigationController pushViewController:(UIViewController*)fileViewer animated:YES];
-					}
-				}
-				else
-				{
-					NSMutableString* fullPath = [[NSMutableString alloc] initWithUTF8String:ProjLoad_getSavedProjectsFolder()];
-					[fullPath appendString:@"/"];
-					NSString*saveFolder = [[NSString alloc] initWithUTF8String:ProjectData_getFolderName(((iCodeAppDelegate*)[[UIApplication sharedApplication] delegate]).projData)];
-					[fullPath appendString:saveFolder];
-					[saveFolder release];
-					[fullPath appendString:@"/"];
-					
-					NSString*categoryName = [pcell getCategory];
-					if([categoryName length]!=0)
-					{
-						[fullPath appendString:categoryName];
-						[fullPath appendString:@"/"];
-					}
-					[fullPath appendString:relPath];
-					if([fileViewer loadWithFile:fullPath])
-					{
-						if([[pcell getCategory] isEqual:@"ext"] || [[pcell getCategory] isEqual:@"frameworks"])
-						{
-							[fileViewer setFileLocked:YES];
-						}
-						[self.navigationController pushViewController:(UIViewController*)fileViewer animated:YES];
-					}
-					[fullPath release];
-				}
+			}
+			else
+			{
+				[openInMenu showInView:pcell];
 			}
 		}
 	}
@@ -719,6 +749,10 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 				[frameworkMenu showInView:pcell];
 				[pcell deselect];
 			}
+			break;
+			
+			case PROJECTTREECELL_DYNAMICFOLDER:
+			//No menu
 			break;
 		}
 	}
@@ -946,27 +980,34 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 		switch(buttonIndex)
 		{
 			case 0:
+			//Open in... - File Menu
+			{
+				[openInMenu showInView:selectedCell];
+			}
+			break;
+			
+			case 1:
 			//Rename File - File Menu
 			{
 				currentHoldAction = [[RenameAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 			
-			case 1:
+			case 2:
 			//Delete File - File Menu
 			{
 				currentHoldAction = [[DeleteAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 			
-			case 2:
+			case 3:
 			//Move File - File Menu
 			{
 				currentHoldAction = [[MoveAction alloc] initWithProjectTreeViewController:self];
 			}
 			break;
 			
-			case 3:
+			case 4:
 			//Copy File - File Menu
 			{
 				currentHoldAction = [[CopyAction alloc] initWithProjectTreeViewController:self];
@@ -1049,6 +1090,43 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			break;
 		}
 	}
+	else if(actionSheet==openInMenu)
+	{
+		//Open in... Menu
+		iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+		switch(buttonIndex)
+		{
+			case 0:
+			//Code Editor - Open in... Menu
+			{
+				if(![self openCell:selectedCell withFileViewer:appDelegate.codeEditorController])
+				{
+					showSimpleMessageBox("Error", "Unable to load file");
+				}
+			}
+			break;
+			
+			case 1:
+			//Plist Editor - Open in... Menu
+			{
+				if(![self openCell:selectedCell withFileViewer:appDelegate.plistViewerController])
+				{
+					showSimpleMessageBox("Error", "Unable to load file");
+				}
+			}
+			break;
+			
+			case 2:
+			//Image Viewer - Open in... Menu
+			{
+				if(![self openCell:selectedCell withFileViewer:appDelegate.imageViewerController])
+				{
+					showSimpleMessageBox("Error", "Unable to load file");
+				}
+			}
+			break;
+		}
+	}
 }
 
 - (void)dealloc
@@ -1071,6 +1149,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	[fileMenu release];
 	[folderMenu release];
 	[frameworkMenu release];
+	[openInMenu release];
 	
 	[obstructView release];
 	

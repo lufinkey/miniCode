@@ -13,6 +13,9 @@
 	
 	UINavigationBar* navBar;
 	UITableView* recentProjects;
+	
+	@private
+	UITableView* lastTableView;
 }
 
 - (void)cancelButtonSelected;

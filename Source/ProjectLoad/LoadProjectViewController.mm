@@ -3,6 +3,11 @@
 #import "../iCodeAppDelegate.h"
 #import "ProjLoadTools.h"
 
+@interface LoadProjectViewController()
+@property (nonatomic, assign) UITableView* lastTableView;
+@end
+
+
 void deleteProjectAlertHandler(void*data, int buttonIndex)
 {
 	LoadProjectViewController* viewCtrl = (LoadProjectViewController*)data;
@@ -20,7 +25,7 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 			[viewCtrl.projectFolders removeObjectAtIndex:indexPath.row];
 			[viewCtrl.projectNames removeObjectAtIndex:indexPath.row];
 			[viewCtrl.projectDates removeObjectAtIndex:indexPath.row];
-			[viewCtrl.recentProjects deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+			[viewCtrl.lastTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
 		}
 		else
 		{
@@ -44,6 +49,7 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 
 @synthesize navBar;
 @synthesize recentProjects;
+@synthesize lastTableView;
 
 @synthesize projectNames;
 @synthesize projectFolders;
@@ -265,6 +271,8 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 {
 	if(editingStyle == UITableViewCellEditingStyleDelete)
 	{
+		lastTableView = tableView;
+		
 		const char* buttonLabels[2] = {"Cancel", "OK"};
 		NSMutableString* message = [[NSMutableString alloc] initWithUTF8String:"Are you sure that you want to delete the project "];
 		[message appendString:[projectNames objectAtIndex:indexPath.row]];

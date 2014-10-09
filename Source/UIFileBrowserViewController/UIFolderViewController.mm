@@ -69,6 +69,10 @@
 			[links addObject:item.name];
 			[folders addObject:item.name];
 			break;
+			
+			case DIRECTORYITEM_UNKNOWN:
+			//well fuck
+			break;
 		}
 	}
 	
@@ -150,6 +154,10 @@
 			case DIRECTORYITEM_LINK_FOLDER:
 			[links addObject:item.name];
 			[folders addObject:item.name];
+			break;
+			
+			case DIRECTORYITEM_UNKNOWN:
+			//well fuck
 			break;
 		}
 	}

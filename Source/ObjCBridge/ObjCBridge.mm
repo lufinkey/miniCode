@@ -300,6 +300,7 @@ void Date_destroyInstance(Date_struct*date)
 }
 
 void Date_getString(Date_struct*date, char dateStr[26])
+//2010-12-25 00:00:00 -0600
 {
 	if(date==NULL || dateStr==NULL)
 	{

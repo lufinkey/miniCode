@@ -20,11 +20,19 @@ static String codeEditorFont = "Courier";
 static unsigned int codeEditorFontSize = 12;
 static bool syntaxHighlightingOn = true;
 
-static double currentVersion = 1.030;
-static String versionMessage = "Welcome to miniCode! If you enjoy using this app, feel free to donate by "
-								"going to \"Preferences\", selecting \"Donate\" and inputting an amount. Thank you!";
+static double currentVersion = 1.0310;
+static String versionMessage = "If you enjoy using this app, feel free to donate!";
 
 static ArrayList<String> installedApps;
+
+
+void onVersionMessageWillDismiss(void*data, int buttonIndex)
+{
+	if(buttonIndex==1)
+	{
+		openURL("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=M43B9W76GWWBS&lc=US&item_name=Broken%20Physics&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted", true);
+	}
+}
 
 
 bool GlobalPreferences_load()
@@ -90,13 +98,15 @@ bool GlobalPreferences_load()
 			if(version!=currentVersion)
 			{
 				resave = true;
-				showSimpleMessageBox("miniCode", versionMessage);
+				const char* buttonLabels[] = {"Cancel", "Donate"};
+				showSimpleMessageBox("miniCode", versionMessage, buttonLabels, 2, NULL, onVersionMessageWillDismiss, NULL);
 			}
 		}
 		else
 		{
 			resave = true;
-			showSimpleMessageBox("miniCode", versionMessage);
+			const char* buttonLabels[] = {"Cancel", "Donate"};
+			showSimpleMessageBox("miniCode", versionMessage, buttonLabels, 2, NULL, onVersionMessageWillDismiss, NULL);
 		}
 		
 		id_release(dict);
@@ -108,7 +118,8 @@ bool GlobalPreferences_load()
 	}
 	else
 	{
-		showSimpleMessageBox("miniCode", versionMessage);
+		const char* buttonLabels[] = {"Cancel", "Donate"};
+		showSimpleMessageBox("miniCode", versionMessage, buttonLabels, 2, NULL, onVersionMessageWillDismiss, NULL);
 		return GlobalPreferences_save();
 	}
 	return false;

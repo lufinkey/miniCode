@@ -4,6 +4,8 @@
 #import <UIKit/UIKit.h>
 #include <stdlib.h>
 #import "../Util/NumberCodes.h"
+#import "../UIWebViewController/UIWebViewController.h"
+#import "../iCodeAppDelegate.h"
 
 @interface SimpleMessageBoxDelegate : NSObject <UIAlertViewDelegate>
 {
@@ -161,9 +163,33 @@ void runCallbackInMainThread(ThreadCallback callback, void*data, bool wait)
 	[caller performSelectorOnMainThread:@selector(threadSelector) withObject:nil waitUntilDone:wait];
 }
 
-void openURL(const char*url)
+void openURL(const char*url, bool inApp)
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String:url]]];
+	if(inApp)
+	{
+		NSString* gotoURL = [[NSString alloc] initWithUTF8String:url];
+		UIWebViewController* webViewController = [[UIWebViewController alloc] init];
+		
+		UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, webViewController.view.frame.size.width, 44)];
+		UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:webViewController action:@selector(dismissSelf)];
+		[webViewController.navigationItem setLeftBarButtonItem:doneButton];
+		[doneButton release];
+		[navBar pushNavigationItem:webViewController.navigationItem animated:NO];
+		
+		[webViewController.view addSubview:navBar];
+		[webViewController.webView setFrame:CGRectMake(0, 44, webViewController.webView.frame.size.width, webViewController.webView.frame.size.height - 44)];
+		[navBar release];
+		
+		[webViewController loadExternalPage:gotoURL];
+		iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
+		[appDelegate.rootNavigator presentModalViewController:webViewController animated:YES];
+		[webViewController release];
+		[gotoURL release];
+	}
+	else
+	{
+		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithUTF8String:url]]];
+	}
 }
 
 

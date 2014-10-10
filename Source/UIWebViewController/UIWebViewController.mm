@@ -3,7 +3,6 @@
 
 #import "UIWebViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "FlipsideViewController.h"
 
 @interface UIWebViewController ()
 @property (nonatomic, retain) NSString *currentPageName;
@@ -23,8 +22,36 @@
 		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 		[activityView setFrame:CGRectMake(0,0,20,20)];
 		activityIndicator = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+		
+		webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+		webView.delegate = self;
+		self.view.autoresizesSubviews = YES;
+		self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		self.webView.autoresizesSubviews = YES;
+		self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[self.view addSubview:webView];
     }
     return self;
+}
+
+- (id)init
+{
+	self = [super init];
+	if(self)
+	{
+		activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+		[activityView setFrame:CGRectMake(0,0,20,20)];
+		activityIndicator = [[UIBarButtonItem alloc] initWithCustomView:activityView];
+		
+		webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+		webView.delegate = self;
+		self.view.autoresizesSubviews = YES;
+		self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		self.webView.autoresizesSubviews = YES;
+		self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[self.view addSubview:webView];
+	}
+	return self;
 }
 
 
@@ -42,44 +69,10 @@
 	[currentPageDirectory release];
 	[activityIndicator release];
 	[activityView release];
+	[webView release];
 	[super dealloc];
 }
 
-#pragma mark - View lifecycle
-
-
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{    
-    CGRect bounds = [[UIScreen mainScreen] bounds];
-    
-	UIWebView* webview = [[UIWebView alloc] init];
-	webview.delegate = self;
-    self.view = webview;
-	[webview release];
-    self.view.autoresizesSubviews = YES;
-    self.view.frame = CGRectMake(0, 0, bounds.size.width, bounds.size.height);
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [[self webView] setDelegate:self];	
-    
-    //Disable web view bounce
-    [(UIScrollView*)[[[self webView] subviews] objectAtIndex:0] setBounces:NO];
-}
-
-- (void)viewDidUnload
-{
-    [[self webView] setDelegate:nil];
-    
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -87,12 +80,14 @@
 	return YES;
 }
 
+- (void)dismissSelf
+{
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark -
 #pragma mark Get&Set
 - (UIWebView*)webView{
-    if (!webView){
-        webView = (UIWebView*)self.view;
-    }
     return webView;
 }
 
@@ -184,23 +179,6 @@
 		[activityView startAnimating];
 	}
 	[self.navigationItem setRightBarButtonItem:activityIndicator];
-}
-
-#pragma -
-#pragma Actions
-- (void)showFlipSide{
-    FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
-    controller.delegate = self;
-    
-    controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentModalViewController:controller animated:YES];
-    
-}
-
-#pragma -
-#pragma FlipSideViewDelegateProtocol
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller{
-    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

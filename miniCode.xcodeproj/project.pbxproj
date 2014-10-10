@@ -111,7 +111,6 @@
 		A08D380219511DD0009F1BB2 /* installer in Resources */ = {isa = PBXBuildFile; fileRef = A08D37B919511DD0009F1BB2 /* installer */; };
 		A08D380319511DD0009F1BB2 /* miniCodeInstall in Resources */ = {isa = PBXBuildFile; fileRef = A08D37BA19511DD0009F1BB2 /* miniCodeInstall */; };
 		A08D380419511DD0009F1BB2 /* Project Templates in Resources */ = {isa = PBXBuildFile; fileRef = A08D37BB19511DD0009F1BB2 /* Project Templates */; };
-		A08D38BF195124D6009F1BB2 /* FlipsideViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */; };
 		A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */; };
 		A0A1398319703F160061B778 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0A1398219703F160061B778 /* CoreFoundation.framework */; };
 		A0A139B219703F230061B778 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0A139B119703F230061B778 /* CoreText.framework */; };
@@ -325,8 +324,6 @@
 		A08D37B919511DD0009F1BB2 /* installer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = installer; sourceTree = "<group>"; };
 		A08D37BA19511DD0009F1BB2 /* miniCodeInstall */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = miniCodeInstall; sourceTree = "<group>"; };
 		A08D37BB19511DD0009F1BB2 /* Project Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Project Templates"; sourceTree = "<group>"; };
-		A08D38BB195124D6009F1BB2 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
-		A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FlipsideViewController.mm; sourceTree = "<group>"; };
 		A08D38BD195124D6009F1BB2 /* UIWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebViewController.h; sourceTree = "<group>"; };
 		A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIWebViewController.mm; sourceTree = "<group>"; };
 		A0A1398219703F160061B778 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -768,8 +765,6 @@
 		A08D38BA195124D6009F1BB2 /* UIWebViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A08D38BB195124D6009F1BB2 /* FlipsideViewController.h */,
-				A08D38BC195124D6009F1BB2 /* FlipsideViewController.mm */,
 				A08D38BD195124D6009F1BB2 /* UIWebViewController.h */,
 				A08D38BE195124D6009F1BB2 /* UIWebViewController.mm */,
 			);
@@ -959,7 +954,6 @@
 				A066D59C1951165100F49F6D /* UIControlLabel.mm in Sources */,
 				A066D59D1951165100F49F6D /* UIDictionaryTableViewCell.mm in Sources */,
 				A066D59E1951165100F49F6D /* UIImageManager.mm in Sources */,
-				A08D38BF195124D6009F1BB2 /* FlipsideViewController.mm in Sources */,
 				A08D38C0195124D6009F1BB2 /* UIWebViewController.mm in Sources */,
 				A0CB3889195489900037BE42 /* CopyAction.mm in Sources */,
 				A0DD33181954CEE60000D832 /* MoveAction.mm in Sources */,

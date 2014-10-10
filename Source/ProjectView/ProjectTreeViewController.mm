@@ -575,6 +575,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			}
 			else
 			{
+				selectedCell = pcell;
 				[openInMenu showInView:pcell];
 			}
 		}
@@ -1099,7 +1100,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			case 0:
 			//Code Editor - Open in... Menu
 			{
-				if(![self openCell:selectedCell withFileViewer:appDelegate.codeEditorController])
+				if(![self openCell:selectedCell withFileViewer:(id<FileEditorDelegate>)appDelegate.codeEditorController])
 				{
 					showSimpleMessageBox("Error", "Unable to load file");
 				}
@@ -1109,7 +1110,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			case 1:
 			//Plist Editor - Open in... Menu
 			{
-				if(![self openCell:selectedCell withFileViewer:appDelegate.plistViewerController])
+				if(![self openCell:selectedCell withFileViewer:(id<FileEditorDelegate>)appDelegate.plistViewerController])
 				{
 					showSimpleMessageBox("Error", "Unable to load file");
 				}
@@ -1119,7 +1120,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 			case 2:
 			//Image Viewer - Open in... Menu
 			{
-				if(![self openCell:selectedCell withFileViewer:appDelegate.imageViewerController])
+				if(![self openCell:selectedCell withFileViewer:(id<FileEditorDelegate>)appDelegate.imageViewerController])
 				{
 					showSimpleMessageBox("Error", "Unable to load file");
 				}

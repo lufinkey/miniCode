@@ -338,8 +338,7 @@ NSMutableArray* UIFileBrowser_allocateArrayFromDirectory(const char*path)
 
 
 
-#pragma mark -
-#pragma mark FileBrowser implementation
+#pragma mark - FileBrowser implementation
 
 
 

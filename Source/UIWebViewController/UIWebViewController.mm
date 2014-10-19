@@ -85,14 +85,12 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-#pragma mark -
-#pragma mark Get&Set
+#pragma mark - Get&Set
 - (UIWebView*)webView{
     return webView;
 }
 
-#pragma mark -
-#pragma mark Actions
+#pragma mark - Actions
 - (void)loadPageNamed:(NSString*)name inSubdirectory:(NSString*)subdirectory{
 #ifdef DEBUG
     NSLog(@"[%@] Loading page named: '%@' in directory: '%@'", NSStringFromClass([self class]), name, subdirectory);

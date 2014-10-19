@@ -5,8 +5,7 @@
 
 @synthesize verticalAlignment;
 
-#pragma mark -
-#pragma mark Super
+#pragma mark - Super
 
 - (void) drawTextInRect:(CGRect)rect
 {
@@ -24,8 +23,7 @@
 	[super drawTextInRect:rect];
 }
 
-#pragma mark -
-#pragma mark Self
+#pragma mark - Self
 
 - (void) setVerticalAlignment:(UIControlContentVerticalAlignment)_verticalAlignment
 {

@@ -3,8 +3,7 @@
 
 @implementation RootViewController
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 /*
 - (void)viewDidLoad
@@ -51,8 +50,7 @@
  */
 
 
-#pragma mark -
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -129,8 +127,7 @@
 */
 
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -144,8 +141,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)didReceiveMemoryWarning
 {

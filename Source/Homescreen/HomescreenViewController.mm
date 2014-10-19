@@ -5,54 +5,57 @@
 #import <QuartzCore/QuartzCore.h>
 
 @implementation HomescreenViewController
+{
+	UIImage*xcodeLogo;
+	
+	@private
+	UITableView * projectOptions,
+              * recentProjects;
+  UIImageView * xcodeLogoView;
+	UILabel     * welcomeLabel;
+}
 
 @synthesize xcodeLogo;
 
-- (id)init
+- init
 {
-	self = [super init];
-	if(self==nil)
-	{
-		return nil;
-	}
-	
+  if (!(self = super.init)) return nil;
 	[self setTitle:@"miniCode"];
 	
-	[self.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	[self.view setBackgroundColor:UIColor.groupTableViewBackgroundColor];
 	
-	recentProjects = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStylePlain];
+	recentProjects = [UITableView.alloc initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStylePlain];
 	recentProjects.layer.cornerRadius = 20;
 	
 	//project options table
 	int tableOffsetY = 250;
-	projectOptions = [[UITableView alloc] initWithFrame:CGRectMake(0, tableOffsetY, self.view.bounds.size.width, self.view.bounds.size.height-tableOffsetY) style:UITableViewStyleGrouped];
+	[self.view addSubview:	projectOptions = [UITableView.alloc initWithFrame:CGRectMake(0, tableOffsetY,
+                                                             self.view.bounds.size.width, self.view.bounds.size.height-tableOffsetY) style:UITableViewStyleGrouped]];
 	projectOptions.delegate = self;
 	projectOptions.dataSource = self;
 	projectOptions.scrollEnabled = NO;
 	[projectOptions setBackgroundView:nil];
-	
-	[self.view addSubview:projectOptions];
-	
-	//xcode logo image
-	int centerX = self.view.bounds.size.width/2;
-	int logoOffsetY = 8;
-	int logoScale = 200;
+
+	int welcomeLabelHeight = 50, //"Welcome to Minicode" text
+                 centerX = self.view.bounds.size.width/2, //xcode logo image
+             logoOffsetY = 8,
+               logoScale = 200;
+
 	[UIImageManager loadImage:@"Images/xcode_logo.png"];
-	xcodeLogo = [UIImageManager getImage:@"Images/xcode_logo.png"];
+
+	[self.view addSubview: xcodeLogoView =
+      [UIImageView.alloc initWithFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY,
+                                                                          logoScale, logoScale)]];
+	[xcodeLogoView setImage:xcodeLogo = [UIImageManager getImage:@"Images/xcode_logo.png"]];
 	
-	xcodeLogoView = [[UIImageView alloc] initWithFrame:CGRectMake(centerX-(logoScale/2), logoOffsetY, logoScale, logoScale)];
-	[xcodeLogoView setImage:xcodeLogo];
-	
-	[self.view addSubview:xcodeLogoView];
-	
-	//"Welcome to Minicode" text
-	int welcomeLabelHeight = 50;
-	welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoScale+logoOffsetY, self.view.bounds.size.width, welcomeLabelHeight)];
+  //"Welcome to Minicode" text
+	welcomeLabel = [UILabel.alloc initWithFrame:CGRectMake(0, logoScale+logoOffsetY,
+                               self.view.bounds.size.width, welcomeLabelHeight)];
 	[welcomeLabel setText:@"Welcome to miniCode"];
-	[welcomeLabel setTextColor:[UIColor darkGrayColor]];
+	[welcomeLabel setTextColor:UIColor.darkGrayColor];
 	[welcomeLabel setTextAlignment:NSTextAlignmentCenter];
-	[welcomeLabel setBackgroundColor:[UIColor clearColor]];
-	[welcomeLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 24.0f]];
+	[welcomeLabel setBackgroundColor:UIColor.clearColor];
+	[welcomeLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 24]];
 	[self.view addSubview:welcomeLabel];
 	
 	return self;
@@ -149,12 +152,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if(UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
-	   && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft || self.interfaceOrientation==UIInterfaceOrientationLandscapeRight))
-	{
-		return 2;
-	}
-	return 3;
+	return UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad
+	   && (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft
+     ||  self.interfaceOrientation==UIInterfaceOrientationLandscapeRight) ? 2 : 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -188,13 +188,10 @@
 		cellText = @"dafuq";
 		break;
 	}
-	UITableViewCell*cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	if(cell==nil)
-	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
-	}
+	UITableViewCell*cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier] ?:
+                         [UITableViewCell.alloc initWithStyle:UITableViewCellStyleDefault
+                                              reuseIdentifier:cellIdentifier].autorelease;
 	[cell.textLabel setText:cellText];
-	
 	return cell;
 }
 

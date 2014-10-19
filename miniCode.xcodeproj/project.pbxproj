@@ -980,10 +980,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iCode-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SDL/lib\"",
-				);
 				PRODUCT_NAME = miniCode;
 			};
 			name = Debug;
@@ -1000,10 +996,6 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iCode-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SDL/lib\"",
-				);
 				PRODUCT_NAME = miniCode;
 				VALIDATE_PRODUCT = YES;
 			};

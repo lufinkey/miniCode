@@ -7,14 +7,10 @@
 
 @implementation BuildOptionsActionSheet
 
-- (id)initForViewController:(UIViewController*)viewCtrl
+- initForViewController:(UIViewController*)viewCtrl
 {
-	self = [super initWithTitle:@"Build Options" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-	if(self==nil)
-	{
-		return nil;
-	}
-	
+	if (!(self = [super initWithTitle:@"Build Options" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil])) return nil;
+
 	viewController = viewCtrl;
 	
 	[self setDelegate:self];

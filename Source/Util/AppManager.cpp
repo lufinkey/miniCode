@@ -7,6 +7,8 @@
 #include "Thread.h"
 #include "../ObjCBridge/ObjCBridge.h"
 
+#include <stdlib.h>
+
 static const String AppManager_resultFile = "/tmp/miniCodeInstaller.result";
 
 bool AppManager_runCommand(const String& srcFile, const ArrayList<String>& args)

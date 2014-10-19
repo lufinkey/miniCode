@@ -35,7 +35,6 @@
 		A066D5561951165100F49F6D /* iCodeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4A51951165100F49F6D /* iCodeAppDelegate.mm */; };
 		A066D5571951165100F49F6D /* IconManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4A81951165100F49F6D /* IconManager.mm */; };
 		A066D5581951165100F49F6D /* LGViewHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A066D4AB1951165100F49F6D /* LGViewHUD.m */; };
-		A066D5591951165100F49F6D /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4AC1951165100F49F6D /* main.mm */; };
 		A066D55A1951165100F49F6D /* NavigatedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4AF1951165100F49F6D /* NavigatedViewController.mm */; };
 		A066D55B1951165100F49F6D /* UINavigator.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4B11951165100F49F6D /* UINavigator.mm */; };
 		A066D55C1951165100F49F6D /* ObjCBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D4B31951165100F49F6D /* ObjCBridge.cpp */; };
@@ -174,7 +173,6 @@
 		A066D4A81951165100F49F6D /* IconManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IconManager.mm; sourceTree = "<group>"; };
 		A066D4AA1951165100F49F6D /* LGViewHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGViewHUD.h; sourceTree = "<group>"; };
 		A066D4AB1951165100F49F6D /* LGViewHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGViewHUD.m; sourceTree = "<group>"; };
-		A066D4AC1951165100F49F6D /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		A066D4AE1951165100F49F6D /* NavigatedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigatedViewController.h; sourceTree = "<group>"; };
 		A066D4AF1951165100F49F6D /* NavigatedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NavigatedViewController.mm; sourceTree = "<group>"; };
 		A066D4B01951165100F49F6D /* UINavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigator.h; sourceTree = "<group>"; };
@@ -454,7 +452,6 @@
 				A066D5291951165100F49F6D /* Util */,
 				A066D4A41951165100F49F6D /* iCodeAppDelegate.h */,
 				A066D4A51951165100F49F6D /* iCodeAppDelegate.mm */,
-				A066D4AC1951165100F49F6D /* main.mm */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -886,7 +883,6 @@
 				A066D5561951165100F49F6D /* iCodeAppDelegate.mm in Sources */,
 				A066D5571951165100F49F6D /* IconManager.mm in Sources */,
 				A066D5581951165100F49F6D /* LGViewHUD.m in Sources */,
-				A066D5591951165100F49F6D /* main.mm in Sources */,
 				A066D55A1951165100F49F6D /* NavigatedViewController.mm in Sources */,
 				A066D55B1951165100F49F6D /* UINavigator.mm in Sources */,
 				A066D55C1951165100F49F6D /* ObjCBridge.cpp in Sources */,

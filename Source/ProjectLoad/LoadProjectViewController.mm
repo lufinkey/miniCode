@@ -208,8 +208,7 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 	
 }
 
-#pragma mark -
-#pragma mark Memory Management
+#pragma mark - Memory Management
 
 - (void)dealloc
 {
@@ -222,8 +221,7 @@ void deleteProjectAlertHandler(void*data, int buttonIndex)
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark Table View Events
+#pragma mark - Table View Events
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

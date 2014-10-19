@@ -35,7 +35,6 @@
 		A066D5561951165100F49F6D /* iCodeAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4A51951165100F49F6D /* iCodeAppDelegate.mm */; };
 		A066D5571951165100F49F6D /* IconManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4A81951165100F49F6D /* IconManager.mm */; };
 		A066D5581951165100F49F6D /* LGViewHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A066D4AB1951165100F49F6D /* LGViewHUD.m */; };
-		A066D5591951165100F49F6D /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4AC1951165100F49F6D /* main.mm */; };
 		A066D55A1951165100F49F6D /* NavigatedViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4AF1951165100F49F6D /* NavigatedViewController.mm */; };
 		A066D55B1951165100F49F6D /* UINavigator.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D4B11951165100F49F6D /* UINavigator.mm */; };
 		A066D55C1951165100F49F6D /* ObjCBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A066D4B31951165100F49F6D /* ObjCBridge.cpp */; };
@@ -174,7 +173,6 @@
 		A066D4A81951165100F49F6D /* IconManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IconManager.mm; sourceTree = "<group>"; };
 		A066D4AA1951165100F49F6D /* LGViewHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGViewHUD.h; sourceTree = "<group>"; };
 		A066D4AB1951165100F49F6D /* LGViewHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGViewHUD.m; sourceTree = "<group>"; };
-		A066D4AC1951165100F49F6D /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		A066D4AE1951165100F49F6D /* NavigatedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigatedViewController.h; sourceTree = "<group>"; };
 		A066D4AF1951165100F49F6D /* NavigatedViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NavigatedViewController.mm; sourceTree = "<group>"; };
 		A066D4B01951165100F49F6D /* UINavigator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigator.h; sourceTree = "<group>"; };
@@ -454,7 +452,6 @@
 				A066D5291951165100F49F6D /* Util */,
 				A066D4A41951165100F49F6D /* iCodeAppDelegate.h */,
 				A066D4A51951165100F49F6D /* iCodeAppDelegate.mm */,
-				A066D4AC1951165100F49F6D /* main.mm */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -819,7 +816,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "miniCode" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -886,7 +883,6 @@
 				A066D5561951165100F49F6D /* iCodeAppDelegate.mm in Sources */,
 				A066D5571951165100F49F6D /* IconManager.mm in Sources */,
 				A066D5581951165100F49F6D /* LGViewHUD.m in Sources */,
-				A066D5591951165100F49F6D /* main.mm in Sources */,
 				A066D55A1951165100F49F6D /* NavigatedViewController.mm in Sources */,
 				A066D55B1951165100F49F6D /* UINavigator.mm in Sources */,
 				A066D55C1951165100F49F6D /* ObjCBridge.cpp in Sources */,
@@ -983,10 +979,7 @@
 				GCC_PREFIX_HEADER = iCode_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iCode-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SDL/lib\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = miniCode;
 			};
 			name = Debug;
@@ -1002,10 +995,7 @@
 				GCC_PREFIX_HEADER = iCode_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iCode-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/SDL/lib\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = miniCode;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1014,18 +1004,17 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "MrGray.com Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CODE_SIGN_FLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1033,19 +1022,17 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "MrGray.com Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PREBINDING = NO;
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -1,6 +1,5 @@
 
 #include "ObjCBridge.h"
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #include <stdlib.h>
 #import "../Util/NumberCodes.h"
@@ -460,9 +459,11 @@ void* Date_allocateNSDate(Date_struct *date)
 	char dateStr[26];
 	Date_getString(date, dateStr);
 	NSString* str = [[NSString alloc] initWithUTF8String:dateStr];
-	
-	NSDate*nsdate = [[NSDate alloc] initWithString:str];
-	
+
+  // Convert string to date object
+  NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+  [dateFormat setDateFormat:@"yyyyMMdd"];
+  NSDate *nsdate = [dateFormat dateFromString:str];
 	[str release];
 	return nsdate;
 }

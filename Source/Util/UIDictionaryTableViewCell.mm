@@ -110,7 +110,7 @@ DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 				inputField = [[UITextField alloc] initWithFrame:CGRectMake(0,0,0,0)];
 				[self loadInputFieldFrameForState:currentState];
 				[inputField setText:[object stringValue]];
-				[inputField setTextAlignment:UITextAlignmentRight];
+				[inputField setTextAlignment:NSTextAlignmentRight];
 				[inputField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
 				[inputField setBorderStyle:UITextBorderStyleNone];
 				[inputField setDelegate:self];

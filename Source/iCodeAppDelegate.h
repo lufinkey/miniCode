@@ -19,41 +19,13 @@
 #import "PreferencesView/PreferencesViewController.h"
 
 @interface iCodeAppDelegate : NSObject <UIApplicationDelegate>
-{
-	UIWindow* window;
-	UINavigator*rootNavigator;
-	UINavigator*createProjectNavigator;
-	UINavigator*preferencesNavigator;
-	
-	HomescreenViewController* homescreenController;
-	
-	//ProjectLoad
-	CreateProjectViewController* createProjectController;
-	SelectTemplateCategoryViewController* selectTemplateCategoryController;
-	LoadProjectViewController* loadProjectController;
-	
-	//ProjectView
-	ProjectTreeViewController* projectTreeController;
-	CodeEditorViewController* codeEditorController;
-	ImageViewerViewController* imageViewerController;
-	PlistViewerViewController* plistViewerController;
-	
-	//CompilerView
-	CompilerViewController* compilerController;
-	
-	//PreferencesView
-	PreferencesViewController* preferencesController;
-	
-	//attributes
-	ProjectData_struct*projData;
-}
 
-- (void)loadScreens;
+- (void) loadScreens;
 
 @property (nonatomic, retain) UIWindow* window;
-@property (nonatomic, retain) UINavigator* rootNavigator;
-@property (nonatomic, retain) UINavigator* createProjectNavigator;
-@property (nonatomic, retain) UINavigator* preferencesNavigator;
+@property (nonatomic, retain) UINavigator* rootNavigator,
+                                         * createProjectNavigator,
+                                         * preferencesNavigator;
 
 @property (nonatomic, retain) HomescreenViewController* homescreenController;
 

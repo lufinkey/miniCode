@@ -7,6 +7,7 @@
 #include "../Util/String.h"
 #include "../Util/ArrayList.h"
 #include "../ProjectLoad/ProjLoadTools.h"
+#include <stdlib.h>
 
 CompilerOutputLine_struct CompilerOutputLine_createWithData(void*data)
 {
@@ -338,7 +339,8 @@ void CompilerTools_installApplication(ProjectData_struct*project, InstallThreadF
 void CompilerTools_runApplication(const char* bundleID)
 {
 	String command = (String)"open " + bundleID;
-	system(command);
+
+  system(command);
 }
 
 StringList_struct* CompilerTools_loadWarningList()

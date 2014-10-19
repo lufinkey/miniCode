@@ -5,55 +5,60 @@
 #import "PreferencesView/GlobalPreferences.h"
 
 @implementation iCodeAppDelegate
+{
+	UIWindow* window;
+	UINavigator*rootNavigator;
+	UINavigator*createProjectNavigator;
+	UINavigator*preferencesNavigator;
+	
+	HomescreenViewController* homescreenController;
+	
+	//ProjectLoad
+	CreateProjectViewController* createProjectController;
+	SelectTemplateCategoryViewController* selectTemplateCategoryController;
+	LoadProjectViewController* loadProjectController;
+	
+	//ProjectView
+	ProjectTreeViewController* projectTreeController;
+	CodeEditorViewController* codeEditorController;
+	ImageViewerViewController* imageViewerController;
+	PlistViewerViewController* plistViewerController;
+	
+	//CompilerView
+	CompilerViewController* compilerController;
+	
+	//PreferencesView
+	PreferencesViewController* preferencesController;
+	
+	//attributes
+	ProjectData_struct*projData;
+}
 
-@synthesize window;
-@synthesize rootNavigator;
-@synthesize createProjectNavigator;
-@synthesize preferencesNavigator;
-
-@synthesize homescreenController;
-
-@synthesize createProjectController;
-@synthesize selectTemplateCategoryController;
-@synthesize loadProjectController;
-
-@synthesize projectTreeController;
-@synthesize codeEditorController;
-@synthesize imageViewerController;
-@synthesize plistViewerController;
-
-@synthesize compilerController;
-
-@synthesize preferencesController;
-
-@synthesize projData;
+@synthesize window, rootNavigator, createProjectNavigator, preferencesNavigator, homescreenController, createProjectController, selectTemplateCategoryController, loadProjectController, projectTreeController, codeEditorController, imageViewerController, plistViewerController, compilerController, preferencesController, projData;
 
 - (void)loadScreens
 {
-	createProjectController = [[CreateProjectViewController alloc] init];
+	createProjectController = [CreateProjectViewController new];
 	
-	createProjectNavigator = [[UINavigator alloc] initWithRootViewController:self.createProjectController];
-	[createProjectNavigator.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	createProjectNavigator = [UINavigator.alloc initWithRootViewController:self.createProjectController];
+	[createProjectNavigator.view setBackgroundColor:UIColor.groupTableViewBackgroundColor];
 	[createProjectNavigator.navigationBar setBarStyle:UIBarStyleBlack];
 	[createProjectNavigator setModalPresentationStyle:UIModalPresentationFormSheet];
 	
-	loadProjectController = [[LoadProjectViewController alloc] init];
-	selectTemplateCategoryController = [[SelectTemplateCategoryViewController alloc] init];
-	
-	projectTreeController = [[ProjectTreeViewController alloc] init];
-	codeEditorController = [[CodeEditorViewController alloc] init];
-	imageViewerController = [[ImageViewerViewController alloc] init];
-	plistViewerController = [[PlistViewerViewController alloc] init];
-	
-	compilerController = nil;
-	
-	preferencesController = [[PreferencesViewController alloc] init];
-	preferencesNavigator = [[UINavigator alloc] initWithRootViewController:preferencesController];
-	[preferencesNavigator.navigationBar setBarStyle:UIBarStyleBlack];
+  loadProjectController            = [LoadProjectViewController            new];
+  selectTemplateCategoryController = [SelectTemplateCategoryViewController new];
+  projectTreeController            = [ProjectTreeViewController            new];
+  codeEditorController             = [CodeEditorViewController             new];
+  imageViewerController            = [ImageViewerViewController            new];
+  plistViewerController            = [PlistViewerViewController            new];
+  preferencesController            = [PreferencesViewController            new];
+
+  compilerController               = nil;
+	(preferencesNavigator = [UINavigator.alloc initWithRootViewController:preferencesController])
+                                      .navigationBar.barStyle = UIBarStyleBlack;
 }
 
-#pragma mark -
-#pragma mark Application lifecycle
+#pragma mark - Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -68,7 +73,7 @@
 	GlobalPreferences_load();
 	
 	// Create root UIViewController
-	homescreenController = [[HomescreenViewController alloc] init];
+	homescreenController = [HomescreenViewController new];
 	rootNavigator = [[UINavigator alloc] initWithRootViewController:homescreenController];
 	//[rootNavigator.view setContentMode:UIViewContentModeScaleAspectFit];
 	//[rootNavigator.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
@@ -131,8 +136,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
@@ -173,3 +177,18 @@
 
 
 @end
+
+
+#import "ObjCBridge/ObjCBridge.h"
+#import <unistd.h>
+
+int main(int argc, char *argv[])
+{
+	//setuid(0);
+  int retVal = EXIT_FAILURE;
+  @autoreleasepool {
+    init_ObjCBridge(argc, argv);
+    retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([iCodeAppDelegate class]));
+  }
+	return retVal;
+}

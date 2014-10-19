@@ -10,15 +10,11 @@ class CompilerOutputLine
 {
 	friend class CompilerOrganizer;
 private:
-	String output;
 	ArrayList<String> supplementaryOutput;
 	CompilerOutputType type;
-	
-	String fileName;
-	unsigned int line;
-	unsigned int offset;
-	String errorType;
-	String message;
+
+	unsigned int line, offset;
+	String output, fileName, errorType, message;
 	
 	int value;
 	

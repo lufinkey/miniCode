@@ -12,8 +12,7 @@ private:
 	CompilerOrganizer* organizer;
 	
 	String currentFile;
-	int lastResult;
-	int result;
+	int lastResult, result;
 	
 public:
 	CompilerThread(CompilerOrganizer* organizer);

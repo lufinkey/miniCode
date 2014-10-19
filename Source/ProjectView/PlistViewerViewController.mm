@@ -53,8 +53,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 
 
-#pragma mark -
-#pragma mark PlistViewController
+#pragma mark - PlistViewController
 
 
 
@@ -154,8 +153,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 
 
-#pragma mark -
-#pragma mark PlistStringViewController
+#pragma mark - PlistStringViewController
 
 
 
@@ -558,8 +556,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 
 
-#pragma mark -
-#pragma mark PlistDictionaryViewController
+#pragma mark - PlistDictionaryViewController
 
 
 
@@ -962,8 +959,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 
 
-#pragma mark -
-#pragma mark PlistArrayViewController
+#pragma mark - PlistArrayViewController
 
 
 
@@ -1362,8 +1358,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 
 
-#pragma mark -
-#pragma mark PlistBranchmakerViewController
+#pragma mark - PlistBranchmakerViewController
 
 
 
@@ -1676,8 +1671,7 @@ static const int BRANCHTYPE_ARRAY = 6;
 
 
 
-#pragma mark -
-#pragma mark PlistViewerViewController
+#pragma mark - PlistViewerViewController
 
 
 

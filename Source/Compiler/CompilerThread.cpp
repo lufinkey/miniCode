@@ -7,9 +7,10 @@
 #include "../ProjectLoad/ProjLoadTools.h"
 #include "../Util/Subprocess.h"
 #include "../PreferencesView/GlobalPreferences.h"
+#include <stdlib.h>
 
-static String clangCommand = "clang";
-static String libtoolCommand = "libtool";
+static String clangCommand = "clang",
+            libtoolCommand = "libtool";
 
 #define sourceTypes {"cpp", "c", "cc", "c++", "cp", "cxx", "m", "mm", "a", "o"}
 #define sourceTypesTotal 10

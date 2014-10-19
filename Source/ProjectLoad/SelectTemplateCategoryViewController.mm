@@ -109,8 +109,7 @@
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark Table View Events
+#pragma mark - Table View Events
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

@@ -104,7 +104,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	[statusLabel setBackgroundColor:[UIColor clearColor]];
 	[statusLabel setFont:[UIFont fontWithName:@"Helvetica" size:16]];
 	[statusLabel setTextColor:[UIColor whiteColor]];
-	[statusLabel setTextAlignment:UITextAlignmentLeft];
+	[statusLabel setTextAlignment:NSTextAlignmentLeft];
 	[statusLabel setText:navItem.title];
 	[navItem setTitleView:statusLabel];
 	[statusBar pushNavigationItem:navItem animated:NO];
@@ -127,7 +127,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	[successLabel setText:@"Build Succeeded"];
 	[successLabel setFont:[UIFont fontWithName:@"Helvetica" size:24]];
 	[successLabel setTextColor:[UIColor blackColor]];
-	[successLabel setTextAlignment:UITextAlignmentLeft];
+	[successLabel setTextAlignment:NSTextAlignmentLeft];
 	[successLabel setBackgroundColor:[UIColor clearColor]];
 	[successView addSubview:successLabel];
 	[successLabel release];
@@ -136,7 +136,7 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	[successLabel2 setText:@"No Issues"];
 	[successLabel2 setFont:[UIFont fontWithName:@"Helvetica" size:16]];
 	[successLabel2 setTextColor:[UIColor blackColor]];
-	[successLabel2 setTextAlignment:UITextAlignmentLeft];
+	[successLabel2 setTextAlignment:NSTextAlignmentLeft];
 	[successLabel2 setBackgroundColor:[UIColor clearColor]];
 	[successView addSubview:successLabel2];
 	[successLabel2 release];

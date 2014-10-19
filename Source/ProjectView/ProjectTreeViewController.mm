@@ -203,8 +203,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 
 
 
-#pragma mark -
-#pragma mark ProjectData Loading
+#pragma mark - ProjectData Loading
 
 
 
@@ -352,8 +351,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 
 
 
-#pragma mark -
-#pragma mark UITreeView Loading
+#pragma mark - UITreeView Loading
 
 
 
@@ -547,8 +545,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 
 
 
-#pragma mark -
-#pragma mark Events
+#pragma mark - Events
 
 
 

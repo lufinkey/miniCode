@@ -1,6 +1,5 @@
 
 #include "ObjCBridge.h"
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #include <stdlib.h>
 #import "../Util/NumberCodes.h"

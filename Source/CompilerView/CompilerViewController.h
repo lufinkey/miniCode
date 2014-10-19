@@ -1,5 +1,4 @@
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "../Compiler/CompilerTools.h"
 #import "../ObjCBridge/ObjCBridge.h"

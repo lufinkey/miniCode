@@ -160,13 +160,13 @@
 	[projectAuthorField setText:@""];
 }
 
-- (void)closeAndLoadTemplate:(NSString*)templateName category:(NSString*)category
+- (void)closeAndLoadTemplate:(NSString*)templateName category:(NSString*)category templatesRoot:(NSString*)templatesRoot
 {
 	iCodeAppDelegate* appDelegate = [[UIApplication sharedApplication] delegate];
 	[projectNameField resignFirstResponder];
 	[projectAuthorField resignFirstResponder];
 	
-	appDelegate.projData = ProjLoad_prepareProjectFromTemplate([category UTF8String], [templateName UTF8String]);
+	appDelegate.projData = ProjLoad_prepareProjectFromTemplate([category UTF8String], [templateName UTF8String], [templatesRoot UTF8String]);
 	if(appDelegate.projData==NULL)
 	{
 		showSimpleMessageBox("Error", "Unable to load template");

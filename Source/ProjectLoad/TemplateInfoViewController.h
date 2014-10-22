@@ -4,6 +4,7 @@
 
 @interface TemplateInfoViewController : NavigatedViewController
 {
+	NSString*templatesRoot;
 	NSString*templateName;
 	NSString*categoryName;
 	
@@ -12,9 +13,10 @@
 	UITextView* info;
 }
 
-- (id)initWithTemplate:(NSString*)templateName category:(NSString*)category;
+- (id)initWithTemplate:(NSString*)templateName category:(NSString*)category templatesRoot:(NSString*)templatesRoot;
 - (void)selectTemplate;
 
+@property (nonatomic, retain) NSString* templatesRoot;
 @property (nonatomic, retain) NSString* templateName;
 @property (nonatomic, retain) NSString* categoryName;
 

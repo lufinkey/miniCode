@@ -8,8 +8,12 @@
 @implementation SelectTemplateCategoryViewController
 
 @synthesize categoryList;
-@synthesize categoryIcons;
-@synthesize categoryViews;
+
+@synthesize defaultCategoryIcons;
+@synthesize defaultCategoryViews;
+
+@synthesize userCategoryIcons;
+@synthesize userCategoryViews;
 
 - (id)init
 {
@@ -19,9 +23,14 @@
 		return nil;
 	}
 	
-	categoryNames = NULL;
-	categoryIcons = nil;
-	categoryViews = nil;
+	defaultCategoryNames = NULL;
+	defaultCategoryIcons = nil;
+	defaultCategoryViews = nil;
+	
+	userCategoryNames = NULL;
+	userCategoryIcons = nil;
+	userCategoryViews = nil;
+	
 	categoryList = nil;
 	
 	[self setTitle:@"Select Template"];
@@ -52,37 +61,79 @@
 
 - (void)reloadCategories
 {
-	if(categoryNames!=NULL)
+	if(defaultCategoryNames!=NULL)
 	{
-		StringList_destroyInstance(categoryNames);
-		categoryNames = NULL;
+		StringList_destroyInstance(defaultCategoryNames);
+		defaultCategoryNames = NULL;
 	}
-	if(categoryIcons!=nil)
+	if(defaultCategoryIcons!=nil)
 	{
-		[categoryIcons release];
-		categoryIcons = nil;
+		[defaultCategoryIcons release];
+		defaultCategoryIcons = nil;
 	}
-	if(categoryViews!=nil)
+	if(defaultCategoryViews!=nil)
 	{
-		[categoryViews release];
-		categoryViews = nil;
+		[defaultCategoryViews release];
+		defaultCategoryViews = nil;
 	}
 	
-	categoryNames = ProjLoad_loadCategoryList();
-	categoryIcons = [[NSMutableArray alloc] init];
-	categoryViews = [[NSMutableArray alloc] init];
-	
-	for(int i=0; i<StringList_size(categoryNames); i++)
+	if(userCategoryNames!=NULL)
 	{
-		const char* categoryName = StringList_get(categoryNames,i);
-		UIImage*img = (UIImage*)ProjLoad_loadCategoryIcon(categoryName);
-		[categoryIcons addObject:img];
+		StringList_destroyInstance(userCategoryNames);
+		userCategoryNames = NULL;
+	}
+	if(userCategoryIcons!=nil)
+	{
+		[userCategoryIcons release];
+		userCategoryIcons = nil;
+	}
+	if(userCategoryViews!=nil)
+	{
+		[userCategoryViews release];
+		userCategoryViews = nil;
+	}
+	
+	const char* defaultTemplatesFolder = ProjLoad_getDefaultTemplatesFolder();
+	NSString* defaultTemplatesRoot = [[NSString alloc] initWithUTF8String:defaultTemplatesFolder];
+	
+	defaultCategoryNames = ProjLoad_loadCategoryList(defaultTemplatesFolder);
+	defaultCategoryIcons = [[NSMutableArray alloc] init];
+	defaultCategoryViews = [[NSMutableArray alloc] init];
+	
+	for(int i=0; i<StringList_size(defaultCategoryNames); i++)
+	{
+		const char* categoryName = StringList_get(defaultCategoryNames,i);
+		UIImage*img = (UIImage*)ProjLoad_loadCategoryIcon(categoryName, defaultTemplatesFolder);
+		[defaultCategoryIcons addObject:img];
 		[img release];
 		
-		TemplateGridViewController*templateView = [[TemplateGridViewController alloc] initWithCategory:[NSString stringWithUTF8String:categoryName]];
-		[categoryViews addObject:templateView];
+		TemplateGridViewController*templateView = [[TemplateGridViewController alloc] initWithCategory:[NSString stringWithUTF8String:categoryName] templatesRoot:defaultTemplatesRoot];
+		[defaultCategoryViews addObject:templateView];
 		[templateView release];
 	}
+	
+	[defaultTemplatesRoot release];
+	
+	const char* userTemplatesFolder = ProjLoad_getUserTemplatesFolder();
+	NSString* userTemplatesRoot = [[NSString alloc] initWithUTF8String:userTemplatesFolder];
+	
+	userCategoryNames = ProjLoad_loadCategoryList(userTemplatesFolder);
+	userCategoryIcons = [[NSMutableArray alloc] init];
+	userCategoryViews = [[NSMutableArray alloc] init];
+	
+	for(int i=0; i<StringList_size(userCategoryNames); i++)
+	{
+		const char* categoryName = StringList_get(userCategoryNames,i);
+		UIImage*img = (UIImage*)ProjLoad_loadCategoryIcon(categoryName, userTemplatesFolder);
+		[userCategoryIcons addObject:img];
+		[img release];
+		
+		TemplateGridViewController*templateView = [[TemplateGridViewController alloc] initWithCategory:[NSString stringWithUTF8String:categoryName] templatesRoot:userTemplatesRoot];
+		[userCategoryViews addObject:templateView];
+		[templateView release];
+	}
+	
+	[userTemplatesRoot release];
 	
 	if(categoryList!=nil)
 	{
@@ -102,10 +153,16 @@
 
 - (void)dealloc
 {
-	StringList_destroyInstance(categoryNames);
 	[categoryList release];
-	[categoryIcons release];
-	[categoryViews release];
+	
+	StringList_destroyInstance(defaultCategoryNames);
+	[defaultCategoryIcons release];
+	[defaultCategoryViews release];
+	
+	StringList_destroyInstance(userCategoryNames);
+	[userCategoryIcons release];
+	[userCategoryViews release];
+	
 	[super dealloc];
 }
 
@@ -114,36 +171,85 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 1;
+	return 2;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+	if(section==0)
+	{
+		return @"Default Templates";
+	}
+	else if(section==1)
+	{
+		return @"User Templates";
+	}
 	return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return StringList_size(categoryNames);
+	if(section==0)
+	{
+		return StringList_size(defaultCategoryNames);
+	}
+	else if(section==1)
+	{
+		return StringList_size(userCategoryNames);
+	}
+	return 0;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-	NSString*cellText = [NSString stringWithUTF8String:StringList_get(categoryNames, indexPath.row)];
+	if(indexPath.section>1)
+	{
+		return nil;
+	}
 	
-	UITableViewCell*cell = [tableView dequeueReusableCellWithIdentifier:cellText];
+	NSString*cellText = nil;
+	NSMutableString* cellID = nil;
+	if(indexPath.section==0)
+	{
+		cellText = [NSString stringWithUTF8String:StringList_get(defaultCategoryNames, indexPath.row)];
+		cellID = [NSMutableString stringWithUTF8String:"default/"];
+		[cellID appendString:cellText];
+	}
+	else
+	{
+		cellText = [NSString stringWithUTF8String:StringList_get(userCategoryNames, indexPath.row)];
+		cellID = [NSMutableString stringWithUTF8String:"user/"];
+		[cellID appendString:cellText];
+	}
+	
+	UITableViewCell*cell = [tableView dequeueReusableCellWithIdentifier:cellID];
 	if(cell==nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellText] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
 	}
 	[cell.textLabel setText:cellText];
-	[cell.imageView setImage:[categoryIcons objectAtIndex:indexPath.row]];
+	
+	if(indexPath.section==0)
+	{
+		[cell.imageView setImage:[defaultCategoryIcons objectAtIndex:indexPath.row]];
+	}
+	else
+	{
+		[cell.imageView setImage:[userCategoryIcons objectAtIndex:indexPath.row]];
+	}
 	return cell;
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
-	[self.navigationController pushViewController:[categoryViews objectAtIndex:indexPath.row] animated:YES];
+	if(indexPath.section==0)
+	{
+		[self.navigationController pushViewController:[defaultCategoryViews objectAtIndex:indexPath.row] animated:YES];
+	}
+	else
+	{
+		[self.navigationController pushViewController:[userCategoryViews objectAtIndex:indexPath.row] animated:YES];
+	}
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

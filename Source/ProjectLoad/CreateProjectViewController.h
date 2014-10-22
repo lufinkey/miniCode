@@ -13,7 +13,7 @@
 - (void)nextButtonSelected;
 - (void)cancelCreateProject;
 - (void)clearTextFields;
-- (void)closeAndLoadTemplate:(NSString*)templateName category:(NSString*)category;
+- (void)closeAndLoadTemplate:(NSString*)templateName category:(NSString*)category templatesRoot:(NSString*)templatesRoot;
 - (void)textFieldDidChange:(UITextField*)textField;
 
 @property (nonatomic, retain) UITextField* projectNameField;

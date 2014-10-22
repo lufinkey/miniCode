@@ -20,16 +20,22 @@ static const char* TEMPLATEFIELD_PRODUCT    = "___PRODUCT_NAME___";
 static const char* TEMPLATEFIELDS[5] = {TEMPLATEFIELD_NAME, TEMPLATEFIELD_AUTHOR, TEMPLATEFIELD_BUNDLENAME, TEMPLATEFIELD_EXECUTABLE, TEMPLATEFIELD_PRODUCT};
 
 static const char*savedProjectsSubfolder = "Library/miniCode/projects";
-static const String savedProjectsFolder = (String)getenv("HOME")+ '/' + savedProjectsSubfolder;
+static const String savedProjectsFolder = (String)getenv("HOME") + '/' + savedProjectsSubfolder;
+
+static String defaultTemplatesFolder = "Project Templates";
+static String userTemplatesFolder = (String)getenv("HOME") + "/Library/miniCode/templates";
 
 void ProjLoad_createDefaultFolders()
 {
 	String homeFolder = getenv("HOME");
 	FileTools::createDirectory(homeFolder + "/Library/miniCode");
 	FileTools::createDirectory(homeFolder + "/Library/miniCode/projects");
+	FileTools::createDirectory(homeFolder + "/Library/miniCode/templates");
 #if !(TARGET_IPHONE_SIMULATOR)
 	AppManager_createDefaultFolders();
 #endif
+	
+	defaultTemplatesFolder = (String)FileTools_getExecutableDirectory() + "/Project Templates";
 }
 
 void ProjLoad_fillProjectVarsInString(String&str, const String&projectName, const String&authorName, const String&projectNameAsIdentifier,
@@ -44,35 +50,35 @@ void ProjLoad_fillProjectVarsInResourceFiles(StringTree&resourceTree, const Stri
 										   const String&executableName, const String& productName);
 
 
-StringList_struct*ProjLoad_loadCategoryList()
+StringList_struct*ProjLoad_loadCategoryList(const char*templatesRoot)
 {
 	String execDir = FileTools_getExecutableDirectory();
-	StringList_struct*catList = FileTools_getFoldersInDirectory(execDir+"/Project Templates");
+	StringList_struct*catList = FileTools_getFoldersInDirectory(templatesRoot/*execDir+"/Project Templates"*/);
 	return catList;
 }
 
-StringList_struct*ProjLoad_loadTemplateList(const char*category)
+StringList_struct*ProjLoad_loadTemplateList(const char*category, const char*templatesRoot)
 {
 	String execDir = FileTools_getExecutableDirectory();
-	StringList_struct*temList = FileTools_getFoldersInDirectory(execDir+"/Project Templates/" + category);
+	StringList_struct*temList = FileTools_getFoldersInDirectory((String)templatesRoot + '/' + category/*execDir+"/Project Templates/" + category*/);
 	return temList;
 }
 
-void*ProjLoad_loadCategoryIcon(const char*category)
+void*ProjLoad_loadCategoryIcon(const char*category, const char*templatesRoot)
 {
-	String path = (String)"Project Templates/" + category + "/CategoryIcon.png";
+	String path = (String)templatesRoot + '/' + category + "/CategoryIcon.png";
 	return ProjLoad_loadUIImage(path);
 }
 
-void*ProjLoad_loadTemplateIcon(const char*category, const char*templateName)
+void*ProjLoad_loadTemplateIcon(const char*category, const char*templateName, const char*templatesRoot)
 {
-	String path = (String)"Project Templates/" + category + '/' + templateName + "/TemplateIcon.png";
+	String path = (String)templatesRoot + '/' + category + '/' + templateName + "/TemplateIcon.png";
 	return ProjLoad_loadUIImage(path);
 }
 
-void*ProjLoad_loadTemplateInfo(const char*category, const char*templateName)
+void*ProjLoad_loadTemplateInfo(const char*category, const char*templateName, const char*templatesRoot)
 {
-	String path = (String)"Project Templates/" + category + '/' + templateName + "/TemplateInfo.plist";
+	String path = (String)templatesRoot + '/' + category + '/' + templateName + "/TemplateInfo.plist";
 	return ProjLoad_loadPlist(path);
 }
 
@@ -230,14 +236,14 @@ ProjectData_struct*ProjLoad_loadProjectDataFromNSDictionary(void*dict)
 	return projDataStruct;
 }
 
-ProjectData_struct*ProjLoad_loadProjectDataFromTemplate(const char*category, const char*templateName)
+ProjectData_struct*ProjLoad_loadProjectDataFromTemplate(const char*category, const char*templateName, const char*templatesRoot)
 {
 	String execPath = FileTools_getExecutableDirectory();
-	String templatePlistPath = execPath + "/Project Templates/" + category + '/' + templateName + "/project.plist";
+	String templatePlistPath = /*execPath + "/Project Templates/"*/(String)templatesRoot + '/' + category + '/' + templateName + "/project.plist";
 	void* plistDict = ProjLoad_loadAllocatedPlist(templatePlistPath);
 	if(plistDict==NULL)
 	{
-		showSimpleMessageBox("Error loading ProjectData", (String)"Problem occured loading project.plist in template " + templateName + " in category " + category);
+		showSimpleMessageBox("Error loading ProjectData", (String)"Problem occured loading project.plist in template " + templateName + " in category " + category + " in templates folder " + templatesRoot);
 		return NULL;
 	}
 	ProjectData_struct*projData = ProjLoad_loadProjectDataFromNSDictionary(plistDict);
@@ -583,9 +589,9 @@ void ProjLoad_fillProjectVarsInResourceFiles(StringTree&resourceTree, const Stri
 	}
 }
 
-ProjectData_struct*ProjLoad_prepareProjectFromTemplate(const char*category, const char*templateName)
+ProjectData_struct*ProjLoad_prepareProjectFromTemplate(const char*category, const char*templateName, const char*templatesRoot)
 {
-	ProjectData_struct*projDataStruct = ProjLoad_loadProjectDataFromTemplate(category, templateName);
+	ProjectData_struct*projDataStruct = ProjLoad_loadProjectDataFromTemplate(category, templateName, templatesRoot);
 	if(projDataStruct==NULL)
 	{
 		return NULL;
@@ -727,3 +733,12 @@ const char* ProjLoad_getSavedProjectsSubfolder()
 	return savedProjectsSubfolder;
 }
 
+const char* ProjLoad_getDefaultTemplatesFolder()
+{
+	return defaultTemplatesFolder;
+}
+
+const char* ProjLoad_getUserTemplatesFolder()
+{
+	return userTemplatesFolder;
+}

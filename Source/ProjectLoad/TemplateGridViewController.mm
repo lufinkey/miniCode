@@ -5,11 +5,12 @@
 
 @implementation TemplateGridViewController
 
+@synthesize templatesRoot;
 @synthesize grid;
 @synthesize templates;
 @synthesize templateViews;
 
-- (id)initWithCategory:(NSString*)category
+- (id)initWithCategory:(NSString*)category templatesRoot:(NSString *)root
 {
 	self = [super init];
 	if(self==nil)
@@ -17,21 +18,24 @@
 		return nil;
 	}
 	
+	templatesRoot = [[NSString alloc] initWithString:root];
+	
 	const char* categoryName = [category UTF8String];
+	const char* templatesRootDir = [templatesRoot UTF8String];
 	
 	grid = [[UIGridView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
 	[grid setDelegate:self];
 	
 	templateViews = [[NSMutableArray alloc] init];
 	
-	templates = ProjLoad_loadTemplateList(categoryName);
+	templates = ProjLoad_loadTemplateList(categoryName, templatesRootDir);
 	for(int i=0; i<StringList_size(templates); i++)
 	{
 		const char* templateName = StringList_get(templates, i);
 		
 		NSString*title = [NSString stringWithUTF8String:templateName];
 		
-		TemplateInfoViewController*templateView = [[TemplateInfoViewController alloc] initWithTemplate:title category:[NSString stringWithUTF8String:categoryName]];
+		TemplateInfoViewController*templateView = [[TemplateInfoViewController alloc] initWithTemplate:title category:[NSString stringWithUTF8String:categoryName] templatesRoot:templatesRoot];
 		
 		UIGridViewCell*cell = [[UIGridViewCell alloc] initWithTitle:title image:templateView.icon.image];
 		[grid addCell:cell];
@@ -76,6 +80,7 @@
 	StringList_destroyInstance(templates);
 	[grid release];
 	[templateViews release];
+	[templatesRoot release];
 	[super dealloc];
 }
 

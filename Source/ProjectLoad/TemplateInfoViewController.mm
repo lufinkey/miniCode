@@ -7,6 +7,7 @@
 
 @implementation TemplateInfoViewController
 
+@synthesize templatesRoot;
 @synthesize templateName;
 @synthesize categoryName;
 
@@ -14,10 +15,11 @@
 @synthesize icon;
 @synthesize info;
 
-- (id)initWithTemplate:(NSString*)templateTitle category:(NSString*)category
+- (id)initWithTemplate:(NSString*)templateTitle category:(NSString*)category templatesRoot:(NSString *)root
 {
-	UIImage*image = (UIImage*)ProjLoad_loadTemplateIcon([category UTF8String], [templateTitle UTF8String]);
-	NSMutableDictionary*nfo = (NSMutableDictionary*)ProjLoad_loadTemplateInfo([category UTF8String], [templateTitle UTF8String]);
+	templatesRoot = [[NSString alloc] initWithString:root];
+	UIImage*image = (UIImage*)ProjLoad_loadTemplateIcon([category UTF8String], [templateTitle UTF8String], [templatesRoot UTF8String]);
+	NSMutableDictionary*nfo = (NSMutableDictionary*)ProjLoad_loadTemplateInfo([category UTF8String], [templateTitle UTF8String], [templatesRoot UTF8String]);
 	if(image==nil || nfo==nil)
 	{
 		[self release];
@@ -92,11 +94,12 @@
 - (void)selectTemplate
 {
 	iCodeAppDelegate*appDelegate = [[UIApplication sharedApplication] delegate];
-	[appDelegate.createProjectController closeAndLoadTemplate:templateName category:categoryName];
+	[appDelegate.createProjectController closeAndLoadTemplate:templateName category:categoryName templatesRoot:templatesRoot];
 }
 
 - (void)dealloc
 {
+	[templatesRoot release];
 	[templateName release];
 	[categoryName release];
 	

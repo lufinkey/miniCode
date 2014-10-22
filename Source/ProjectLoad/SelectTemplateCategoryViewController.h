@@ -8,15 +8,23 @@
 {
 	UITableView*categoryList;
 	
-	StringList_struct*categoryNames;
-	NSMutableArray*categoryIcons;
-	NSMutableArray*categoryViews;
+	StringList_struct*defaultCategoryNames;
+	NSMutableArray*defaultCategoryIcons;
+	NSMutableArray*defaultCategoryViews;
+	
+	StringList_struct*userCategoryNames;
+	NSMutableArray*userCategoryIcons;
+	NSMutableArray*userCategoryViews;
 }
 
 - (void)reloadCategories;
 
-@property (nonatomic, retain) UITableView*categoryList;
-@property (nonatomic, retain) NSArray*categoryIcons;
-@property (nonatomic, retain) NSArray*categoryViews;
+@property (nonatomic, retain) UITableView* categoryList;
+
+@property (nonatomic, retain) NSArray*defaultCategoryIcons;
+@property (nonatomic, retain) NSArray*defaultCategoryViews;
+
+@property (nonatomic, retain) NSArray*userCategoryIcons;
+@property (nonatomic, retain) NSArray*userCategoryViews;
 
 @end

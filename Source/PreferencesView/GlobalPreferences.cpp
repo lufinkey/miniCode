@@ -8,7 +8,7 @@
 #include "TargetConditionals.h"
 
 #if (TARGET_IPHONE_SIMULATOR)
-static String sdkFolder = "/Developer/Platforms/iPhoneOS.platform/Developer/SDKs";
+static String sdkFolder = "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs";
 #else
 static String sdkFolder = "/var/stash/Developer/SDKs";
 #endif

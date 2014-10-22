@@ -7,6 +7,7 @@
 #include "../ProjectLoad/ProjLoadTools.h"
 #include "../Util/Subprocess.h"
 #include "../PreferencesView/GlobalPreferences.h"
+#include <stdlib.h>
 
 static String clangCommand = "clang";
 static String libtoolCommand = "libtool";
@@ -139,6 +140,7 @@ void CompilerThread_FinishReciever(CompilerThread* thread, int result)
 
 void CompilerThread_ChangeStatus(CompilerThread* thread, const String& status)
 {
+	//Console::WriteLine((String)"Compiler Thread Status: " + status);
 	CompilerThread_OutputPacket* packet = new CompilerThread_OutputPacket();
 	packet->organizer = thread->getOrganizer();
 	packet->type = COMPILERPACKET_STATUSCHANGE;

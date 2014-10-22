@@ -614,6 +614,7 @@ CompilerOrganizer::CompilerOrganizer(ProjectData* projData)
 {
 	this->projData = projData;
 	outputRecievedCallback = NULL;
+	expectingSupplementaryOutput = 0;
 	finishCallback = NULL;
 	statusCallback = NULL;
 	data = NULL;

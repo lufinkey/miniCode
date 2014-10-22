@@ -236,11 +236,21 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	}
 	else
 	{
+		if(organizer==NULL)
+		{
+			Console_Log("Error: organizer equals NULL");
+		}
+		else if(organizer->data==NULL)
+		{
+			Console_Log("Error: organizer->data equals NULL");
+		}
 		[successView removeFromSuperview];
 		[self.navigationItem setRightBarButtonItem:nil animated:YES];
 		runWhenFinished = NO;
 		[self.navigationItem setTitle:@"Compiling..."];
 		running = YES;
+		errorTable.delegate = self;
+		errorTable.dataSource = self;
 		CompilerOrganizer_setCallbacks(organizer, &CompilerViewController_OutputCallback, &CompilerViewController_CompileFinishCallback, &CompilerViewController_CompilerStatusCallback, self);
 		CompilerOrganizer_runCompiler(organizer);
 	}
@@ -270,11 +280,21 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 	}
 	else
 	{
+		if(organizer==NULL)
+		{
+			Console_Log("Error: organizer equals NULL");
+		}
+		else if(organizer->data==NULL)
+		{
+			Console_Log("Error: organizer->data equals NULL");
+		}
 		[successView removeFromSuperview];
 		[self.navigationItem setRightBarButtonItem:nil animated:YES];
 		runWhenFinished = YES;
 		[self.navigationItem setTitle:@"Compiling..."];
 		running = YES;
+		errorTable.delegate = self;
+		errorTable.dataSource = self;
 		CompilerOrganizer_setCallbacks(organizer, &CompilerViewController_OutputCallback, &CompilerViewController_CompileFinishCallback, &CompilerViewController_CompilerStatusCallback, self);
 		CompilerOrganizer_runCompiler(organizer);
 	}
@@ -362,6 +382,8 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 				ConsoleViewController* consoleViewCtrl = [[ConsoleViewController alloc] initWithCommand:command];
 				[self.navigationController pushViewController:consoleViewCtrl animated:YES];
 				[command release];
+				
+				running = NO;
 			}
 		}
 		else
@@ -385,17 +407,16 @@ void CompilerViewController_InstallFinishHandler(void*data, bool success)
 			{
 				[self.view addSubview:successView];
 			}
-			running = NO;
 			[self.navigationItem setTitle:@"Finished"];
 			
 			[self setStatus:"Success"];
 		}
 		else
 		{
-			running = NO;
 			[self.navigationItem setTitle:@"Resources Failed"];
 			[self setStatus:"Failed to copy resources"];
 		}
+		running = NO;
 		UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonSelected)];
 		[self.navigationItem setRightBarButtonItem:doneButton animated:YES];
 		[doneButton release];

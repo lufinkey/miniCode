@@ -199,6 +199,16 @@ void CopyAction_FileOperationFinishHandler(void*data)
 			sourceTree = ProjectData_getResourceFiles(projData);
 			sourceCell = action.viewCtrl.resCell;
 		}
+		else
+		{
+			[srcPath release];
+			[itemName release];
+			[srcFolder release];
+			[destPath release];
+			[destFolder release];
+			showSimpleMessageBox("Error", "Unknown Category");
+			return;
+		}
 		
 		StringTree_struct folderTree = sourceTree;
 		ProjectTreeViewCell* folderCell = sourceCell;

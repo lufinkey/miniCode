@@ -6,6 +6,7 @@
 #include "FileTools.h"
 #include "Thread.h"
 #include "../ObjCBridge/ObjCBridge.h"
+#include <stdlib.h>
 
 static const String AppManager_resultFile = "/tmp/miniCodeInstaller.result";
 

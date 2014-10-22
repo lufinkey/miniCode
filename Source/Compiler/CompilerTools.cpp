@@ -7,6 +7,7 @@
 #include "../Util/String.h"
 #include "../Util/ArrayList.h"
 #include "../ProjectLoad/ProjLoadTools.h"
+#include <stdlib.h>
 
 CompilerOutputLine_struct CompilerOutputLine_createWithData(void*data)
 {

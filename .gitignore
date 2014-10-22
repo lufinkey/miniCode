@@ -1,2 +1,6 @@
 
-miniCode.xcodeproj/xcuserdata/luis.xcuserdatad/xcschemes/xcschememanagement.plist
+# User files
+miniCode.xcodeproj/xcuserdata/
+miniCode.xcodeproj/project.xcworkspace/xcuserdata/
+miniCode.xcodeproj/luis.mode1v3
+miniCode.xcodeproj/luis.pbxuser

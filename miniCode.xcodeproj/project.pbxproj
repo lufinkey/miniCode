@@ -12,6 +12,12 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		A01A52D619536C1C001A7AD9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A01A52D519536C1C001A7AD9 /* MessageUI.framework */; };
 		A01D4A291971A747001121FF /* SyntaxDefinitionManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A01D4A281971A747001121FF /* SyntaxDefinitionManager.mm */; };
+		A0206E7919F8624F005D9DA0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0206E7819F8624F005D9DA0 /* Icon@2x.png */; };
+		A0206E7B19F86252005D9DA0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0206E7A19F86252005D9DA0 /* Icon.png */; };
+		A0206E7D19F8625D005D9DA0 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0206E7C19F8625D005D9DA0 /* Icon-72@2x.png */; };
+		A0206E7F19F86261005D9DA0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = A0206E7E19F86261005D9DA0 /* Icon-72.png */; };
+		A0206E8219F8629A005D9DA0 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = A0206E8019F8629A005D9DA0 /* Icon-60.png */; };
+		A0206E8319F8629A005D9DA0 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0206E8119F8629A005D9DA0 /* Icon-60@2x.png */; };
 		A03F56B91955097000067BE7 /* NSObjectDeprecationFix.mm in Sources */ = {isa = PBXBuildFile; fileRef = A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */; };
 		A0450BCF19608A03004BD8C8 /* UIScrollableToolbar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0450BCE19608A03004BD8C8 /* UIScrollableToolbar.mm */; };
 		A0450BD219608A1A004BD8C8 /* UIViewCategory.mm in Sources */ = {isa = PBXBuildFile; fileRef = A0450BD119608A1A004BD8C8 /* UIViewCategory.mm */; };
@@ -99,10 +105,6 @@
 		A066D59C1951165100F49F6D /* UIControlLabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D5441951165100F49F6D /* UIControlLabel.mm */; };
 		A066D59D1951165100F49F6D /* UIDictionaryTableViewCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D5461951165100F49F6D /* UIDictionaryTableViewCell.mm */; };
 		A066D59E1951165100F49F6D /* UIImageManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A066D5481951165100F49F6D /* UIImageManager.mm */; };
-		A06B060D19F7FC88004E5C51 /* Icon72.png in Resources */ = {isa = PBXBuildFile; fileRef = A06B060C19F7FC88004E5C51 /* Icon72.png */; };
-		A06B060F19F7FCBD004E5C51 /* Icon144.png in Resources */ = {isa = PBXBuildFile; fileRef = A06B060E19F7FCBD004E5C51 /* Icon144.png */; };
-		A06B061119F7FD2E004E5C51 /* Icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = A06B061019F7FD2E004E5C51 /* Icon57.png */; };
-		A06B061319F7FD83004E5C51 /* Icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = A06B061219F7FD83004E5C51 /* Icon114.png */; };
 		A06CBC521970F1DB000784B3 /* Syntax Definitions in Resources */ = {isa = PBXBuildFile; fileRef = A06CBC511970F1DB000784B3 /* Syntax Definitions */; };
 		A08D37FD19511DD0009F1BB2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */; };
 		A08D37FF19511DD0009F1BB2 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */; };
@@ -135,6 +137,12 @@
 		A01A52D519536C1C001A7AD9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		A01D4A271971A747001121FF /* SyntaxDefinitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyntaxDefinitionManager.h; sourceTree = "<group>"; };
 		A01D4A281971A747001121FF /* SyntaxDefinitionManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SyntaxDefinitionManager.mm; sourceTree = "<group>"; };
+		A0206E7819F8624F005D9DA0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		A0206E7A19F86252005D9DA0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A0206E7C19F8625D005D9DA0 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		A0206E7E19F86261005D9DA0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		A0206E8019F8629A005D9DA0 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
+		A0206E8119F8629A005D9DA0 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
 		A03F569C1954F6D800067BE7 /* VersionCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VersionCheck.h; sourceTree = "<group>"; };
 		A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NSObjectDeprecationFix.mm; sourceTree = "<group>"; };
 		A03F56BA1955098F00067BE7 /* NSObjectDeprecationFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSObjectDeprecationFix.h; sourceTree = "<group>"; };
@@ -313,10 +321,6 @@
 		A066D5471951165100F49F6D /* UIImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageManager.h; sourceTree = "<group>"; };
 		A066D5481951165100F49F6D /* UIImageManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIImageManager.mm; sourceTree = "<group>"; };
 		A066D5491951165100F49F6D /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2.h; sourceTree = "<group>"; };
-		A06B060C19F7FC88004E5C51 /* Icon72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon72.png; sourceTree = "<group>"; };
-		A06B060E19F7FCBD004E5C51 /* Icon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon144.png; sourceTree = "<group>"; };
-		A06B061019F7FD2E004E5C51 /* Icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon57.png; sourceTree = "<group>"; };
-		A06B061219F7FD83004E5C51 /* Icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon114.png; sourceTree = "<group>"; };
 		A06CBC511970F1DB000784B3 /* Syntax Definitions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Syntax Definitions"; sourceTree = "<group>"; };
 		A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
@@ -390,10 +394,6 @@
 				A08D37BB19511DD0009F1BB2 /* Project Templates */,
 				A06CBC511970F1DB000784B3 /* Syntax Definitions */,
 				A0FC89CD1955F89400839646 /* CompilerWarnings.txt */,
-				A06B061019F7FD2E004E5C51 /* Icon57.png */,
-				A06B060C19F7FC88004E5C51 /* Icon72.png */,
-				A06B061219F7FD83004E5C51 /* Icon114.png */,
-				A06B060E19F7FCBD004E5C51 /* Icon144.png */,
 				A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */,
 				A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */,
 				A08D377219511DD0009F1BB2 /* Default~iphone.png */,
@@ -402,6 +402,12 @@
 				A0FFD13419F8015E0009D011 /* Default-Portrait~ipad.png */,
 				A0FFD13019F800C30009D011 /* Default-Portrait@2x~ipad.png */,
 				8D1107310486CEB800E47090 /* iCode-Info.plist */,
+				A0206E7A19F86252005D9DA0 /* Icon.png */,
+				A0206E7819F8624F005D9DA0 /* Icon@2x.png */,
+				A0206E8019F8629A005D9DA0 /* Icon-60.png */,
+				A0206E8119F8629A005D9DA0 /* Icon-60@2x.png */,
+				A0206E7E19F86261005D9DA0 /* Icon-72.png */,
+				A0206E7C19F8625D005D9DA0 /* Icon-72@2x.png */,
 				A08D37B919511DD0009F1BB2 /* installer */,
 				A08D37BA19511DD0009F1BB2 /* miniCodeInstall */,
 			);
@@ -857,14 +863,16 @@
 				A0FC89CE1955F89400839646 /* CompilerWarnings.txt in Resources */,
 				A0D6F9C3196F5F6F007A4C8B /* Images in Resources */,
 				A06CBC521970F1DB000784B3 /* Syntax Definitions in Resources */,
-				A06B060D19F7FC88004E5C51 /* Icon72.png in Resources */,
-				A06B060F19F7FCBD004E5C51 /* Icon144.png in Resources */,
-				A06B061119F7FD2E004E5C51 /* Icon57.png in Resources */,
-				A06B061319F7FD83004E5C51 /* Icon114.png in Resources */,
 				A0FFD13119F800C30009D011 /* Default-Portrait@2x~ipad.png in Resources */,
 				A0FFD13319F800E80009D011 /* Default-Landscape@2x~ipad.png in Resources */,
 				A0FFD13519F8015E0009D011 /* Default-Portrait~ipad.png in Resources */,
 				A0FFD13719F801BD0009D011 /* Default-Landscape~ipad.png in Resources */,
+				A0206E7919F8624F005D9DA0 /* Icon@2x.png in Resources */,
+				A0206E7B19F86252005D9DA0 /* Icon.png in Resources */,
+				A0206E7D19F8625D005D9DA0 /* Icon-72@2x.png in Resources */,
+				A0206E7F19F86261005D9DA0 /* Icon-72.png in Resources */,
+				A0206E8219F8629A005D9DA0 /* Icon-60.png in Resources */,
+				A0206E8319F8629A005D9DA0 /* Icon-60@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -987,6 +995,7 @@
 				GCC_PREFIX_HEADER = iCode_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iCode-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = miniCode;
 			};
@@ -1003,6 +1012,7 @@
 				GCC_PREFIX_HEADER = iCode_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "iCode-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = miniCode;
 				VALIDATE_PRODUCT = YES;
@@ -1026,6 +1036,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CODE_SIGN_FLAGS = "";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1050,6 +1061,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_CODE_SIGN_FLAGS = "";
 				SDKROOT = iphoneos5.0;

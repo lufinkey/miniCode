@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>Icon.png</string>
+	<string>Icon-60.png</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
@@ -21,6 +21,9 @@
 				<string>Icon144.png</string>
 				<string>Icon57.png</string>
 				<string>Icon114.png</string>
+				<string>Icon@2x.png</string>
+				<string>Icon-72@2x.png</string>
+				<string>Icon-72.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>

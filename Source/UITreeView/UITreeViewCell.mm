@@ -574,7 +574,7 @@ static unsigned int iconPadding = 4;
 - (void)removeMember:(UITreeViewCell*)cell animated:(BOOL)animated
 {
 	[cell retain];
-	int index = [cells indexOfObject:cell];
+	NSUInteger index = [cells indexOfObject:cell];
 	if(index!=NSNotFound)
 	{
 		if(branchOpened)

@@ -1,6 +1,5 @@
 
 #include "ObjCBridge.h"
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #include <stdlib.h>
 #import "../Util/NumberCodes.h"
@@ -327,6 +326,7 @@ void Date_destroyInstance(Date_struct*date)
 
 void Date_getString(Date_struct*date, char dateStr[26])
 //2010-12-25 00:00:00 -0600
+//yyyy-MM-dd HH:mm:ss Z
 {
 	if(date==NULL || dateStr==NULL)
 	{
@@ -461,7 +461,10 @@ void* Date_allocateNSDate(Date_struct *date)
 	Date_getString(date, dateStr);
 	NSString* str = [[NSString alloc] initWithUTF8String:dateStr];
 	
-	NSDate*nsdate = [[NSDate alloc] initWithString:str];
+	NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+	NSDate*nsdate = [[dateFormatter dateFromString:str] retain];
+	[dateFormatter release];
 	
 	[str release];
 	return nsdate;

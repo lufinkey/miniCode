@@ -1,6 +1,5 @@
 
 #import <UIKit/UIKit.h>
-#import <Foundation/Foundation.h>
 #import "../UIFileBrowserViewController/UIFileBrowserViewController.h"
 #import "../Navigation/NavigatedViewController.h"
 #import "../Util/UIDictionaryTableViewCell.h"

@@ -20,7 +20,7 @@ static String codeEditorFont = "Courier";
 static unsigned int codeEditorFontSize = 12;
 static bool syntaxHighlightingOn = true;
 
-static double currentVersion = 1.0310;
+static double currentVersion = 1.0320;
 static String versionMessage = "If you enjoy using this app, feel free to donate!";
 
 static ArrayList<String> installedApps;

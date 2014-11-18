@@ -42,7 +42,7 @@
 	}
 	
 	BOOL buttonIcons = YES;
-	if(!SYSTEM_VERSION_GREATER_THAN(@"7.2.1"))
+	if(SYSTEM_VERSION_GREATER_THAN(@"7.2.1"))
 	{
 		buttonIcons = NO;
 	}

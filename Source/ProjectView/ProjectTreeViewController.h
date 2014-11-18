@@ -59,7 +59,7 @@
 + (void)addDirectoryListToCell:(ProjectTreeViewCell*)cell list:(StringList_struct*)list;
 + (void)expandDynamicFolderCell:(ProjectTreeViewCell*)cell;
 
-- (void)buildButtonSelected;
+- (void)buildButtonSelected:(id)sender;
 
 - (void)showObstructionInView:(UIView*)view;
 - (void)hideOperationHUDZoom;

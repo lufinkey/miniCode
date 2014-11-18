@@ -4,3 +4,6 @@ miniCode.xcodeproj/xcuserdata/
 miniCode.xcodeproj/project.xcworkspace/xcuserdata/
 miniCode.xcodeproj/luis.mode1v3
 miniCode.xcodeproj/luis.pbxuser
+
+# Output folders
+build/

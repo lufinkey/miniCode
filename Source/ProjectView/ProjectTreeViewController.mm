@@ -116,7 +116,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	[exitButton release];
 	
 	[UIImageManager loadImage:@"Images/buttons_white/build.png"];
-	UIBarImageButtonItem* buildButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/buttons_white/build.png"] target:self action:@selector(buildButtonSelected)];
+	UIBarImageButtonItem* buildButton = [[UIBarImageButtonItem alloc] initWithImage:[UIImageManager getImage:@"Images/buttons_white/build.png"] target:self action:@selector(buildButtonSelected:)];
 	[buildButton setSize:32];
 	[self.navigationItem setRightBarButtonItem:buildButton];
 	[buildButton release];
@@ -664,7 +664,7 @@ void ProjectTreeViewController_updateFrameworkFolder(void*data);
 	}
 }
 
-- (void)buildButtonSelected
+- (void)buildButtonSelected:(id)sender
 {
 	BuildOptionsActionSheet* buildOptions = [[BuildOptionsActionSheet alloc] initForViewController:self];
 	[buildOptions showInView:self.view];

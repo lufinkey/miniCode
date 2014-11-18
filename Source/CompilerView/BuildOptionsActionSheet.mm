@@ -3,6 +3,7 @@
 #import "../Util/UIImageManager.h"
 #import "../iCodeAppDelegate.h"
 #import "CompilerViewController.h"
+#import "../Util/VersionCheck.h"
 //#import "../Compiler/CompilerTools.h"
 
 @implementation BuildOptionsActionSheet
@@ -40,24 +41,42 @@
 		buildAndRunIndex = 4;
 	}
 	
+	BOOL buttonIcons = YES;
+	if(!SYSTEM_VERSION_GREATER_THAN(@"7.2.1"))
+	{
+		buttonIcons = NO;
+	}
+	
 	[self addButtonWithTitle:@"Build"];
-	[UIImageManager loadImage:@"Images/build.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:buildIndex] setImage:[UIImageManager getImage:@"Images/build.png"] forState:UIControlStateNormal];
+	if(buttonIcons)
+	{
+		[UIImageManager loadImage:@"Images/build.png"];
+		[[[self valueForKey:@"_buttons"] objectAtIndex:buildIndex] setImage:[UIImageManager getImage:@"Images/build.png"] forState:UIControlStateNormal];
+	}
 	
 	if(projType==PROJECTTYPE_APPLICATION || projType==PROJECTTYPE_CONSOLE)
 	{
 		[self addButtonWithTitle:@"Build and Run"];
-		[UIImageManager loadImage:@"Images/buildandrun.png"];
-		[[[self valueForKey:@"_buttons"] objectAtIndex:buildAndRunIndex] setImage:[UIImageManager getImage:@"Images/buildandrun.png"] forState:UIControlStateNormal];
+		if(buttonIcons)
+		{
+			[UIImageManager loadImage:@"Images/buildandrun.png"];
+			[[[self valueForKey:@"_buttons"] objectAtIndex:buildAndRunIndex] setImage:[UIImageManager getImage:@"Images/buildandrun.png"] forState:UIControlStateNormal];
+		}
 	}
 	
 	[self addButtonWithTitle:@"Clean"];
-	[UIImageManager loadImage:@"Images/clean.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:cleanIndex] setImage:[UIImageManager getImage:@"Images/clean.png"] forState:UIControlStateNormal];
+	if(buttonIcons)
+	{
+		[UIImageManager loadImage:@"Images/clean.png"];
+		[[[self valueForKey:@"_buttons"] objectAtIndex:cleanIndex] setImage:[UIImageManager getImage:@"Images/clean.png"] forState:UIControlStateNormal];
+	}
 	
 	[self addButtonWithTitle:@"Results"];
-	[UIImageManager loadImage:@"Images/results.png"];
-	[[[self valueForKey:@"_buttons"] objectAtIndex:resultsIndex] setImage:[UIImageManager getImage:@"Images/results.png"] forState:UIControlStateNormal];
+	if(buttonIcons)
+	{
+		[UIImageManager loadImage:@"Images/results.png"];
+		[[[self valueForKey:@"_buttons"] objectAtIndex:resultsIndex] setImage:[UIImageManager getImage:@"Images/results.png"] forState:UIControlStateNormal];
+	}
 	
 	[self addButtonWithTitle:@"Cancel"];
 	self.cancelButtonIndex = cancelIndex;

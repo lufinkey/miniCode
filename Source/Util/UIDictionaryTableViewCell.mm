@@ -94,7 +94,7 @@ DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 			if(numType==NUMBERTYPE_UNKNOWN)
 			{
 				[self release];
-				return nil;
+				return false;
 			}
 			else if(numType==NUMBERTYPE_BOOL)
 			{

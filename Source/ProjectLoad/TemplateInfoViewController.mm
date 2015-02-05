@@ -4,6 +4,7 @@
 #import "CreateProjectViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ProjLoadTools.h"
+#import "../DeprecationFix/DeprecationDefines.h"
 
 @implementation TemplateInfoViewController
 

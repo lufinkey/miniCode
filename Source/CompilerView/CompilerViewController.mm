@@ -8,6 +8,7 @@
 #import "../PreferencesView/GlobalPreferences.h"
 #import "CompileErrorViewController.h"
 #import "../ConsoleView/ConsoleViewController.h"
+#import "../DeprecationFix/DeprecationDefines.h"
 
 @interface CompilerViewController()
 - (void)refreshErrorTable;

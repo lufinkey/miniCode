@@ -3,6 +3,7 @@
 #import "../iCodeAppDelegate.h"
 #import "../Util/UIImageManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import "../DeprecationFix/DeprecationDefines.h"
 
 @implementation HomescreenViewController
 

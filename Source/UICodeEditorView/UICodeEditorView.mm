@@ -122,9 +122,6 @@ static unsigned int tabSpaces = 8;
 @synthesize autotabbingEnabled;
 @synthesize codeCompletionEnabled;
 
-@synthesize highlightColor;
-@synthesize highlightDefinition;
-
 @synthesize mutableAttributedString;
 
 - (id)initWithFrame:(CGRect)frame
@@ -139,15 +136,11 @@ static unsigned int tabSpaces = 8;
 	autotabbingEnabled = YES;
 	codeCompletionEnabled = YES;
 	
-	//[self setHighlightTheme:kRegexHighlightViewThemeDefault];
-	
 	return self;
 }
 
 - (void)dealloc
 {
-	[highlightColor release];
-	[highlightDefinition release];
 	[super dealloc];
 }
 

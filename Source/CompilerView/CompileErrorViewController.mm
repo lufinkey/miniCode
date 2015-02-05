@@ -2,6 +2,7 @@
 #import "CompileErrorViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "../Util/UIImageManager.h"
+#import "../DeprecationFix/DeprecationDefines.h"
 
 @implementation CompileErrorViewController
 

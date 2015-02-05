@@ -3,6 +3,7 @@
 #import "UIGridViewCell+UIGridView.h"
 #import "UIGridViewDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+#import "../DeprecationFix/DeprecationDefines.h"
 
 @interface UIGridViewCell()
 - (void)updateFrame:(CGRect)frame;

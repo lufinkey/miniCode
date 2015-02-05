@@ -1,6 +1,7 @@
 
 #import "FontSizePreviewViewController.h"
 #import "GlobalPreferences.h"
+#import "../DeprecationFix/DeprecationDefines.h"
 
 @implementation FontSizePreviewViewController
 

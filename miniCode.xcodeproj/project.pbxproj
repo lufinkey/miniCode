@@ -322,6 +322,7 @@
 		A066D5481951165100F49F6D /* UIImageManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UIImageManager.mm; sourceTree = "<group>"; };
 		A066D5491951165100F49F6D /* Vector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector2.h; sourceTree = "<group>"; };
 		A06CBC511970F1DB000784B3 /* Syntax Definitions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Syntax Definitions"; sourceTree = "<group>"; };
+		A08C71701A1BB217009F90C2 /* DeprecationDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeprecationDefines.h; sourceTree = "<group>"; };
 		A08D376F19511DD0009F1BB2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A08D377119511DD0009F1BB2 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
 		A08D377219511DD0009F1BB2 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
@@ -510,6 +511,7 @@
 		A066D49E1951165100F49F6D /* DeprecationFix */ = {
 			isa = PBXGroup;
 			children = (
+				A08C71701A1BB217009F90C2 /* DeprecationDefines.h */,
 				A03F56BA1955098F00067BE7 /* NSObjectDeprecationFix.h */,
 				A03F56B81955097000067BE7 /* NSObjectDeprecationFix.mm */,
 				A066D49F1951165100F49F6D /* UIColorDeprecationFix.mm */,
@@ -1038,7 +1040,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CODE_SIGN_FLAGS = "";
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv6 armv7";
 			};
@@ -1064,7 +1066,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_CODE_SIGN_FLAGS = "";
-				SDKROOT = iphoneos5.0;
+				SDKROOT = iphoneos6.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv6 armv7";
 			};

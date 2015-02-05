@@ -1,6 +1,5 @@
 
 #import <UIKit/UIKit.h>
-#import <CoreText/CoreText.h>
 
 typedef struct
 {
@@ -17,16 +16,11 @@ UITextRange* UITextRange_createFromNSRange(NSRange range, id<UITextInput> textIn
 NSString* NSString_alloc_initWithSubstringOfString(NSString*str, unsigned int fromIndex, unsigned int toIndex);
 CGFloat fontCharacterWidth(UIFont* font, char c);
 
-@interface UICodeEditorView : UITextView//RegexHighlightView
+@interface UICodeEditorView : UITextView
 {
 	BOOL autotabbingEnabled;
 	BOOL codeCompletionEnabled;
 	BOOL highlightingEnabled;
-	
-	NSDictionary* highlightColor;
-	NSDictionary* highlightDefinition;
-	
-	NSMutableAttributedString* mutableAttributedString;
 }
 
 - (NSRange)deleteTabInFront:(NSUInteger)location;

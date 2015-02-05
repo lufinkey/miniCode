@@ -1,5 +1,6 @@
 
 #import "UIDictionaryTableViewCell.h"
+#import "../DeprecationFix/DeprecationDefines.h"
 
 DictionaryPropertyType getDictionaryPropertyTypeForObject(id object)
 {

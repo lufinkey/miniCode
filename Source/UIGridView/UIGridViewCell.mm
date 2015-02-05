@@ -55,7 +55,7 @@
 	[label setFont:[UIFont fontWithName: @"Helvetica" size:14.0f]];
 	[label setNumberOfLines:0];
 	[label setBackgroundColor:[UIColor clearColor]];
-	[label setTextAlignment:UITextAlignmentCenter];
+	[label setTextAlignment:NSTextAlignmentCenter];
 	[label setUserInteractionEnabled:NO];
 	[self updateLabelFrame];
 	[self addSubview:label];

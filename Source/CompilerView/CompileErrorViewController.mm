@@ -22,7 +22,7 @@
 	[name setTextColor:[UIColor whiteColor]];
 	[name setFont:[UIFont fontWithName: @"Trebuchet MS" size: 18.0f]];
 	[name setNumberOfLines:0];
-	[name setTextAlignment:UITextAlignmentCenter];
+	[name setTextAlignment:NSTextAlignmentCenter];
 	icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
 	info = [[UITextView alloc] initWithFrame:CGRectMake(0, size, self.view.frame.size.width, self.view.frame.size.height-size)];
 	[info setEditable:NO];

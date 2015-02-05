@@ -50,7 +50,7 @@
 	welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, logoScale+logoOffsetY, self.view.bounds.size.width, welcomeLabelHeight)];
 	[welcomeLabel setText:@"Welcome to miniCode"];
 	[welcomeLabel setTextColor:[UIColor darkGrayColor]];
-	[welcomeLabel setTextAlignment:UITextAlignmentCenter];
+	[welcomeLabel setTextAlignment:NSTextAlignmentCenter];
 	[welcomeLabel setBackgroundColor:[UIColor clearColor]];
 	[welcomeLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 24.0f]];
 	[self.view addSubview:welcomeLabel];

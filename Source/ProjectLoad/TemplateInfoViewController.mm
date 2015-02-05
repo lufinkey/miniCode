@@ -44,7 +44,7 @@
 	[self.name setBackgroundColor:[UIColor clearColor]];
 	[self.name setFont:[UIFont fontWithName: @"Trebuchet MS" size: 18.0f]];
 	[self.name setNumberOfLines:0];
-	[self.name setTextAlignment:UITextAlignmentCenter];
+	[self.name setTextAlignment:NSTextAlignmentCenter];
 	icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
 	[self.icon setImage:image];
 	info = [[UITextView alloc] initWithFrame:CGRectMake(0, size, self.view.frame.size.width, self.view.frame.size.height-size)];

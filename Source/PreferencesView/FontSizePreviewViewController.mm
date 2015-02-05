@@ -22,7 +22,7 @@
 	[preview setText:@"Preview"];
 	[preview setTextColor:[UIColor blackColor]];
 	[preview setBackgroundColor:[UIColor whiteColor]];
-	[preview setTextAlignment:UITextAlignmentCenter];
+	[preview setTextAlignment:NSTextAlignmentCenter];
 	[preview setVerticalAlignment:UIControlContentVerticalAlignmentCenter];
 	[self.view addSubview:preview];
 	
@@ -37,7 +37,7 @@
 	NSNumber* sizeNum = [[NSNumber alloc] initWithUnsignedInt:GlobalPreferences_getCodeEditorFontSize()];
 	[sizeLabel setText:[sizeNum stringValue]];
 	[sizeNum release];
-	[sizeLabel setTextAlignment:UITextAlignmentCenter];
+	[sizeLabel setTextAlignment:NSTextAlignmentCenter];
 	[sizeLabel setTextColor:[UIColor whiteColor]];
 	[sizeLabel setBackgroundColor:[UIColor clearColor]];
 	[self.view addSubview:sizeLabel];

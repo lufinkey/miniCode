@@ -7,6 +7,7 @@
 #include <vector>
 #include <iomanip>
 #include <stdlib.h>
+#include <cstdlib>
 #include "stdio.h"
 #include <math.h>
 
@@ -748,7 +749,7 @@ String::String(const wchar_t*str)
 	total = len;
 	characters = (char*)calloc(total+1,1);
 
-	wcstombs(characters,str,total+1);
+	std::wcstombs(characters,str,total+1);
 
 	characters[total] = '\0';
 }
@@ -759,7 +760,7 @@ String::String(const std::wstring&str)
 	total = len;
 	characters = (char*)calloc(total+1,1);
 
-	wcstombs(characters,str.c_str(),total+1);
+	std::wcstombs(characters,str.c_str(),total+1);
 
 	characters[total] = '\0';
 }

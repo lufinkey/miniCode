@@ -12,8 +12,8 @@
 static String clangCommand = "clang";
 static String libtoolCommand = "libtool";
 
-#define sourceTypes {"cpp", "c", "cc", "c++", "cp", "cxx", "m", "mm", "a", "o"}
-#define sourceTypesTotal 10
+#define sourceTypes {"cpp", "c", "cc", "c++", "cp", "cxx", "m", "mm", "a", "o", "dylib"}
+#define sourceTypesTotal 11
 
 ArrayList<String> CompilerThread_getSourceTypes()
 {

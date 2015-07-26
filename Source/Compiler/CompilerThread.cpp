@@ -529,6 +529,14 @@ String CompilerThread_createAssembleString(ProjectData& projData, const String& 
 		}
 	}
 	
+	//user-specified compiler flags
+	ArrayList<String>& flags = projData.getProjectSettings().getAssemblerFlags();
+	for(int i=0; i<flags.size(); i++)
+	{
+		String& flag = flags.get(i);
+		command += flag + " ";
+	}
+	
 	//source file
 	command += (String)"\"" + file + "\" ";
 	
@@ -643,7 +651,20 @@ String CompilerThread_createCompileString(ProjectData& projData, const ArrayList
 			for(int j=0; j<libFiles.size(); j++)
 			{
 				String& file = libFiles.get(j);
-				command += (String)"\"" + file + "\" ";
+				String extension = "";
+				int dotIndex = file.lastIndexOf(".");
+				if(dotIndex!=-1)
+				{
+					extension = file.substring(dotIndex+1, file.length());
+				}
+				if(extension=="dylib")
+				{
+					command += (String)"-l \""+file+"\" ";
+				}
+				else
+				{
+					command += (String)"\"" + file + "\" ";
+				}
 			}
 		}
 	}

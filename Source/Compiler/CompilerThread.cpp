@@ -511,6 +511,9 @@ String CompilerThread_createAssembleString(ProjectData& projData, const String& 
 		}
 	}
 	
+	//c++ flag
+	command += "-stdlib=libstdc++ -std=c++11 ";
+	
 	//assemble flag
 	command += "-c ";
 	

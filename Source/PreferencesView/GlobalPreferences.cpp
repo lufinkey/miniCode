@@ -20,8 +20,8 @@ static String codeEditorFont = "Courier";
 static unsigned int codeEditorFontSize = 12;
 static bool syntaxHighlightingOn = true;
 
-static double currentVersion = 1.0340;
-static String versionMessage = "If you enjoy using this app, feel free to donate! MiniCode will soon be deprecated, however, as I am releasing a much better tool soon!";
+static double currentVersion = 1.0350;
+static String versionMessage = "If you enjoy using this app, feel free to donate! MiniCode will soon no longer be maintained, however, as I am releasing a much better tool soon!";
 
 static ArrayList<String> installedApps;
 

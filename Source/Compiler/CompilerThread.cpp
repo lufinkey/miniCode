@@ -480,6 +480,13 @@ String CompilerThread_createAssembleString(ProjectData& projData, const String& 
 	
 	String command = clangCommand + ' ';
 	
+	String fileExtension = "";
+	int dotIndex = file.lastIndexOf(".");
+	if(dotIndex!=-1)
+	{
+		fileExtension = file.substring(dotIndex+1, file.length());
+	}
+	
 	if(dependencyFile.length()>0)
 	{
 		command += (String)"-MD -MF \"" + dependencyFile + "\" ";
@@ -512,7 +519,10 @@ String CompilerThread_createAssembleString(ProjectData& projData, const String& 
 	}
 	
 	//c++ flag
-	command += "-stdlib=libstdc++ -std=c++11 ";
+	if(fileExtension=="cpp" || fileExtension=="CPP" || fileExtension=="mm" || fileExtension=="MM" || fileExtension=="cxx" || fileExtension=="CXX" || fileExtension=="c++" || fileExtension=="C++")
+	{
+		command += "-stdlib=libstdc++ -std=c++11 ";
+	}
 	
 	//assemble flag
 	command += "-c ";
